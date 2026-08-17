@@ -1,0 +1,5 @@
+1. Open the required topic folder.
+2. Upload your quiz HTML file there.
+3. Recommended name: quiz-1.html
+4. If you want the topic button itself to open the quiz, replace that topic's index.html with your quiz HTML.
+5. Example path: General Studies/Geography/solar-system/
