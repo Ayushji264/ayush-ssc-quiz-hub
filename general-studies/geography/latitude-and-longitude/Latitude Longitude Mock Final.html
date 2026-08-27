@@ -1,0 +1,3336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SSC CGL Mock: Latitude & Longitude</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts: Inter for a professional, serious look (Testbook style) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- MathJax for rendering Mathematical formulas (Polyfill removed for security) -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- html2pdf for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        const QUIZ_CONFIG = {
+    title: "SSC CGL: LATITUDE & LONGITUDE — 75 QUESTIONS",
+    subject: "Geography — Latitude & Longitude",
+    timeMinutes: 38,
+    questions: [
+  {
+    "sourceNo": 12,
+    "q": {
+      "en": "What is the total number of latitudes on the globe?",
+      "hi": "ग्लोब पर कुल अक्षांशों (Latitudes) की संख्या कितनी है?"
+    },
+    "options": {
+      "en": [
+        "179",
+        "181",
+        "360",
+        "90"
+      ],
+      "hi": [
+        "179",
+        "181 / 181",
+        "360",
+        "90"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 181 / 181</b><br><br><b>व्याख्या:</b> ग्लोब पर कुल अक्षांश 181 होते हैं, जबकि अक्षांश वृत्तों की संख्या 179 होती है.",
+      "en": "<b>Correct Answer: 181</b><br><br><b>Explanation:</b> The total number of latitudes on the globe is 181, while the number of latitude circles is 179."
+    }
+  },
+  {
+    "sourceNo": 71,
+    "q": {
+      "en": "What is the main reason for the difference in Earth's radii (equatorial and polar)?",
+      "hi": "पृथ्वी की त्रिज्याओं (भूमध्यरेखीय और ध्रुवीय) में अंतर का मुख्य कारण क्या है?"
+    },
+    "options": {
+      "en": [
+        "Centrifugal force generated due to rotation",
+        "Moon being extremely heavy",
+        "Atmospheric pressure",
+        "Sun's rays"
+      ],
+      "hi": [
+        "घूर्णन के कारण उत्पन्न अपकेन्द्रीय बल / Centrifugal force generated due to rotation",
+        "चंद्रमा का अत्यधिक भारी होना / Moon being extremely heavy",
+        "वायुमंडल का दबाव / Atmospheric pressure",
+        "सूर्य की किरणें / Sun's rays"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: घूर्णन के कारण उत्पन्न अपकेन्द्रीय बल / Centrifugal force generated due to rotation</b><br><br><b>व्याख्या:</b> पृथ्वी के अपने अक्ष पर घूर्णन के कारण उत्पन्न अपकेन्द्रीय बल से भूमध्य रेखा पर उभार और ध्रुवों पर चपटापन आता है, जिससे त्रिज्याओं में अंतर होता है.",
+      "en": "<b>Correct Answer: Centrifugal force generated due to rotation</b><br><br><b>Explanation:</b> The centrifugal force generated due to Earth's rotation causes a bulge at the equator and flattening at the poles, resulting in a difference in radii."
+    }
+  },
+  {
+    "sourceNo": 7,
+    "q": {
+      "en": "What is the point in a planet's orbit when it is closest to the Sun called?",
+      "hi": "ग्रह की कक्षा में वह बिंदु जब वह सूर्य के सबसे निकट होता है, क्या कहलाता है?"
+    },
+    "options": {
+      "en": [
+        "Aphelion",
+        "Perihelion",
+        "Perigee",
+        "Apogee"
+      ],
+      "hi": [
+        "अपसौर / Aphelion",
+        "उपसौर (Perihelion) / Perihelion",
+        "उपभू / Perigee",
+        "अपभू / Apogee"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: उपसौर (Perihelion) / Perihelion</b><br><br><b>व्याख्या:</b> ग्रह की कक्षा में वह बिंदु जब वह सूर्य के सबसे निकट होता है, उसे उपसौर (Perihelion) कहते हैं (3 जनवरी को पृथ्वी सबसे निकट होती है).",
+      "en": "<b>Correct Answer: Perihelion</b><br><br><b>Explanation:</b> The point in a planet's orbit when it is closest to the Sun is called perihelion (Earth is closest on Jan 3)."
+    }
+  },
+  {
+    "sourceNo": 35,
+    "q": {
+      "en": "Which statement is true regarding the concept of a Great Circle?",
+      "hi": "वृहत् वृत्त (Great Circle) की अवधारणा के संबंध में कौन सा कथन सत्य है?"
+    },
+    "options": {
+      "en": [
+        "It is the largest circle that divides a sphere into two equal halves (hemispheres).",
+        "All latitudes are great circles.",
+        "Longitudes never form great circles.",
+        "It is the longest distance between two points."
+      ],
+      "hi": [
+        "यह सबसे बड़ा वृत्त है जो किसी गोले को दो बराबर भागों (गोलार्ध) में विभाजित करता है। / It is the largest circle that divides a sphere into two equal halves (hemispheres).",
+        "सभी अक्षांश वृहत् वृत्त होते हैं। / All latitudes are great circles.",
+        "देशांतर रेखाएँ कभी भी वृहत् वृत्त नहीं बनातीं। / Longitudes never form great circles.",
+        "यह दो बिंदुओं के बीच की सबसे लंबी दूरी है। / It is the longest distance between two points."
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: यह सबसे बड़ा वृत्त है जो किसी गोले को दो बराबर भागों (गोलार्ध) में विभाजित करता है। / It is the largest circle that divides a sphere into two equal halves (hemispheres).</b><br><br><b>व्याख्या:</b> वृहत् वृत्त वह सबसे बड़ा वृत्त है जो गोले को दो बराबर भागों में बांटता है और यह दो बिंदुओं के बीच की न्यूनतम दूरी होता है.",
+      "en": "<b>Correct Answer: It is the largest circle that divides a sphere into two equal halves (hemispheres).</b><br><br><b>Explanation:</b> A great circle is the largest circle that divides a sphere into two equal halves and represents the minimum distance between two points."
+    }
+  },
+  {
+    "sourceNo": 32,
+    "q": {
+      "en": "what is the total number of latitude circles on the globe?",
+      "hi": "ग्लोब पर अक्षांश वृत्तों (Latitude circles) की कुल संख्या कितनी है?"
+    },
+    "options": {
+      "en": [
+        "181",
+        "179",
+        "360",
+        "90"
+      ],
+      "hi": [
+        "181",
+        "179 / 179",
+        "360",
+        "90"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 179 / 179</b><br><br><b>व्याख्या:</b> ग्लोब पर कुल अक्षांश रेखाएँ 181 हैं, लेकिन ध्रुवों पर बिंदु होने के कारण अक्षांश वृत्तों की कुल संख्या 179 है.",
+      "en": "<b>Correct Answer: 179</b><br><br><b>Explanation:</b> There are 181 total latitudes, but since the poles are points, the total number of latitude circles is 179."
+    }
+  },
+  {
+    "sourceNo": 57,
+    "q": {
+      "en": "Analyze the following statements regarding solar and lunar eclipses:<br><br><b>Statement 1:</b> A solar eclipse occurs when the Moon comes between Earth and Sun (only on New Moon).<br><br><b>Statement 2:</b> A lunar eclipse occurs when the Earth comes between Moon and Sun (only on Full Moon).<br><br><b>Statement 3:</b> A solar eclipse always occurs on a Full Moon night.",
+      "hi": "सूर्यग्रहण और चंद्रग्रहण के संबंध में निम्नलिखित कथनों का विश्लेषण करें:<br><br><b>कथन 1:</b> सूर्यग्रहण तब होता है जब चंद्रमा पृथ्वी और सूर्य के बीच आता है (केवल अमावस्या को)।<br><br><b>कथन 2:</b> चंद्रग्रहण तब होता है जब पृथ्वी चंद्रमा और सूर्य के बीच आती है (केवल पूर्णिमा को)।<br><br><b>कथन 3:</b> सूर्यग्रहण हमेशा पूर्णिमा की रात को घटित होता है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> सूर्यग्रहण (अमावस्या, चंद्रमा बीच में) और चंद्रग्रहण (पूर्णिमा, पृथ्वी बीच में) के कथन सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Solar eclipse (New Moon, Moon in middle) and lunar eclipse (Full Moon, Earth in middle) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 75,
+    "q": {
+      "en": "What is the most accurate and final conclusion of this entire chapter of Latitude and Longitude?",
+      "hi": "अक्षांश और देशांतर (Latitude and Longitude) के इस पूरे अध्याय का सबसे सटीक और अंतिम निष्कर्ष क्या है?"
+    },
+    "options": {
+      "en": [
+        "The grid of latitude and longitude lines helps determine the precise location, time, and climate of any place on Earth.",
+        "Latitudes and longitudes are just decorative lines with no use.",
+        "Longitude lines run horizontally from east to west.",
+        "Latitudes are used to know time on Earth."
+      ],
+      "hi": [
+        "अक्षांश और देशांतर रेखाओं का जाल (ग्रिड) पृथ्वी पर किसी भी स्थान की सटीक स्थिति, समय और जलवायु को निर्धारित करने में मदद करता है। / The grid of latitude and longitude lines helps determine the precise location, time, and climate of any place on Earth.",
+        "अक्षांश और देशांतर केवल सजावटी रेखाएं हैं जिनका कोई उपयोग नहीं है। / Latitudes and longitudes are just decorative lines with no use.",
+        "देशांतर रेखाएँ पूर्व से पश्चिम क्षैतिज रूप से चलती हैं। / Longitude lines run horizontally from east to west.",
+        "पृथ्वी पर समय जानने के लिए अक्षांशों का उपयोग किया जाता है। / Latitudes are used to know time on Earth."
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: अक्षांश और देशांतर रेखाओं का जाल (ग्रिड) पृथ्वी पर किसी भी स्थान की सटीक स्थिति, समय और जलवायु को निर्धारित करने में मदद करता है। / The grid of latitude and longitude lines helps determine the precise location, time, and climate of any place on Earth.</b><br><br><b>व्याख्या:</b> अक्षांश और देशांतर का जाल पृथ्वी पर किसी भी स्थान की सटीक स्थिति, समय और जलवायु को निर्धारित करने के लिए सबसे महत्वपूर्ण भौगोलिक प्रणाली है.",
+      "en": "<b>Correct Answer: The grid of latitude and longitude lines helps determine the precise location, time, and climate of any place on Earth.</b><br><br><b>Explanation:</b> The grid of latitude and longitude is the most important geographical system to determine precise location, time, and climate anywhere on Earth."
+    }
+  },
+  {
+    "sourceNo": 72,
+    "q": {
+      "en": "What is the correct scientific definition of Latitude?",
+      "hi": "अक्षांश (Latitude) की सही वैज्ञानिक परिभाषा क्या है?"
+    },
+    "options": {
+      "en": [
+        "It is the angular distance of a place from the equator.",
+        "It is the straight distance between two cities.",
+        "It is the depth of the sea level.",
+        "It is a unit of wind speed."
+      ],
+      "hi": [
+        "यह भूमध्य रेखा से किसी स्थान की कोणीय दूरी है। / It is the angular distance of a place from the equator.",
+        "यह दो शहरों के बीच की सीधी दूरी है। / It is the straight distance between two cities.",
+        "यह समुद्र तल की गहराई है। / It is the depth of the sea level.",
+        "यह हवा की गति मापने की इकाई है। / It is a unit of wind speed."
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: यह भूमध्य रेखा से किसी स्थान की कोणीय दूरी है। / It is the angular distance of a place from the equator.</b><br><br><b>व्याख्या:</b> अक्षांश भूमध्य रेखा से किसी स्थान की कोणीय दूरी निर्धारित करते हैं.",
+      "en": "<b>Correct Answer: It is the angular distance of a place from the equator.</b><br><br><b>Explanation:</b> Latitudes determine the angular distance of a place from the equator."
+    }
+  },
+  {
+    "sourceNo": 17,
+    "q": {
+      "en": "Which country has the most time zones (13)?",
+      "hi": "किस देश में सबसे अधिक (13) समय क्षेत्र (Time Zones) हैं?"
+    },
+    "options": {
+      "en": [
+        "Russia",
+        "France",
+        "USA",
+        "China"
+      ],
+      "hi": [
+        "रूस / Russia",
+        "फ्रांस (France) / France",
+        "अमेरिका / USA",
+        "चीन / China"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: फ्रांस (France) / France</b><br><br><b>व्याख्या:</b> फ्रांस में सबसे ज़्यादा 13 समय क्षेत्र हैं (रूस में 11 और अमेरिका में 6 हैं).",
+      "en": "<b>Correct Answer: France</b><br><br><b>Explanation:</b> France has the most time zones at 13 (Russia has 11 and USA has 6)."
+    }
+  },
+  {
+    "sourceNo": 25,
+    "q": {
+      "en": "What is the standard time interval between two high tides and two low tides?",
+      "hi": "दो उच्च ज्वार और दो निम्न ज्वार के बीच का मानक समय अंतराल कितना होता है?"
+    },
+    "options": {
+      "en": [
+        "12 hours 25 minutes",
+        "24 hours",
+        "6 hours 12 minutes",
+        "48 hours"
+      ],
+      "hi": [
+        "12 घंटे 25 मिनट / 12 hours 25 minutes",
+        "24 घंटे / 24 hours",
+        "6 घंटे 12 मिनट / 6 hours 12 minutes",
+        "48 घंटे / 48 hours"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: 12 घंटे 25 मिनट / 12 hours 25 minutes</b><br><br><b>व्याख्या:</b> दो उच्च ज्वार और दो निम्न ज्वार के बीच का समय अंतराल 12 घंटे 25 मिनट होता है (जबकि एक उच्च और निम्न ज्वार के बीच 6 घंटे 12 मिनट होता है).",
+      "en": "<b>Correct Answer: 12 hours 25 minutes</b><br><br><b>Explanation:</b> The time interval between two high tides and two high/low cycles is 12 hours 25 minutes (while between one high and low tide it is 6 hours 12 minutes)."
+    }
+  },
+  {
+    "sourceNo": 53,
+    "q": {
+      "en": "Analyze the following statements regarding Perihelion and Aphelion:<br><br><b>Statement 1:</b> Perihelion is the point when a planet is closest to the Sun (Earth is closest on Jan 3).<br><br><b>Statement 2:</b> Aphelion is the point when a planet is furthest from the Sun (Earth is furthest on July 4).<br><br><b>Statement 3:</b> On July 4, the Earth is closest to the Sun.",
+      "hi": "उपसौर (Perihelion) और अपसौर (Aphelion) के संबंध में निम्नलिखित कथनों का विश्लेषण करें:<br><br><b>कथन 1:</b> उपसौर वह बिंदु है जब ग्रह सूर्य के सबसे निकट होता है (3 जनवरी को पृथ्वी सबसे निकट होती है)।<br><br><b>कथन 2:</b> अपसौर वह बिंदु है जब ग्रह सूर्य से सबसे दूर होता है (4 जुलाई को पृथ्वी सबसे दूर होती है)।<br><br><b>कथन 3:</b> 4 जुलाई को पृथ्वी सूर्य के सबसे निकट होती है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> उपसौर (3 जनवरी, निकट) और अपसौर (4 जुलाई, दूर) के कथन सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Perihelion (Jan 3, closest) and aphelion (July 4, furthest) statements are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 47,
+    "q": {
+      "en": "Through how many continents does the Greenwich Mean Time (GMT / Prime Meridian) pass?",
+      "hi": "ग्रीनविच मानक समय (GMT / Prime Meridian) कितने महाद्वीपों से होकर गुजरता है?"
+    },
+    "options": {
+      "en": [
+        "1 continent",
+        "3 continents (Europe, Africa, Antarctica)",
+        "5 continents",
+        "7 continents"
+      ],
+      "hi": [
+        "1 महाद्वीप / 1 continent",
+        "3 महाद्वीप (यूरोप, अफ्रीका, अंटार्कटिका) / 3 continents (Europe, Africa, Antarctica)",
+        "5 महाद्वीप / 5 continents",
+        "7 महाद्वीप / 7 continents"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 3 महाद्वीप (यूरोप, अफ्रीका, अंटार्कटिका) / 3 continents (Europe, Africa, Antarctica)</b><br><br><b>व्याख्या:</b> ग्रीनविच मानक समय (प्रधान मध्याह्न रेखा) तीन महाद्वीपों से होकर गुजरता है: यूरोप, अफ्रीका और अंटार्कटिका.",
+      "en": "<b>Correct Answer: 3 continents (Europe, Africa, Antarctica)</b><br><br><b>Explanation:</b> The Greenwich Mean Time (Prime Meridian) passes through three continents: Europe, Africa, and Antarctica."
+    }
+  },
+  {
+    "sourceNo": 16,
+    "q": {
+      "en": "Through how many states of India does the Indian Standard Time (IST - 82.5° E longitude) pass?",
+      "hi": "भारतीय मानक समय (IST - 82.5° पूर्व देशांतर) भारत के कितने राज्यों से होकर गुजरता है?"
+    },
+    "options": {
+      "en": [
+        "3 states",
+        "4 states",
+        "5 states",
+        "7 states"
+      ],
+      "hi": [
+        "3 राज्य / 3 states",
+        "4 राज्य / 4 states",
+        "5 राज्य / 5 states",
+        "7 राज्य / 7 states"
+      ]
+    },
+    "ans": 2,
+    "exp": {
+      "hi": "<b>सही उत्तर: 5 राज्य / 5 states</b><br><br><b>व्याख्या:</b> IST भारत के 5 राज्यों (उत्तर प्रदेश, मध्य प्रदेश, छत्तीसगढ़, ओडिशा और आंध्र प्रदेश) से होकर गुजरता है.",
+      "en": "<b>Correct Answer: 5 states</b><br><br><b>Explanation:</b> IST passes through 5 states of India (Uttar Pradesh, Madhya Pradesh, Chhattisgarh, Odisha, and Andhra Pradesh)."
+    }
+  },
+  {
+    "sourceNo": 46,
+    "q": {
+      "en": "Which geographical conditions are favorable for the production of Tidal Energy?",
+      "hi": "ज्वारीय ऊर्जा (Tidal Energy) के उत्पादन के लिए कौन सी भौगोलिक परिस्थितियाँ अनुकूल होती हैं?"
+    },
+    "options": {
+      "en": [
+        "Where continental shelves are wide and the shape is funnel-like",
+        "Where there are no rivers",
+        "Desert regions",
+        "Deep sea trenches"
+      ],
+      "hi": [
+        "जहाँ महाद्वीपीय शेल्फ चौड़े होते हैं और भौगोलिक संरचना की आकृति कीप (Funnel) जैसी होती है / Where continental shelves are wide and the shape is funnel-like",
+        "जहाँ नदियाँ नहीं होतीं / Where there are no rivers",
+        "मरुस्थलीय रेगिस्तान क्षेत्र / Desert regions",
+        "गहरे समुद्र की खाइयां / Deep sea trenches"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: जहाँ महाद्वीपीय शेल्फ चौड़े होते हैं और भौगोलिक संरचना की आकृति कीप (Funnel) जैसी होती है / Where continental shelves are wide and the shape is funnel-like</b><br><br><b>व्याख्या:</b> जहाँ महाद्वीपीय शेल्फ चौड़े होते हैं और भौगोलिक संरचना की आकृति कीप (Funnel) जैसी होती है, वहाँ ज्वार ऊँचे होते हैं और ज्वारीय ऊर्जा बनती है.",
+      "en": "<b>Correct Answer: Where continental shelves are wide and the shape is funnel-like</b><br><br><b>Explanation:</b> Where continental shelves are wide and the shape is funnel-like, tides are higher, facilitating tidal energy production."
+    }
+  },
+  {
+    "sourceNo": 38,
+    "q": {
+      "en": "Where do the vertical rays of the Sun fall directly during the Winter Solstice?",
+      "hi": "शीत अयनांत (Winter Solstice) के दौरान सूर्य की ऊर्ध्वाधर किरणें कहाँ सीधी पड़ती हैं?"
+    },
+    "options": {
+      "en": [
+        "On the Tropic of Cancer",
+        "On the Tropic of Capricorn",
+        "On the Equator",
+        "On the North Pole"
+      ],
+      "hi": [
+        "कर्क रेखा पर / On the Tropic of Cancer",
+        "मकर रेखा पर / On the Tropic of Capricorn",
+        "भूमध्य रेखा पर / On the Equator",
+        "उत्तरी ध्रुव पर / On the North Pole"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: मकर रेखा पर / On the Tropic of Capricorn</b><br><br><b>व्याख्या:</b> शीत अयनांत 22 दिसंबर को होता है जब सूर्य की ऊर्ध्वाधर किरणें मकर रेखा पर सीधी पड़ती हैं.",
+      "en": "<b>Correct Answer: On the Tropic of Capricorn</b><br><br><b>Explanation:</b> The Winter Solstice occurs on December 22 when the vertical rays of the Sun fall directly on the Tropic of Capricorn."
+    }
+  },
+  {
+    "sourceNo": 54,
+    "q": {
+      "en": "Choose the correct statement about latitudes and longitudes:<br><br><b>Statement 1:</b> Latitudes are imaginary horizontal lines running from east to west on the globe.<br><br><b>Statement 2:</b> Longitudes are imaginary vertical lines drawn from north to south on the globe.<br><br><b>Statement 3:</b> The total number of latitude lines is 360.",
+      "hi": "अक्षांश और देशांतर रेखाओं के बारे में सही कथन चुनें:<br><br><b>कथन 1:</b> अक्षांश रेखाएँ ग्लोब पर पूर्व से पश्चिम तक चलने वाली काल्पनिक क्षैतिज रेखाएँ हैं।<br><br><b>कथन 2:</b> देशांतर रेखाएँ ग्लोब पर उत्तर से दक्षिण तक खींची गई काल्पनिक ऊर्ध्वाधर रेखाएँ हैं।<br><br><b>कथन 3:</b> कुल अक्षांश रेखाओं की संख्या 360 होती है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> अक्षांश (क्षैतिज पूर्व-पश्चिम) और देशांतर (ऊर्ध्वाधर उत्तर-दक्षिण) की परिभाषाएं सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Definitions of latitudes (horizontal east-west) and longitudes (vertical north-south) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 18,
+    "q": {
+      "en": "Which is the longest day of the year in the Northern Hemisphere?",
+      "hi": "उत्तरी गोलार्ध में वर्ष का सबसे लंबा दिन कौन सा होता है?"
+    },
+    "options": {
+      "en": [
+        "June 21 (Summer Solstice)",
+        "December 22",
+        "March 21",
+        "September 23"
+      ],
+      "hi": [
+        "21 जून (ग्रीष्म अयनांत) / June 21 (Summer Solstice)",
+        "22 दिसंबर / December 22",
+        "21 मार्च / March 21",
+        "23 सितंबर / September 23"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: 21 जून (ग्रीष्म अयनांत) / June 21 (Summer Solstice)</b><br><br><b>व्याख्या:</b> 21 जून को ग्रीष्म अयनांत होता है जो उत्तरी गोलार्ध में वर्ष का सबसे लंबा दिन है.",
+      "en": "<b>Correct Answer: June 21 (Summer Solstice)</b><br><br><b>Explanation:</b> June 21 is the Summer Solstice, which is the longest day of the year in the Northern Hemisphere."
+    }
+  },
+  {
+    "sourceNo": 63,
+    "q": {
+      "en": "<b>Statement 1:</b> Perigee is the point when the Moon is closest to the Earth and appears larger.<br><br><b>Statement 2:</b> Apogee is the point when the Moon is furthest from the Earth, resulting in lower tidal force.<br><br><b>Statement 3:</b> In the perigee position, the Moon goes an infinite distance away from the Earth.",
+      "hi": "चंद्रमा की स्थितियों (उपभू और अपभू) के बारे में कौन सा कथन सही है?<br><br>Which statement is correct about the Moon's positions (Perigee and Apogee)?<br><br><b>कथन 1:</b> उपभू (Perigee) वह बिंदु है जब चंद्रमा पृथ्वी के सबसे निकट होता है और बड़ा दिखाई देता है।<br><br><b>कथन 2:</b> अपभू (Apogee) वह बिंदु है जब चंद्रमा पृथ्वी से सबसे दूर होता है जिससे ज्वार-भाटा बल कम होता है।<br><br><b>कथन 3:</b> उपभू की स्थिति में चंद्रमा पृथ्वी से अनंत दूरी पर चला जाता है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> उपभू (सबसे पास, बड़ा दिखना) और अपभू (सबसे दूर, कम ज्वार बल) के कथन सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Perigee (closest, larger look) and apogee (furthest, lower tidal force) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 41,
+    "q": {
+      "en": "When does a Super Moon condition occur?",
+      "hi": "सुपर मून (Super Moon) की स्थिति कब बनती है?"
+    },
+    "options": {
+      "en": [
+        "When the Moon's orbit is closest to the Earth during a full/new moon",
+        "When the moon hides behind the sun",
+        "When the moon doubles in size",
+        "When an explosion happens in space"
+      ],
+      "hi": [
+        "जब पूर्णिमा या अमावस्या के दौरान चंद्रमा की कक्षा पृथ्वी के सबसे निकट होती है / When the Moon's orbit is closest to the Earth during a full/new moon",
+        "जब चंद्रमा सूर्य के पीछे छुप जाता है / When the moon hides behind the sun",
+        "जब चंद्रमा का आकार दोगुना हो जाता है / When the moon doubles in size",
+        "जब अंतरिक्ष में विस्फोट होता है / When an explosion happens in space"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: जब पूर्णिमा या अमावस्या के दौरान चंद्रमा की कक्षा पृथ्वी के सबसे निकट होती है / When the Moon&#x27;s orbit is closest to the Earth during a full/new moon</b><br><br><b>व्याख्या:</b> सुपरमून तब होता है जब पूर्णिमा या अमावस्या के दौरान चंद्रमा की कक्षा पृथ्वी के सबसे निकट होती है, जिससे वह बड़ा दिखाई देता है.",
+      "en": "<b>Correct Answer: When the Moon&#x27;s orbit is closest to the Earth during a full/new moon</b><br><br><b>Explanation:</b> A supermoon occurs when the moon's orbit is closest to the earth during a full/new moon, making it look larger."
+    }
+  },
+  {
+    "sourceNo": 30,
+    "q": {
+      "en": "The phenomenon of seasons is primarily caused by what?",
+      "hi": "ऋतओं की घटना (Change of seasons) मुख्य रूप से किस कारण से होती है?"
+    },
+    "options": {
+      "en": [
+        "Due to Earth's revolution around the Sun and the tilt of its axis",
+        "Only due to Earth's rotation",
+        "Due to Moon's attraction",
+        "Due to change in Sun's temperature"
+      ],
+      "hi": [
+        "सूर्य के चारों ओर पृथ्वी की परिक्रमा और उसकी धुरी के झुकाव के कारण / Due to Earth's revolution around the Sun and the tilt of its axis",
+        "केवल पृथ्वी के घूर्णन के कारण / Only due to Earth's rotation",
+        "चंद्रमा के आकर्षण के कारण / Due to Moon's attraction",
+        "सूर्य के तापमान में बदलाव से / Due to change in Sun's temperature"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: सूर्य के चारों ओर पृथ्वी की परिक्रमा और उसकी धुरी के झुकाव के कारण / Due to Earth&#x27;s revolution around the Sun and the tilt of its axis</b><br><br><b>व्याख्या:</b> ऋतओं की घटना सूर्य के चारों ओर पृथ्वी की परिक्रमा और उसकी धुरी के झुकाव के कारण होती है.",
+      "en": "<b>Correct Answer: Due to Earth&#x27;s revolution around the Sun and the tilt of its axis</b><br><br><b>Explanation:</b> The phenomenon of seasons is caused by the Earth's revolution around the Sun and the tilt of its axis."
+    }
+  },
+  {
+    "sourceNo": 56,
+    "q": {
+      "en": "Choose the correct match about Solstice and Equinox:<br><br><b>Statement 1:</b> Summer Solstice - June 21 (longest day in Northern Hemisphere).<br><br><b>Statement 2:</b> Winter Solstice - December 22 (direct sun rays on Tropic of Capricorn).<br><br><b>Statement 3:</b> Vernal Equinox - September 23 and Autumnal Equinox - March 21.",
+      "hi": "अयनांत (Solstice) और विषुव (Equinox) के बारे में सही मिलान चुनें:<br><br><b>कथन 1:</b> ग्रीष्म अयनांत - 21 जून (उत्तरी गोलार्ध में सबसे लंबा दिन)।<br><br><b>कथन 2:</b> शीत अयनांत - 22 दिसंबर (मकर रेखा पर सूर्य की सीधी किरणें)।<br><br><b>कथन 3:</b> वसंत विषुव - 23 सितंबर और शरद विषुव - 21 मार्च।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> ग्रीष्म अयनांत (21 जून) और शीत अयनांत (22 दिसंबर) के कथन सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Summer Solstice (June 21) and Winter Solstice (December 22) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 73,
+    "q": {
+      "en": "Analyze the following statements regarding Earth's revolution speed and orbital speed:<br><br><b>Statement 1:</b> The Earth revolves around the Sun in an elliptical orbit.<br><br><b>Statement 2:</b> The orbital revolution speed of the Earth is about 29.8 km/s.<br><br><b>Statement 3:</b> Mercury has the minimum orbital speed and Neptune has the maximum.",
+      "hi": "पृथ्वी की परिक्रमण गति और कक्षीय गति के संबंध में निम्नलिखित कथनों का विश्लेषण करें:<br><br><b>कथन 1:</b> पृथ्वी सूर्य के चारों ओर दीर्घवृत्ताकार कक्षा में परिक्रमा करती है।<br><br><b>कथन 2:</b> पृथ्वी की कक्षीय परिक्रमण गति लगभग 29.8 किमी/सेकंड है।<br><br><b>कथन 3:</b> बुध ग्रह की कक्षीय गति न्यूनतम और वरुण की अधिकतम होती है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> दीर्घवृत्ताकार कक्षा में परिक्रमा और कक्षीय गति (29.8 किमी/सेकंड) सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Revolution in an elliptical orbit and orbital speed (29.8 km/s) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 29,
+    "q": {
+      "en": "Which planet in the solar system has the maximum orbital speed?",
+      "hi": "सौरमंडल में किस ग्रह की कक्षीय गति (Orbital speed) अधिकतम है?"
+    },
+    "options": {
+      "en": [
+        "Earth",
+        "Mercury",
+        "Mars",
+        "Neptune"
+      ],
+      "hi": [
+        "पृथ्वी / Earth",
+        "बुध (Mercury) / Mercury",
+        "मंगल / Mars",
+        "वरुण / Neptune"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: बुध (Mercury) / Mercury</b><br><br><b>व्याख्या:</b> सूर्य के सबसे निकट होने के कारण बुध (Mercury) की कक्षीय गति अधिकतम है, जबकि वरुण की न्यूनतम है.",
+      "en": "<b>Correct Answer: Mercury</b><br><br><b>Explanation:</b> Being closest to the Sun, Mercury has the maximum orbital speed, while Neptune has the minimum."
+    }
+  },
+  {
+    "sourceNo": 43,
+    "q": {
+      "en": "Which is the coldest region of the Earth where there are 6 months of day and 6 months of night?",
+      "hi": "पृथ्वी का सबसे ठंडा क्षेत्र कौन सा है जहाँ 6 महीने दिन और 6 महीने रात होती है?"
+    },
+    "options": {
+      "en": [
+        "Torrid Zone",
+        "Temperate Zone",
+        "Frigid Zone",
+        "Equatorial region"
+      ],
+      "hi": [
+        "उष्ण क्षेत्र / Torrid Zone",
+        "समशीतोष्ण क्षेत्र / Temperate Zone",
+        "शीतोष्ण क्षेत्र (Frigid Zone) / Frigid Zone",
+        "भूमध्यरेखीय क्षेत्र / Equatorial region"
+      ]
+    },
+    "ans": 2,
+    "exp": {
+      "hi": "<b>सही उत्तर: शीतोष्ण क्षेत्र (Frigid Zone) / Frigid Zone</b><br><br><b>व्याख्या:</b> शीतोष्ण क्षेत्र (Frigid Zone) पृथ्वी का सबसे ठंडा क्षेत्र है जहाँ पृथ्वी के झुकाव के कारण 6 महीने दिन और 6 महीने रात होती है.",
+      "en": "<b>Correct Answer: Frigid Zone</b><br><br><b>Explanation:</b> The Frigid Zone is the coldest region of the Earth where 6 months of day and 6 months of night occur due to the earth's tilt."
+    }
+  },
+  {
+    "sourceNo": 37,
+    "q": {
+      "en": "On which date does the Summer Solstice occur in the Northern Hemisphere?",
+      "hi": "ग्रीष्म अयनांत (Summer Solstice) उत्तरी गोलार्ध में किस तिथि को घटित होता है?"
+    },
+    "options": {
+      "en": [
+        "June 21",
+        "December 22",
+        "March 21",
+        "September 23"
+      ],
+      "hi": [
+        "21 जून / June 21",
+        "22 दिसंबर / December 22",
+        "21 मार्च / March 21",
+        "23 सितंबर / September 23"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: 21 जून / June 21</b><br><br><b>व्याख्या:</b> ग्रीष्म अयनांत 21 जून को घटित होता है, जो उत्तरी गोलार्ध में वर्ष का सबसे लंबा दिन है.",
+      "en": "<b>Correct Answer: June 21</b><br><br><b>Explanation:</b> The Summer Solstice occurs on June 21, which is the longest day of the year in the Northern Hemisphere."
+    }
+  },
+  {
+    "sourceNo": 5,
+    "q": {
+      "en": "How much time does it take for one rotation of the Earth to complete?",
+      "hi": "पृथ्वी का एक घूर्णन (Rotation) पूरा होने में कितना समय लगता है?"
+    },
+    "options": {
+      "en": [
+        "Exactly 24 hours",
+        "23 hours 56 minutes 4 seconds",
+        "365 days 6 hours",
+        "12 hours 25 minutes"
+      ],
+      "hi": [
+        "24 घंटे पूरे / Exactly 24 hours",
+        "23 घंटे 56 मिनट 4 सेकंड / 23 hours 56 minutes 4 seconds",
+        "365 दिन 6 घंटे / 365 days 6 hours",
+        "12 घंटे 25 मिनट / 12 hours 25 minutes"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 23 घंटे 56 मिनट 4 सेकंड / 23 hours 56 minutes 4 seconds</b><br><br><b>व्याख्या:</b> पृथ्वी का एक घूर्णन 23 घंटे 56 मिनट 4 सेकंड का होता है.",
+      "en": "<b>Correct Answer: 23 hours 56 minutes 4 seconds</b><br><br><b>Explanation:</b> One rotation of the Earth takes 23 hours 56 minutes and 4 seconds."
+    }
+  },
+  {
+    "sourceNo": 60,
+    "q": {
+      "en": "Choose the correct statement about the International Date Line and time intervals:<br><br><b>Statement 1:</b> The International Date Line is an imaginary zigzag line passing through the Pacific Ocean.<br><br><b>Statement 2:</b> The time interval between two high tides and two low tides is 12 hours 25 minutes.<br><br><b>Statement 3:</b> Crossing the International Date Line has no effect on time.",
+      "hi": "अंतर्राष्ट्रीय तिथि रेखा और समय अंतराल के बारे में सही कथन चुनें:<br><br><b>कथन 1:</b> अंतर्राष्ट्रीय तिथि रेखा प्रशांत महासागर से गुजरने वाली एक काल्पनिक टेढ़ी-मेढ़ी रेखा है।<br><br><b>कथन 2:</b> दो उच्च ज्वार और दो निम्न ज्वार के बीच का समय अंतराल 12 घंटे 25 मिनट होता है।<br><br><b>कथन 3:</b> अंतर्राष्ट्रीय तिथि रेखा को पार करने पर समय पर कोई प्रभाव नहीं पड़ता।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> अंतर्राष्ट्रीय तिथि रेखा की प्रकृति और दो ज्वारों के बीच का समय अंतराल (12 घंटे 25 मिनट) सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> The nature of the IDL and the time interval between two tides (12 hrs 25 mins) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 55,
+    "q": {
+      "en": "Which statement is false regarding Indian Standard Time (IST) and time zones?",
+      "hi": "भारतीय मानक समय (IST) और समय क्षेत्रों के संबंध में कौन सा कथन असत्य है?"
+    },
+    "options": {
+      "en": [
+        "IST (82.5° E longitude) passes through 5 states of India.",
+        "Russia has 11 time zones and USA has 6 time zones.",
+        "France has the most time zones (13) in the world.",
+        "India and China have the world's most time zones at 20-20 each."
+      ],
+      "hi": [
+        "IST (82.5° पूर्व देशांतर) भारत के 5 राज्यों से होकर गुजरता है।",
+        "रूस में 11 समय क्षेत्र हैं और अमेरिका में 6 समय क्षेत्र हैं।",
+        "फ्रांस में दुनिया में सबसे अधिक (13) समय क्षेत्र हैं।",
+        "भारत और चीन में दुनिया के सबसे अधिक 20-20 समय क्षेत्र हैं।"
+      ]
+    },
+    "ans": 3,
+    "exp": {
+      "hi": "<b>सही उत्तर: भारत और चीन में दुनिया के सबसे अधिक 20-20 समय क्षेत्र हैं।</b><br><br><b>व्याख्या:</b> यह विकल्प सही है क्योंकि कथन 4 असत्य है; भारत और चीन दोनों देशों में **केवल एक ही समय क्षेत्र (Single Time Zone)** है.",
+      "en": "<b>Correct Answer: India and China have the world&#x27;s most time zones at 20-20 each.</b><br><br><b>Explanation:</b> This option is correct because statement 4 is false; both India and China have **only one time zone** each."
+    }
+  },
+  {
+    "sourceNo": 39,
+    "q": {
+      "en": "When does the Autumnal Equinox occur?",
+      "hi": "शरद विषुव (Autumnal Equinox) कब होता है?"
+    },
+    "options": {
+      "en": [
+        "March 21",
+        "September 23",
+        "June 21",
+        "December 22"
+      ],
+      "hi": [
+        "21 मार्च / March 21",
+        "23 सितंबर / September 23",
+        "21 जून / June 21",
+        "22 दिसंबर / December 22"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 23 सितंबर / September 23</b><br><br><b>व्याख्या:</b> शरद विषुव 23 सितंबर को होता है (जबकि वसंत विषुव 21 मार्च को होता है).",
+      "en": "<b>Correct Answer: September 23</b><br><br><b>Explanation:</b> The Autumnal Equinox occurs on September 23 (while the Vernal Equinox is on March 21)."
+    }
+  },
+  {
+    "sourceNo": 10,
+    "q": {
+      "en": "What is the axial tilt of the Earth on its axis?",
+      "hi": "पृथ्वी का अपने अक्ष पर अक्षीय झुकाव (Axial tilt) कितना है?"
+    },
+    "options": {
+      "en": [
+        "23.5°",
+        "66.5°",
+        "0°",
+        "90°"
+      ],
+      "hi": [
+        "23.5° / 23.5°",
+        "66.5° / 66.5°",
+        "0° / 0°",
+        "90° / 90°"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: 23.5° / 23.5°</b><br><br><b>व्याख्या:</b> पृथ्वी का अपने अक्ष पर झुकाव 23.5° है (जबकि कक्षीय तल पर झुकाव 66.5° है).",
+      "en": "<b>Correct Answer: 23.5°</b><br><br><b>Explanation:</b> The axial tilt of the Earth on its axis is 23.5° (while the orbital plane tilt is 66.5°)."
+    }
+  },
+  {
+    "sourceNo": 48,
+    "q": {
+      "en": "How many time zones are there in the United States?",
+      "hi": "अमेरिका में कुल कितने समय क्षेत्र (Time Zones) हैं?"
+    },
+    "options": {
+      "en": [
+        "1 time zone",
+        "6 time zones",
+        "11 time zones",
+        "13 time zones"
+      ],
+      "hi": [
+        "1 समय क्षेत्र / 1 time zone",
+        "6 समय क्षेत्र (Time Zones) / 6 time zones",
+        "11 समय क्षेत्र / 11 time zones",
+        "13 समय क्षेत्र / 13 time zones"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 6 समय क्षेत्र (Time Zones) / 6 time zones</b><br><br><b>व्याख्या:</b> संयुक्त राज्य अमेरिका में कुल 6 समय क्षेत्र हैं (रूस में 11 और भारत/चीन में 1 है).",
+      "en": "<b>Correct Answer: 6 time zones</b><br><br><b>Explanation:</b> There are a total of 6 time zones in the United States (Russia has 11 and India/China have 1)."
+    }
+  },
+  {
+    "sourceNo": 11,
+    "q": {
+      "en": "What are the imaginary horizontal lines running from east to west on a globe called?",
+      "hi": "ग्लोब पर पूर्व से पश्चिम तक चलने वाली काल्पनिक क्षैतिज रेखाओं को क्या कहा जाता है?"
+    },
+    "options": {
+      "en": [
+        "Latitudes",
+        "Longitudes",
+        "Isotherms",
+        "Isobars"
+      ],
+      "hi": [
+        "अक्षांश (Latitudes) / Latitudes",
+        "देशांतर (Longitudes) / Longitudes",
+        "समताप रेखाएं / Isotherms",
+        "समदाब रेखाएं / Isobars"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: अक्षांश (Latitudes) / Latitudes</b><br><br><b>व्याख्या:</b> अक्षांश ग्लोब पर पूर्व से पश्चिम तक चलने वाली काल्पनिक क्षैतिज रेखाएँ हैं.",
+      "en": "<b>Correct Answer: Latitudes</b><br><br><b>Explanation:</b> Latitudes are imaginary horizontal lines running from east to west on the globe."
+    }
+  },
+  {
+    "sourceNo": 69,
+    "q": {
+      "en": "Analyze the following statements regarding the Prime Meridian:<br><br><b>Statement 1:</b> It is the 0° longitude line also known as Greenwich Mean Time.<br><br><b>Statement 2:</b> It passes through three continents: Europe, Africa, and Antarctica.<br><br><b>Statement 3:</b> It passes right through the middle of India.",
+      "hi": "प्रधान मध्याह्न रेखा (Prime Meridian) के बारे में निम्नलिखित कथनों का विश्लेषण करें:<br><br><b>कथन 1:</b> यह 0° देशांतर रेखा है जिसे ग्रीनविच माध्य समय भी कहा जाता है।<br><br><b>कथन 2:</b> यह यूरोप, अफ्रीका और अंटार्कटिका तीन महाद्वीपों से होकर गुजरती है।<br><br><b>कथन 3:</b> यह भारत के बीचों-बीच से गुजरती है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> प्रधान मध्याह्न रेखा 0° देशांतर है और यह तीन महाद्वीपों (यूरोप, अफ्रीका, अंटार्कटिका) से गुजरती है, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> The Prime Meridian is 0° longitude and passes through three continents (Europe, Africa, Antarctica), so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 42,
+    "q": {
+      "en": "Which is the hottest region among the Heat Zones of the Earth where sun rays fall vertically?",
+      "hi": "पृथ्वी के तापमान क्षेत्रों (Heat Zones) में सबसे गर्म क्षेत्र कौन सा है जहाँ सूर्य की किरणें सीधी पड़ती हैं?"
+    },
+    "options": {
+      "en": [
+        "Torrid Zone",
+        "Temperate Zone",
+        "Frigid Zone",
+        "Polar region"
+      ],
+      "hi": [
+        "उष्ण क्षेत्र (Torrid Zone) / Torrid Zone",
+        "समशीतोष्ण क्षेत्र / Temperate Zone",
+        "शीतोष्ण क्षेत्र / Frigid Zone",
+        "ध्रुवीय क्षेत्र / Polar region"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: उष्ण क्षेत्र (Torrid Zone) / Torrid Zone</b><br><br><b>व्याख्या:</b> उष्ण क्षेत्र (Torrid Zone) में सूर्य की सीधी किरणें पड़ती हैं, जिसके कारण यह सबसे गर्म क्षेत्र है (यह उष्ण कटिबंधों के बीच है).",
+      "en": "<b>Correct Answer: Torrid Zone</b><br><br><b>Explanation:</b> The Torrid Zone receives direct sun rays, making it the hottest region (located between tropics)."
+    }
+  },
+  {
+    "sourceNo": 52,
+    "q": {
+      "en": "Choose the correct statement about Earth's rotation and revolution:<br><br><b>Statement 1:</b> The Earth rotates on its axis from west to east (counter-clockwise).<br><br><b>Statement 2:</b> One rotation of the Earth takes 23 hours 56 minutes and 4 seconds.<br><br><b>Statement 3:</b> The phenomenon of day and night is caused by the Earth's revolution around the Sun.",
+      "hi": "पृथ्वी के घूर्णन और परिक्रमण के बारे में सही कथन चुनें:<br><br><b>कथन 1:</b> पृथ्वी अपनी धुरी पर पश्चिम से पूर्व (वामावर्त) की ओर घूमती है।<br><br><b>कथन 2:</b> पृथ्वी का एक घूर्णन 23 घंटे 56 मिनट 4 सेकंड का होता है।<br><br><b>कथन 3:</b> दिन और रात की घटना पृथ्वी के सूर्य के चारों ओर परिक्रमण के कारण होती है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> पृथ्वी का पश्चिम से पूर्व घूर्णन और एक घूर्णन का समय (23 घंटे 56 मिनट 4 सेकंड) सत्य है, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Earth's west-to-east rotation and the time of one rotation (23 hrs 56 mins 4 secs) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 24,
+    "q": {
+      "en": "When do Spring Tides occur?",
+      "hi": "वृहत ज्वार (Spring Tide) कब घटित होते हैं?"
+    },
+    "options": {
+      "en": [
+        "When the Earth, Sun, and Moon are in a straight line",
+        "When they are in a perpendicular alignment",
+        "Only in winter",
+        "When moon is furthest from earth"
+      ],
+      "hi": [
+        "जब पृथ्वी, सूर्य और चंद्रमा एक सीधी रेखा में होते हैं / When the Earth, Sun, and Moon are in a straight line",
+        "जब पृथ्वी, सूर्य और चंद्रमा लंबवत संरेखण में होते हैं / When they are in a perpendicular alignment",
+        "केवल सर्दियों में / Only in winter",
+        "जब चंद्रमा पृथ्वी से सबसे दूर होता है / When moon is furthest from earth"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: जब पृथ्वी, सूर्य और चंद्रमा एक सीधी रेखा में होते हैं / When the Earth, Sun, and Moon are in a straight line</b><br><br><b>व्याख्या:</b> वृहत ज्वार तब घटित होते हैं जब पृथ्वी, सूर्य और चंद्रमा एक सीधी रेखा में होते हैं (सिज़ीगी स्थिति).",
+      "en": "<b>Correct Answer: When the Earth, Sun, and Moon are in a straight line</b><br><br><b>Explanation:</b> Spring tides occur when the Earth, Sun, and Moon are in a straight line (syzygy position)."
+    }
+  },
+  {
+    "sourceNo": 51,
+    "q": {
+      "en": "Analyze the following statements regarding the shape of the Earth (Geoid) and its radii:<br><br><b>Statement 1:</b> The shape of the Earth is geoid or oblate spheroid, flattened at the poles and bulged at the equator.<br><br><b>Statement 2:</b> The equatorial radius is 6378 km while the polar radius is 6357 km.<br><br><b>Statement 3:</b> The equatorial radius is smaller than the polar radius.",
+      "hi": "पृथ्वी के आकार (जिओड/भू-आकृति) और उसकी त्रिज्याओं के संदर्भ में निम्नलिखित कथनों का विश्लेषण करें:<br><br><b>कथन 1:</b> पृथ्वी का आकार भू-आकृति या चपटा गोलाकार है जो ध्रुवों पर चपटी और भूमध्य रेखा पर उभरी हुई है।<br><br><b>कथन 2:</b> भूमध्यरेखीय त्रिज्या 6378 किमी है जबकि ध्रुवीय त्रिज्या 6357 किमी है।<br><br><b>कथन 3:</b> भूमध्यरेखीय त्रिज्या ध्रुवीय त्रिज्या से छोटी होती है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> पृथ्वी का भू-आकार (ध्रुवों पर चपटी, भूमध्य रेखा पर उभरी) और दोनों त्रिज्याओं (भूमध्यरेखीय 6378 किमी, ध्रुवीय 6357 किमी) के आंकड़े सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> The geoid shape of the Earth and the data for both radii (equatorial 6378 km, polar 6357 km) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 21,
+    "q": {
+      "en": "When does a Lunar Eclipse occur?",
+      "hi": "चंद्रग्रहण (Lunar Eclipse) कब घटित होता है?"
+    },
+    "options": {
+      "en": [
+        "When the Earth comes between the Moon and the Sun (Full Moon day)",
+        "When the Moon comes between Earth and Sun",
+        "When Sun comes between Earth and Moon",
+        "Only on New Moon day"
+      ],
+      "hi": [
+        "जब पृथ्वी चंद्रमा और सूर्य के बीच आती है (पूर्णिमा के दिन) / When the Earth comes between the Moon and the Sun (Full Moon day)",
+        "जब चंद्रमा पृथ्वी और सूर्य के बीच आता है / When the Moon comes between Earth and Sun",
+        "जब सूर्य पृथ्वी और चंद्रमा के बीच आता है / When Sun comes between Earth and Moon",
+        "केवल अमावस्या के दिन / Only on New Moon day"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: जब पृथ्वी चंद्रमा और सूर्य के बीच आती है (पूर्णिमा के दिन) / When the Earth comes between the Moon and the Sun (Full Moon day)</b><br><br><b>व्याख्या:</b> चंद्रग्रहण तब होता है जब पृथ्वी चंद्रमा और सूर्य के बीच आती है, जिससे चंद्रमा पर छाया पड़ती है (यह केवल पूर्णिमा को होता है).",
+      "en": "<b>Correct Answer: When the Earth comes between the Moon and the Sun (Full Moon day)</b><br><br><b>Explanation:</b> A lunar eclipse occurs when the Earth comes between the Moon and the Sun, casting a shadow on the Moon (only on Full Moon)."
+    }
+  },
+  {
+    "sourceNo": 26,
+    "q": {
+      "en": "What is the polar circumference of the Earth approximately?",
+      "hi": "पृथ्वी की ध्रुवीय परिधि (Polar Circumference) लगभग कितनी है?"
+    },
+    "options": {
+      "en": [
+        "40,075 km",
+        "40,007.863 km",
+        "6378 km",
+        "6357 km"
+      ],
+      "hi": [
+        "40,075 किमी / 40,075 km",
+        "40,007.863 किमी / 40,007.863 km",
+        "6378 किमी / 6378 km",
+        "6357 किमी / 6357 km"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 40,007.863 किमी / 40,007.863 km</b><br><br><b>व्याख्या:</b> पृथ्वी की ध्रुवीय परिधि 40,007.863 किमी है, जबकि भूमध्यरेखीय परिधि 40,075 किमी है.",
+      "en": "<b>Correct Answer: 40,007.863 km</b><br><br><b>Explanation:</b> The polar circumference of the Earth is 40,007.863 km, while the equatorial circumference is 40,075 km."
+    }
+  },
+  {
+    "sourceNo": 66,
+    "q": {
+      "en": "Choose the correct match regarding latitude lines and their values:<br><br><b>Statement 1:</b> Equator - 0° latitude (largest latitude circle).<br><br><b>Statement 2:</b> Tropic of Cancer - 23.5° N latitude.<br><br><b>Statement 3:</b> Tropic of Capricorn - 66.5° S latitude.",
+      "hi": "अक्षांश रेखाओं और उनके मानों के संबंध में सही मिलान चुनें:<br><br><b>कथन 1:</b> भूमध्य रेखा - 0° अक्षांश (सबसे बड़ा अक्षांश वृत्त)।<br><br><b>कथन 2:</b> कर्क रेखा - 23.5° उत्तर अक्षांश।<br><br><b>कथन 3:</b> मकर रेखा - 66.5° दक्षिण अक्षांश।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> भूमध्य रेखा (0°) और कर्क रेखा (23.5° उत्तर) के मान शत-प्रतिशत सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Equator (0°) and Tropic of Cancer (23.5° N) values are 100% true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 40,
+    "q": {
+      "en": "What is the main scientific reason for the phenomenon of the Red Moon?",
+      "hi": "लाल चांद (Red Moon) की घटना का मुख्य वैज्ञानिक कारण क्या है?"
+    },
+    "options": {
+      "en": [
+        "Blue light scatters away and red light reaches the moon due to refraction by Earth",
+        "Burning of the moon itself",
+        "Accumulation of space dust",
+        "Blackening of the sun"
+      ],
+      "hi": [
+        "पृथ्वी द्वारा सूर्य के प्रकाश को रोकने (अपवर्तन) के कारण नीला रंग बिखर जाता है और लाल प्रकाश चंद्रमा तक पहुंचता है / Blue light scatters away and red light reaches the moon due to refraction by Earth",
+        "चंद्रमा का स्वयं जलना / Burning of the moon itself",
+        "अंतरिक्ष की धूल का जमना / Accumulation of space dust",
+        "सूर्य का काला होना / Blackening of the sun"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: पृथ्वी द्वारा सूर्य के प्रकाश को रोकने (अपवर्तन) के कारण नीला रंग बिखर जाता है और लाल प्रकाश चंद्रमा तक पहुंचता है / Blue light scatters away and red light reaches the moon due to refraction by Earth</b><br><br><b>व्याख्या:</b> जब पृथ्वी सूर्य के प्रकाश को रोकती है (अपवर्तन), तो नीला रंग (जो अधिक बिखरता है) गायब हो जाता है और लाल प्रकाश चंद्रमा तक पहुँच जाता है.",
+      "en": "<b>Correct Answer: Blue light scatters away and red light reaches the moon due to refraction by Earth</b><br><br><b>Explanation:</b> When Earth blocks sunlight (refraction), blue light scatters away and red light reaches the moon."
+    }
+  },
+  {
+    "sourceNo": 19,
+    "q": {
+      "en": "Which of the following pairs is correct regarding the Equinox?",
+      "hi": "विषुव (Equinox) के संबंध में निम्नलिखित में से कौन सा युग्म सही है?"
+    },
+    "options": {
+      "en": [
+        "Vernal Equinox: March 21 and Autumnal Equinox: September 23",
+        "Vernal: June 21 and Autumnal: Dec 22",
+        "Vernal: Jan 3 and Autumnal: July 4",
+        "Vernal: Dec 22 and Autumnal: June 21"
+      ],
+      "hi": [
+        "वसंत विषुव: 21 मार्च और शरद विषुव: 23 सितंबर / Vernal Equinox: March 21 and Autumnal Equinox: September 23",
+        "वसंत विषुव: 21 जून और शरद विषुव: 22 दिसंबर / Vernal: June 21 and Autumnal: Dec 22",
+        "वसंत विषुव: 3 जनवरी और शरद विषुव: 4 जुलाई / Vernal: Jan 3 and Autumnal: July 4",
+        "वसंत विषुव: 22 दिसंबर और शरद विषुव: 21 जून / Vernal: Dec 22 and Autumnal: June 21"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: वसंत विषुव: 21 मार्च और शरद विषुव: 23 सितंबर / Vernal Equinox: March 21 and Autumnal Equinox: September 23</b><br><br><b>व्याख्या:</b> वसंत विषुव 21 मार्च को और शरद विषुव 23 सितंबर को होता है जब दिन और रात बराबर होते हैं.",
+      "en": "<b>Correct Answer: Vernal Equinox: March 21 and Autumnal Equinox: September 23</b><br><br><b>Explanation:</b> The vernal equinox is on March 21 and the autumnal equinox is on September 23 when day and night are equal."
+    }
+  },
+  {
+    "sourceNo": 1,
+    "q": {
+      "en": "Due to what main reason is the true shape of the Earth (Geoid) flattened at the top and bottom and bulged in the middle?",
+      "hi": "पृथ्वी का वास्तविक आकार (जिओड/भू-आकृति) मुख्य रूप से किस कारण से ऊपर और नीचे से चपटा तथा बीच में उभरा हुआ है?"
+    },
+    "options": {
+      "en": [
+        "Centrifugal force (due to Earth's rotation)",
+        "Due to Moon's gravitational force",
+        "Due to Sun's heat",
+        "Due to atmospheric pressure"
+      ],
+      "hi": [
+        "अपकेन्द्रीय बल (पृथ्वी के घूर्णन के कारण) / Centrifugal force (due to Earth's rotation)",
+        "चंद्रमा के गुरुत्वाकर्षण बल के कारण / Due to Moon's gravitational force",
+        "सूर्य की ऊष्मा के कारण / Due to Sun's heat",
+        "वायुमंडलीय दबाव के कारण / Due to atmospheric pressure"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: अपकेन्द्रीय बल (पृथ्वी के घूर्णन के कारण) / Centrifugal force (due to Earth&#x27;s rotation)</b><br><br><b>व्याख्या:</b> पृथ्वी का आकार भू-आकृति या चपटा गोलाकार है, जो पृथ्वी के घूर्णन के कारण उत्पन्न अपकेन्द्रीय बल के कारण बीच में उभरा हुआ और ध्रुवों पर चपटा है.",
+      "en": "<b>Correct Answer: Centrifugal force (due to Earth&#x27;s rotation)</b><br><br><b>Explanation:</b> The shape of the Earth is geoid or oblate spheroid, which is bulged in the middle and flattened at the poles due to the centrifugal force caused by the Earth's rotation."
+    }
+  },
+  {
+    "sourceNo": 45,
+    "q": {
+      "en": "What is the transition from a low tide to a high tide called?",
+      "hi": "निम्न ज्वार से उच्च ज्वार में परिवर्तन को क्या कहा जाता है?"
+    },
+    "options": {
+      "en": [
+        "Flood tide",
+        "Ebb tide",
+        "Dead tide",
+        "Cyclonic tide"
+      ],
+      "hi": [
+        "बाढ़ ज्वार या प्रवाह (Flood tide) / Flood tide",
+        "भाटा ज्वार / Ebb tide",
+        "मृत ज्वार / Dead tide",
+        "चक्रवाती ज्वार / Cyclonic tide"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: बाढ़ ज्वार या प्रवाह (Flood tide) / Flood tide</b><br><br><b>व्याख्या:</b> निम्न ज्वार से उच्च ज्वार में परिवर्तन को 'बाढ़ ज्वार या प्रवाह' (Flood tide) कहा जाता है, जबकि उच्च से निम्न को 'भाटा ज्वार' कहते हैं.",
+      "en": "<b>Correct Answer: Flood tide</b><br><br><b>Explanation:</b> The transition from low tide to high tide is called 'flood tide', while high to low is called 'ebb tide'."
+    }
+  },
+  {
+    "sourceNo": 65,
+    "q": {
+      "en": "<b>Statement 1:</b> Two Full Moons in a single calendar month is called a Blue Moon.<br><br><b>Statement 2:</b> A supermoon occurs when the moon's orbit is closest to the earth during a full/new moon.<br><br><b>Statement 3:</b> Blue Moon is related to blue paint.",
+      "hi": "चंद्रमा की कलाओं और खगोलीय घटनाओं (जैसे सुपरमून, ब्लू मून) के बारे में कौन सा संयोजन सही है?<br><br>Which combination is correct about moon phases and astronomical events (like supermoon, blue moon)?<br><br><b>कथन 1:</b> एक ही कैलेंडर माह में दो पूर्णिमाएँ होने पर उसे ब्लू मून (नील चन्द्र) कहते हैं।<br><br><b>कथन 2:</b> सुपरमून तब होता है जब पूर्णिमा या अमावस्या के दौरान चंद्रमा की कक्षा पृथ्वी के सबसे निकट होती है।<br><br><b>कथन 3:</b> ब्लू मून का संबंध नीले रंग के पेंट से है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> ब्लू मून (दो पूर्णिमा) और सुपरमून (पृथ्वी के निकट होना) के कथन सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Blue Moon (two full moons) and Supermoon (closest to earth) are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 27,
+    "q": {
+      "en": "What is the approximate difference between the polar diameter and equatorial diameter of the Earth?",
+      "hi": "पृथ्वी के ध्रुवीय व्यास और भूमध्यरेखीय व्यास के बीच लगभग कितना अंतर है?"
+    },
+    "options": {
+      "en": [
+        "10 or 12 km",
+        "42 or 44 km",
+        "100 or 111 km",
+        "No difference"
+      ],
+      "hi": [
+        "10 या 12 किमी / 10 or 12 km",
+        "42 या 44 किमी / 42 or 44 km",
+        "100 या 111 किमी / 100 or 111 km",
+        "कोई अंतर नहीं / No difference"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 42 या 44 किमी / 42 or 44 km</b><br><br><b>व्याख्या:</b> पृथ्वी के ध्रुवीय व्यास और भूमध्यरेखीय व्यास के बीच लगभग 42 या 44 किमी का अंतर होता है.",
+      "en": "<b>Correct Answer: 42 or 44 km</b><br><br><b>Explanation:</b> There is a difference of about 42 or 44 km between the polar diameter and the equatorial diameter of the Earth."
+    }
+  },
+  {
+    "sourceNo": 3,
+    "q": {
+      "en": "What is the science of Geodesy related to?",
+      "hi": "भू-मापन (Geodesy) विज्ञान का संबंध किससे है?"
+    },
+    "options": {
+      "en": [
+        "Accurately measuring the geometric shape, position in space, and gravity field of the Earth",
+        "Only studying the movement of clouds",
+        "Only measuring ocean currents",
+        "Naming celestial bodies"
+      ],
+      "hi": [
+        "पृथ्वी के ज्यामितीय आकार, अंतरिक्ष में स्थिति और गुरुत्वाकर्षण क्षेत्र को सटीक रूप से मापने से / Accurately measuring the geometric shape, position in space, and gravity field of the Earth",
+        "केवल बादलों की गति के अध्ययन से / Only studying the movement of clouds",
+        "केवल महासागरीय धाराओं के मापन से / Only measuring ocean currents",
+        "खगोलीय पिंडों के नामकरण से / Naming celestial bodies"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: पृथ्वी के ज्यामितीय आकार, अंतरिक्ष में स्थिति और गुरुत्वाकर्षण क्षेत्र को सटीक रूप से मापने से / Accurately measuring the geometric shape, position in space, and gravity field of the Earth</b><br><br><b>व्याख्या:</b> भू-मापन (Geodesy) वह विज्ञान है जो पृथ्वी के ज्यामितीय आकार, अंतरिक्ष में उसकी स्थिति और गुरुत्वाकर्षण क्षेत्र को सटीक रूप से मापने से संबंधित है.",
+      "en": "<b>Correct Answer: Accurately measuring the geometric shape, position in space, and gravity field of the Earth</b><br><br><b>Explanation:</b> Geodesy is the science concerned with accurately measuring and understanding Earth's geometric shape, orientation in space, and gravity field."
+    }
+  },
+  {
+    "sourceNo": 74,
+    "q": {
+      "en": "What is the main cause of the generation of Tides?",
+      "hi": "ज्वार-भाटा (Tides) उत्पन्न होने का प्रमुख कारण क्या है?"
+    },
+    "options": {
+      "en": [
+        "Gravitational forces of the Moon and the Sun",
+        "Only internal heat of the earth",
+        "Blowing of ocean winds",
+        "Earthquakes under the sea"
+      ],
+      "hi": [
+        "चंद्रमा और सूर्य के गुरुत्वाकर्षण बल / Gravitational forces of the Moon and the Sun",
+        "केवल पृथ्वी की आंतरिक ऊष्मा / Only internal heat of the earth",
+        "महासागरीय हवाओं का चलना / Blowing of ocean winds",
+        "समुद्र के नीचे होने वाले भूकंप / Earthquakes under the sea"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: चंद्रमा और सूर्य के गुरुत्वाकर्षण बल / Gravitational forces of the Moon and the Sun</b><br><br><b>व्याख्या:</b> ज्वार-भाटा पृथ्वी के महासागरों पर चंद्रमा और सूर्य के गुरुत्वाकर्षण बल के कारण उत्पन्न होते हैं.",
+      "en": "<b>Correct Answer: Gravitational forces of the Moon and the Sun</b><br><br><b>Explanation:</b> Tides are generated due to the gravitational forces of the Moon and the Sun on Earth's oceans."
+    }
+  },
+  {
+    "sourceNo": 70,
+    "q": {
+      "en": "Which statement is correct about the periodicity of Tides?",
+      "hi": "ज्वार-भाटा (Tides) की आवधिकता के बारे में कौन सा कथन सही है?"
+    },
+    "options": {
+      "en": [
+        "The time interval between two high tides and two low tides is 12 hours 25 minutes.",
+        "Tides occur only once a year.",
+        "Tides have no relation to Moon's gravity.",
+        "Tides always occur on land."
+      ],
+      "hi": [
+        "दो उच्च ज्वार और दो निम्न ज्वार के बीच का समय अंतराल 12 घंटे 25 मिनट होता है। / The time interval between two high tides and two low tides is 12 hours 25 minutes.",
+        "ज्वार-भाटा केवल वर्ष में एक बार आता है। / Tides occur only once a year.",
+        "ज्वार-भाटा का चंद्रमा के गुरुत्वाकर्षण से कोई संबंध नहीं है। / Tides have no relation to Moon's gravity.",
+        "ज्वार हमेशा जमीन पर आते हैं। / Tides always occur on land."
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: दो उच्च ज्वार और दो निम्न ज्वार के बीच का समय अंतराल 12 घंटे 25 मिनट होता है। / The time interval between two high tides and two low tides is 12 hours 25 minutes.</b><br><br><b>व्याख्या:</b> दो उच्च ज्वार और दो निम्न ज्वार के बीच का समय अंतराल 12 घंटे 25 मिनट होता है.",
+      "en": "<b>Correct Answer: The time interval between two high tides and two low tides is 12 hours 25 minutes.</b><br><br><b>Explanation:</b> The time interval between two high tides and two low tides is 12 hours 25 minutes."
+    }
+  },
+  {
+    "sourceNo": 20,
+    "q": {
+      "en": "When can a Solar Eclipse occur?",
+      "hi": "सूर्यग्रहण (Solar Eclipse) की घटना कब घटित हो सकती है?"
+    },
+    "options": {
+      "en": [
+        "Only on a Full Moon day",
+        "Only during a New Moon (when Moon is in between)",
+        "On any day",
+        "Only once a year"
+      ],
+      "hi": [
+        "केवल पूर्णिमा के दिन / Only on a Full Moon day",
+        "केवल अमावस्या के दौरान (जब चंद्रमा बीच में हो) / Only during a New Moon (when Moon is in between)",
+        "किसी भी दिन / On any day",
+        "वर्ष में केवल एक बार / Only once a year"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल अमावस्या के दौरान (जब चंद्रमा बीच में हो) / Only during a New Moon (when Moon is in between)</b><br><br><b>व्याख्या:</b> सूर्यग्रहण तब होता है जब चंद्रमा पृथ्वी और सूर्य के बीच से गुजरता है, और यह केवल अमावस्या के दौरान हो सकता है.",
+      "en": "<b>Correct Answer: Only during a New Moon (when Moon is in between)</b><br><br><b>Explanation:</b> A solar eclipse occurs when the Moon passes between the Earth and the Sun, and this can only happen during a New Moon."
+    }
+  },
+  {
+    "sourceNo": 34,
+    "q": {
+      "en": "If a person crosses the International Date Line from east to west (e.g., Japan to America), what happens?",
+      "hi": "यदि कोई व्यक्ति अंतर्राष्ट्रीय तिथि रेखा को पूर्व से पश्चिम की ओर (जैसे जापान से अमेरिका की ओर) पार करता है, तो क्या होता है?"
+    },
+    "options": {
+      "en": [
+        "1 day is subtracted from the date (person gains 1 day)",
+        "2 days are added",
+        "No effect on time",
+        "Year changes"
+      ],
+      "hi": [
+        "तारीख में 1 दिन घटा दिया जाता है (व्यक्ति को 1 दिन का लाभ होता है) / 1 day is subtracted from the date (person gains 1 day)",
+        "तारीख में 2 दिन जोड़ दिए जाते हैं / 2 days are added",
+        "समय पर कोई प्रभाव नहीं पड़ता / No effect on time",
+        "वर्ष बदल जाता है / Year changes"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: तारीख में 1 दिन घटा दिया जाता है (व्यक्ति को 1 दिन का लाभ होता है) / 1 day is subtracted from the date (person gains 1 day)</b><br><br><b>व्याख्या:</b> जब कोई व्यक्ति अंतर्राष्ट्रीय तिथि रेखा को पूर्व से पश्चिम की ओर पार करता है, तो तारीख में 1 दिन घटा दिया जाता है, जिससे उसे एक दिन का लाभ होता है.",
+      "en": "<b>Correct Answer: 1 day is subtracted from the date (person gains 1 day)</b><br><br><b>Explanation:</b> When a person crosses the International Date Line from east to west, 1 day is subtracted from the date, gaining a day."
+    }
+  },
+  {
+    "sourceNo": 23,
+    "q": {
+      "en": "When the Sun, Moon, and Earth are aligned in a straight line, what is this astronomical position called?",
+      "hi": "जब सूर्य, चंद्रमा और पृथ्वी तीनों एक सीधी रेखा में संरेखित होते हैं, तो इस खगोलीय स्थिति को क्या कहते हैं?"
+    },
+    "options": {
+      "en": [
+        "Syzygy",
+        "Aphelion",
+        "Perigee",
+        "Equinox"
+      ],
+      "hi": [
+        "युति-वियुति (सिज़ीगी - Syzygy) / Syzygy",
+        "अपसौर / Aphelion",
+        "उपभू / Perigee",
+        "विषुव / Equinox"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: युति-वियुति (सिज़ीगी - Syzygy) / Syzygy</b><br><br><b>व्याख्या:</b> जब सूर्य, चंद्रमा और पृथ्वी तीनों एक सीधी रेखा में संरेखित होते हैं, तो इसे युति-वियुति (सिज़ीगी - Syzygy) कहा जाता है.",
+      "en": "<b>Correct Answer: Syzygy</b><br><br><b>Explanation:</b> When the Sun, Moon, and Earth are aligned in a straight line, this alignment is called Syzygy."
+    }
+  },
+  {
+    "sourceNo": 9,
+    "q": {
+      "en": "What is the point in the Moon's orbit when it is closest to the Earth called?",
+      "hi": "चंद्रमा की कक्षा में वह बिंदु जब वह पृथ्वी के सबसे निकट होता है, क्या कहलाता है?"
+    },
+    "options": {
+      "en": [
+        "Perigee",
+        "Apogee",
+        "Perihelion",
+        "Aphelion"
+      ],
+      "hi": [
+        "उपभू (Perigee) / Perigee",
+        "अपभू / Apogee",
+        "उपसौर / Perihelion",
+        "अपसौर / Aphelion"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: उपभू (Perigee) / Perigee</b><br><br><b>व्याख्या:</b> चंद्रमा की कक्षा में वह बिंदु जब वह पृथ्वी के सबसे निकट होता है, उपभू (Perigee) कहलाता है.",
+      "en": "<b>Correct Answer: Perigee</b><br><br><b>Explanation:</b> The point in the Moon's orbit when it is closest to the Earth is called perigee."
+    }
+  },
+  {
+    "sourceNo": 31,
+    "q": {
+      "en": "What is the effect on the Moon during the Apogee position?",
+      "hi": "अपभू (Apogee) की स्थिति में चंद्रमा पर क्या प्रभाव पड़ता है?"
+    },
+    "options": {
+      "en": [
+        "Tidal force is low and tides are lower than average",
+        "Tides are highest",
+        "Moon is closest to Earth",
+        "Solar eclipse occurs"
+      ],
+      "hi": [
+        "ज्वार-भाटा बल कम होता है और ज्वार-भाटा औसत से कम होता है / Tidal force is low and tides are lower than average",
+        "ज्वार-भाटा सबसे अधिक होता है / Tides are highest",
+        "चंद्रमा पृथ्वी के सबसे पास होता है / Moon is closest to Earth",
+        "सूर्यग्रहण होता है / Solar eclipse occurs"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: ज्वार-भाटा बल कम होता है और ज्वार-भाटा औसत से कम होता है / Tidal force is low and tides are lower than average</b><br><br><b>व्याख्या:</b> जब चंद्रमा पृथ्वी से सबसे दूर होता है (अपभू), तो उसका ज्वार-भाटा बल कम होता है और ज्वार-भाटा औसत से कम होता है.",
+      "en": "<b>Correct Answer: Tidal force is low and tides are lower than average</b><br><br><b>Explanation:</b> जब चंद्रमा पृथ्वी से सबसे दूर होता है (अपभू), तो उसका ज्वार-भाटा बल कम होता है और ज्वार-भाटा औसत से कम होता है."
+    }
+  },
+  {
+    "sourceNo": 8,
+    "q": {
+      "en": "On January 3rd, the Earth is closest to the Sun, what is this position called?",
+      "hi": "3 जनवरी को पृथ्वी सूर्य के सबसे निकट होती है, इस स्थिति को क्या कहते हैं?"
+    },
+    "options": {
+      "en": [
+        "Aphelion",
+        "Perihelion",
+        "Equinox",
+        "Solstice"
+      ],
+      "hi": [
+        "अपसौर / Aphelion",
+        "उपसौर (Perihelion) / Perihelion",
+        "विषुव / Equinox",
+        "अयनांत / Solstice"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: उपसौर (Perihelion) / Perihelion</b><br><br><b>व्याख्या:</b> 3 जनवरी को पृथ्वी सूर्य के सबसे निकट होती है जिसे उपसौर (Perihelion) कहते हैं.",
+      "en": "<b>Correct Answer: Perihelion</b><br><br><b>Explanation:</b> On January 3, the Earth is closest to the Sun, which is called perihelion."
+    }
+  },
+  {
+    "sourceNo": 44,
+    "q": {
+      "en": "When do Neap Tides occur?",
+      "hi": "निम्न ज्वार (Neap Tide) कब घटित होते हैं?"
+    },
+    "options": {
+      "en": [
+        "When Earth, Sun, and Moon are in a straight line",
+        "When Earth, Sun, and Moon are in a perpendicular alignment",
+        "When moon is furthest from earth",
+        "Only at the equator"
+      ],
+      "hi": [
+        "जब पृथ्वी, सूर्य और चंद्रमा एक सीधी रेखा में होते हैं / When Earth, Sun, and Moon are in a straight line",
+        "जब पृथ्वी, सूर्य और चंद्रमा लंबवत संरेखण में होते हैं / When Earth, Sun, and Moon are in a perpendicular alignment",
+        "जब चंद्रमा पृथ्वी से सबसे दूर होता है / When moon is furthest from earth",
+        "केवल भूमध्य रेखा पर / Only at the equator"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: जब पृथ्वी, सूर्य और चंद्रमा लंबवत संरेखण में होते हैं / When Earth, Sun, and Moon are in a perpendicular alignment</b><br><br><b>व्याख्या:</b> निम्न ज्वार तब घटित होते हैं जब पृथ्वी, सूर्य और चंद्रमा लंबवत संरेखण में होते हैं.",
+      "en": "<b>Correct Answer: When Earth, Sun, and Moon are in a perpendicular alignment</b><br><br><b>Explanation:</b> Neap tides occur when the Earth, Sun, and Moon are in a perpendicular alignment."
+    }
+  },
+  {
+    "sourceNo": 6,
+    "q": {
+      "en": "The phenomenon of day and night is caused by which motion of the Earth?",
+      "hi": "दिन और रात की घटना पृथ्वी की किस गति के कारण होती है?"
+    },
+    "options": {
+      "en": [
+        "Revolution",
+        "Rotation",
+        "Orbital tilt",
+        "Gravity change"
+      ],
+      "hi": [
+        "परिक्रमण (Revolution) / Revolution",
+        "घूर्णन (Rotation) / Rotation",
+        "कक्षीय झुकाव / Orbital tilt",
+        "गुरुत्वाकर्षण परिवर्तन / Gravity change"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: घूर्णन (Rotation) / Rotation</b><br><br><b>व्याख्या:</b> दिन और रात की घटना पृथ्वी के घूर्णन (Rotation) के कारण होती है.",
+      "en": "<b>Correct Answer: Rotation</b><br><br><b>Explanation:</b> The phenomenon of day and night is caused by the rotation of the Earth."
+    }
+  },
+  {
+    "sourceNo": 13,
+    "q": {
+      "en": "1° latitude is approximately equal to how many kilometers?",
+      "hi": "1° अक्षांश लगभग कितने किलोमीटर के बराबर होता है?"
+    },
+    "options": {
+      "en": [
+        "111 km",
+        "Varies",
+        "50 km",
+        "200 km"
+      ],
+      "hi": [
+        "111 किमी / 111 km",
+        "नक्शे के अनुसार अलग / Varies",
+        "50 किमी / 50 km",
+        "200 किमी / 200 km"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: 111 किमी / 111 km</b><br><br><b>व्याख्या:</b> 1° अक्षांश लगभग 111 किमी के बराबर होता है.",
+      "en": "<b>Correct Answer: 111 km</b><br><br><b>Explanation:</b> 1° latitude is approximately equal to 111 km."
+    }
+  },
+  {
+    "sourceNo": 36,
+    "q": {
+      "en": "Which of the following is considered a Great Circle?",
+      "hi": "निम्नलिखित में से किसे वृहत् वृत्त (Great Circle) माना जाता है?"
+    },
+    "options": {
+      "en": [
+        "Tropic of Cancer only",
+        "Equator (0° latitude) and all longitudes",
+        "Tropic of Capricorn only",
+        "Arctic circle only"
+      ],
+      "hi": [
+        "केवल कर्क रेखा / Tropic of Cancer only",
+        "भूमध्य रेखा (0° अक्षांश) और सभी देशांतर / Equator (0° latitude) and all longitudes",
+        "केवल मकर रेखा / Tropic of Capricorn only",
+        "आर्कटिक वृत्त / Arctic circle only"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: भूमध्य रेखा (0° अक्षांश) और सभी देशांतर / Equator (0° latitude) and all longitudes</b><br><br><b>व्याख्या:</b> सभी देशांतरों को वृहत् वृत्त माना जाता है, लेकिन अक्षांशों में केवल भूमध्य रेखा (0° अक्षांश) ही वृहत् वृत्त होती है.",
+      "en": "<b>Correct Answer: Equator (0° latitude) and all longitudes</b><br><br><b>Explanation:</b> All longitudes are considered great circles, but among latitudes, only the equator (0° latitude) is a great circle."
+    }
+  },
+  {
+    "sourceNo": 4,
+    "q": {
+      "en": "In which direction does the Earth rotate on its axis?",
+      "hi": "पृथ्वी अपनी धुरी पर किस दिशा में घूमती है?"
+    },
+    "options": {
+      "en": [
+        "East to west",
+        "West to east (counter-clockwise)",
+        "North to south",
+        "South to north"
+      ],
+      "hi": [
+        "पूर्व से पश्चिम / East to west",
+        "पश्चिम से पूर्व (वामावर्त) / West to east (counter-clockwise)",
+        "उत्तर से दक्षिण / North to south",
+        "दक्षिण से उत्तर / South to north"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: पश्चिम से पूर्व (वामावर्त) / West to east (counter-clockwise)</b><br><br><b>व्याख्या:</b> पृथ्वी अपनी धुरी पर पश्चिम से पूर्व (वामावर्त - counter-clockwise) की ओर घूमती है.",
+      "en": "<b>Correct Answer: West to east (counter-clockwise)</b><br><br><b>Explanation:</b> The Earth rotates on its axis from west to east (counter-clockwise)."
+    }
+  },
+  {
+    "sourceNo": 2,
+    "q": {
+      "en": "What is the equatorial radius of the Earth?",
+      "hi": "पृथ्वी की भूमध्यरेखीय त्रिज्या (Equatorial Radius) कितनी है?"
+    },
+    "options": {
+      "en": [
+        "6357 km",
+        "6378 km",
+        "6371 km",
+        "40075 km"
+      ],
+      "hi": [
+        "6357 किमी / 6357 km",
+        "6378 किमी / 6378 km",
+        "6371 किमी / 6371 km",
+        "40075 किमी / 40075 km"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 6378 किमी / 6378 km</b><br><br><b>व्याख्या:</b> पृथ्वी की भूमध्यरेखीय त्रिज्या 6378 किमी है, जबकि ध्रुवीय त्रिज्या 6357 किमी है.",
+      "en": "<b>Correct Answer: 6378 km</b><br><br><b>Explanation:</b> The equatorial radius of the Earth is 6378 km, while the polar radius is 6357 km."
+    }
+  },
+  {
+    "sourceNo": 62,
+    "q": {
+      "en": "Analyze the following statements regarding the characteristics of latitudes and longitudes:<br><br><b>Statement 1:</b> Latitudes are east-west horizontal lines.<br><br><b>Statement 2:</b> Longitudes are north-south vertical lines.<br><br><b>Statement 3:</b> The distance between longitudes is minimum at the equator and maximum at the poles.",
+      "hi": "अक्षांश और देशांतर की विशेषताओं के बारे में निम्नलिखित कथनों का विश्लेषण करें:<br><br><b>कथन 1:</b> अक्षांश रेखाएँ पूर्व से पश्चिम क्षैतिज रेखाएँ हैं।<br><br><b>कथन 2:</b> देशांतर रेखाएँ उत्तर से दक्षिण ऊर्ध्वाधर रेखाएँ हैं।<br><br><b>कथन 3:</b> देशांतरों के बीच की दूरी भूमध्य रेखा पर न्यूनतम और ध्रुवों पर अधिकतम होती है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> अक्षांश और देशांतर की दिशा की परिभाषाएँ सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Definitions of latitude and longitude directions are true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 15,
+    "q": {
+      "en": "The Prime Meridian (0° longitude) passes through which of the following countries?",
+      "hi": "प्रधान मध्याह्न रेखा (Prime Meridian / 0° देशांतर) निम्नलिखित में से किस देश से होकर गुजरती है?"
+    },
+    "options": {
+      "en": [
+        "UK, France, Ghana, Algeria, etc.",
+        "Only India and China",
+        "Only USA and Canada",
+        "Only Brazil and Argentina"
+      ],
+      "hi": [
+        "यूके (यूनाइटेड किंगडम), फ्रांस, घाना, अल्जीरिया आदि / UK, France, Ghana, Algeria, etc.",
+        "केवल भारत और चीन / Only India and China",
+        "केवल संयुक्त राज्य अमेरिका और कनाडा / Only USA and Canada",
+        "केवल ब्राजील और अर्जेंटीना / Only Brazil and Argentina"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: यूके (यूनाइटेड किंगडम), फ्रांस, घाना, अल्जीरिया आदि / UK, France, Ghana, Algeria, etc.</b><br><br><b>व्याख्या:</b> प्रधान मध्याह्न रेखा (0° देशांतर) बुर्किना फासो, स्पेन, फ्रांस, घाना, अल्जीरिया, माली, टोगो और यूके से होकर गुजरती है.",
+      "en": "<b>Correct Answer: UK, France, Ghana, Algeria, etc.</b><br><br><b>Explanation:</b> The Prime Meridian (0° longitude) passes through Burkina Faso, Spain, France, Ghana, Algeria, Mali, Togo, and the UK."
+    }
+  },
+  {
+    "sourceNo": 59,
+    "q": {
+      "en": "Analyze the following statements regarding the heat zones of the Earth:<br><br><b>Statement 1:</b> The Torrid Zone is the hottest region where sun rays fall vertically.<br><br><b>Statement 2:</b> The Temperate Zone receives slanting sun rays.<br><br><b>Statement 3:</b> The Frigid Zone is the hottest desert region of the Earth.",
+      "hi": "पृथ्वी के ताप कटिबंधों (Heat Zones) के संबंध में निम्नलिखित कथनों का विश्लेषण करें:<br><br><b>कथन 1:</b> उष्ण क्षेत्र (Torrid Zone) सबसे गर्म क्षेत्र है जहाँ सूर्य की सीधी किरणें पड़ती हैं।<br><br><b>कथन 2:</b> समशीतोष्ण क्षेत्र में सूर्य की तिरछी किरणें पड़ती हैं।<br><br><b>कथन 3:</b> शीतोष्ण क्षेत्र (Frigid Zone) पृथ्वी का सबसे गर्म मरुस्थलीय क्षेत्र है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> उष्ण क्षेत्र सबसे गर्म (सीधी किरणें) और समशीतोष्ण क्षेत्र में तिरछी किरणें पड़ना सत्य है, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Torrid zone being hottest (vertical rays) and Temperate zone receiving slanting rays is true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 67,
+    "q": {
+      "en": "Which statement is correct regarding the position of states in the context of Indian Standard Time (IST)?",
+      "hi": "भारतीय मानक समय (IST) के संदर्भ में राज्यों की स्थिति के बारे में कौन सा कथन सही है?"
+    },
+    "options": {
+      "en": [
+        "IST passes through 5 states of India (UP, MP, Chhattisgarh, Odisha, Andhra Pradesh).",
+        "IST passes through all 28 states of India.",
+        "IST passes through only one state.",
+        "IST does not pass through India."
+      ],
+      "hi": [
+        "IST भारत के 5 राज्यों (उत्तर प्रदेश, मध्य प्रदेश, छत्तीसगढ़, ओडिशा, आंध्र प्रदेश) से गुजरती है। / IST passes through 5 states of India (UP, MP, Chhattisgarh, Odisha, Andhra Pradesh).",
+        "IST भारत के सभी 28 राज्यों से गुजरती है। / IST passes through all 28 states of India.",
+        "IST केवल एक राज्य से गुजरती है। / IST passes through only one state.",
+        "IST भारत से नहीं गुजरती। / IST does not pass through India."
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: IST भारत के 5 राज्यों (उत्तर प्रदेश, मध्य प्रदेश, छत्तीसगढ़, ओडिशा, आंध्र प्रदेश) से गुजरती है। / IST passes through 5 states of India (UP, MP, Chhattisgarh, Odisha, Andhra Pradesh).</b><br><br><b>व्याख्या:</b> भारतीय मानक समय (82.5° पूर्व) भारत के 5 राज्यों (उत्तर प्रदेश, मध्य प्रदेश, छत्तीसगढ़, ओडिशा और आंध्र प्रदेश) से होकर गुजरता है.",
+      "en": "<b>Correct Answer: IST passes through 5 states of India (UP, MP, Chhattisgarh, Odisha, Andhra Pradesh).</b><br><br><b>Explanation:</b> Indian Standard Time (82.5° E) passes through 5 states of India (Uttar Pradesh, Madhya Pradesh, Chhattisgarh, Odisha, and Andhra Pradesh)."
+    }
+  },
+  {
+    "sourceNo": 49,
+    "q": {
+      "en": "What is the average radius of the Earth?",
+      "hi": "पृथ्वी की औसत त्रिज्या (Average Radius) कितनी है?"
+    },
+    "options": {
+      "en": [
+        "6357 km",
+        "6378 km",
+        "6371 km",
+        "40040 km\n\nOptions:"
+      ],
+      "hi": [
+        "6357 किमी / 6357 km",
+        "6378 किमी / 6378 km",
+        "6371 किमी / 6371 km",
+        "40040 किमी / 40040 km"
+      ]
+    },
+    "ans": 2,
+    "exp": {
+      "hi": "<b>सही उत्तर: 6371 किमी / 6371 km</b><br><br><b>व्याख्या:</b> पृथ्वी की औसत त्रिज्या 6371 किमी है (भूमध्यरेखीय 6378 किमी और ध्रुवीय 6357 किमी है).",
+      "en": "<b>Correct Answer: 6371 km</b><br><br><b>Explanation:</b> The average radius of the Earth is 6371 km (equatorial is 6378 km and polar is 6357 km)."
+    }
+  },
+  {
+    "sourceNo": 68,
+    "q": {
+      "en": "Which conclusion regarding the shape of the Earth and Geodesy is finally fully true?",
+      "hi": "पृथ्वी के आकार और जियोडेसी (Geodesy) के बारे में अंतिम रूप से कौन सा निष्कर्ष पूरी तरह सत्य है?"
+    },
+    "options": {
+      "en": [
+        "Geodesy is the science measuring Earth's geometric shape and gravity field, and Earth's true shape is Geoid.",
+        "Earth is a completely flat square plain.",
+        "Earth's shape is like a triangle.",
+        "Geodesy science has no relation to space."
+      ],
+      "hi": [
+        "भू-मापन (Geodesy) वह विज्ञान है जो पृथ्वी के ज्यामितीय आकार और गुरुत्वाकर्षण क्षेत्र को मापता है, और पृथ्वी का वास्तविक आकार जियोड है। / Geodesy is the science measuring Earth's geometric shape and gravity field, and Earth's true shape is Geoid.",
+        "पृथ्वी एक पूर्ण समतल चौकोर मैदान है। / Earth is a completely flat square plain.",
+        "पृथ्वी का आकार एक त्रिकोण जैसा है। / Earth's shape is like a triangle.",
+        "जियोड विज्ञान का अंतरिक्ष से कोई संबंध नहीं है। / Geodesy science has no relation to space."
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: भू-मापन (Geodesy) वह विज्ञान है जो पृथ्वी के ज्यामितीय आकार और गुरुत्वाकर्षण क्षेत्र को मापता है, और पृथ्वी का वास्तविक आकार जियोड है। / Geodesy is the science measuring Earth&#x27;s geometric shape and gravity field, and Earth&#x27;s true shape is Geoid.</b><br><br><b>व्याख्या:</b> जियोडेसी पृथ्वी के आकार और गुरुत्वाकर्षण को मापने का विज्ञान है और पृथ्वी का वास्तविक आकार जियोड (भू-आकृति) है.",
+      "en": "<b>Correct Answer: Geodesy is the science measuring Earth&#x27;s geometric shape and gravity field, and Earth&#x27;s true shape is Geoid.</b><br><br><b>Explanation:</b> Geodesy is the science of measuring Earth's shape and gravity, and Earth's true shape is Geoid."
+    }
+  },
+  {
+    "sourceNo": 22,
+    "q": {
+      "en": "When there are two Full Moons in a single calendar month, what is the second Full Moon called?",
+      "hi": "एक ही कैलेंडर माह में दो पूर्णिमाएँ होने पर उस दूसरी पूर्णिमा को क्या कहा जाता है?"
+    },
+    "options": {
+      "en": [
+        "Super Moon",
+        "Blue Moon",
+        "Red Moon",
+        "Blood Moon"
+      ],
+      "hi": [
+        "सुपर मून / Super Moon",
+        "नील चन्द्र (Blue Moon) / Blue Moon",
+        "रेड मून / Red Moon",
+        "ब्लड मून / Blood Moon"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: नील चन्द्र (Blue Moon) / Blue Moon</b><br><br><b>व्याख्या:</b> जब एक ही कैलेंडर माह में दो पूर्णिमाएँ होती हैं, तो उसे नील चन्द्र (Blue Moon) कहा जाता है.",
+      "en": "<b>Correct Answer: Blue Moon</b><br><br><b>Explanation:</b> When there are two Full Moons in a single calendar month, it is called a Blue Moon."
+    }
+  },
+  {
+    "sourceNo": 50,
+    "q": {
+      "en": "On which day of the year does the Aphelion condition occur?",
+      "hi": "अपसौर (Aphelion) की स्थिति वर्ष में किस दिन घटित होती है?"
+    },
+    "options": {
+      "en": [
+        "January 3",
+        "July 4 (when Earth is furthest from the Sun)",
+        "June 21",
+        "December 22"
+      ],
+      "hi": [
+        "3 जनवरी / January 3",
+        "4 जुलाई (जब पृथ्वी सूर्य से सबसे दूर होती है) / July 4 (when Earth is furthest from the Sun)",
+        "21 जून / June 21",
+        "22 दिसंबर / December 22"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 4 जुलाई (जब पृथ्वी सूर्य से सबसे दूर होती है) / July 4 (when Earth is furthest from the Sun)</b><br><br><b>व्याख्या:</b> 4 जुलाई को अपसौर की स्थिति होती है जब पृथ्वी सूर्य से सबसे दूर (152 मिलियन किमी) होती है.",
+      "en": "<b>Correct Answer: July 4 (when Earth is furthest from the Sun)</b><br><br><b>Explanation:</b> On July 4, the aphelion condition occurs when the Earth is furthest from the Sun (152 million km)."
+    }
+  },
+  {
+    "sourceNo": 64,
+    "q": {
+      "en": "Choose the correct statement about Earth's axial and orbital tilt:<br><br><b>Statement 1:</b> The axial tilt of the Earth on its axis is 23.5°.<br><br><b>Statement 2:</b> The orbital tilt of the Earth on its orbital plane is 66.5°.<br><br><b>Statement 3:</b> The Earth stands completely straight (at 0°) on its axis.",
+      "hi": "पृथ्वी के अक्षीय और कक्षीय झुकाव के बारे में सही कथन चुनें:<br><br><b>कथन 1:</b> पृथ्वी का अपने अक्ष पर अक्षीय झुकाव 23.5° है।<br><br><b>कथन 2:</b> पृथ्वी का अपने कक्षीय तल पर झुकाव 66.5° है।<br><br><b>कथन 3:</b> पृथ्वी अपने अक्ष पर बिल्कुल सीधी (0° पर) खड़ी है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> अक्षीय झुकाव (23.5°) और कक्षीय झुकाव (66.5°) के आंकड़े शत-प्रतिशत सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Axial tilt (23.5°) and orbital tilt (66.5°) data are 100% true, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 28,
+    "q": {
+      "en": "What is the orbital speed of the Earth around the Sun approximately?",
+      "hi": "पृथ्वी की परिक्रमण गति (Orbital speed around the Sun) लगभग कितनी है?"
+    },
+    "options": {
+      "en": [
+        "15.5 km/s",
+        "29.8 km/s",
+        "45.2 km/s",
+        "11.2 km/s"
+      ],
+      "hi": [
+        "15.5 किमी/सेकंड / 15.5 km/s",
+        "29.8 किमी/सेकंड / 29.8 km/s",
+        "45.2 किमी/सेकंड / 45.2 km/s",
+        "11.2 किमी/सेकंड / 11.2 km/s"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: 29.8 किमी/सेकंड / 29.8 km/s</b><br><br><b>व्याख्या:</b> पृथ्वी की कक्षीय परिक्रमण गति लगभग 29.8 किमी/सेकंड है.",
+      "en": "<b>Correct Answer: 29.8 km/s</b><br><br><b>Explanation:</b> The orbital revolution speed of the Earth is approximately 29.8 km/s."
+    }
+  },
+  {
+    "sourceNo": 33,
+    "q": {
+      "en": "Through which ocean does the International Date Line pass?",
+      "hi": "अंतर्राष्ट्रीय तिथि रेखा (International Date Line) किस महासागर से गुजरती है?"
+    },
+    "options": {
+      "en": [
+        "Atlantic Ocean",
+        "Pacific Ocean",
+        "Indian Ocean",
+        "Arctic Ocean"
+      ],
+      "hi": [
+        "अटलांटिक महासागर / Atlantic Ocean",
+        "प्रशांत महासागर (Pacific Ocean) / Pacific Ocean",
+        "हिंद महासागर / Indian Ocean",
+        "आर्कटिक महासागर / Arctic Ocean"
+      ]
+    },
+    "ans": 1,
+    "exp": {
+      "hi": "<b>सही उत्तर: प्रशांत महासागर (Pacific Ocean) / Pacific Ocean</b><br><br><b>व्याख्या:</b> अंतर्राष्ट्रीय तिथि रेखा 180° देशांतर है जो प्रशांत महासागर से गुजरने वाली एक काल्पनिक टेढ़ी-मेढ़ी रेखा है.",
+      "en": "<b>Correct Answer: Pacific Ocean</b><br><br><b>Explanation:</b> The International Date Line is 180° longitude which is an imaginary zigzag line passing through the Pacific Ocean."
+    }
+  },
+  {
+    "sourceNo": 58,
+    "q": {
+      "en": "Choose the correct statement about tides and syzygy:<br><br><b>Statement 1:</b> When the Sun, Moon, and Earth are in a straight line, it is called syzygy.<br><br><b>Statement 2:</b> Spring tides occur during the syzygy position.<br><br><b>Statement 3:</b> Perpendicular alignment causes the highest spring tides.",
+      "hi": "ज्वार-भाटा (Tides) और सिज़ीगी के बारे में सही कथन चुनें:<br><br><b>कथन 1:</b> जब सूर्य, चंद्रमा और पृथ्वी एक सीधी रेखा में होते हैं, तो उसे सिज़ीगी (युति-वियुति) कहते हैं।<br><br><b>कथन 2:</b> सिज़ीगी की स्थिति में वृहत ज्वार (Spring Tides) आते हैं।<br><br><b>कथन 3:</b> लंबवत संरेखण होने पर सबसे ऊंचे वृहत ज्वार आते हैं।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> सीधी रेखा में संरेखण को सिज़ीगी कहते हैं और इस दौरान वृहत ज्वार आते हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Alignment in a straight line is called syzygy and spring tides occur during this time, so statements 1 and 2 are true."
+    }
+  },
+  {
+    "sourceNo": 14,
+    "q": {
+      "en": "What is the area between two longitude lines called?",
+      "hi": "दो देशांतर रेखाओं के बीच के भाग को क्या कहा जाता है?"
+    },
+    "options": {
+      "en": [
+        "Gore",
+        "Grid",
+        "Zone",
+        "Latitude belt"
+      ],
+      "hi": [
+        "गोर (Gore) / Gore",
+        "ग्रिड / Grid",
+        "कटिबंध / Zone",
+        "अक्षांश क्षेत्र / Latitude belt"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: गोर (Gore) / Gore</b><br><br><b>व्याख्या:</b> दो देशांतर रेखाओं के बीच के भाग को 'गोर' (Gore) कहा जाता है.",
+      "en": "<b>Correct Answer: Gore</b><br><br><b>Explanation:</b> The area between two longitude lines is called a 'Gore'."
+    }
+  },
+  {
+    "sourceNo": 61,
+    "q": {
+      "en": "Choose the correct match regarding Earth's motions (rotation and revolution):<br><br><b>Statement 1:</b> Rotation - West to east counter-clockwise movement creating day and night.<br><br><b>Statement 2:</b> Revolution - Movement around the sun in an elliptical orbit creating seasons.<br><br><b>Statement 3:</b> Rotation speed is maximum at the poles and minimum at the equator.",
+      "hi": "पृथ्वी की गतियों (घूर्णन और परिक्रमण) के संबंध में सही मिलान चुनें:<br><br><b>कथन 1:</b> घूर्णन - पश्चिम से पूर्व (वामावर्त) घूमना, जिससे दिन-रात बनते हैं।<br><br><b>कथन 2:</b> परिक्रमण - सूर्य के चारों ओर दीर्घवृत्ताकार कक्षा में घूमना, जिससे ऋतुएँ बनती हैं।<br><br><b>कथन 3:</b> घूर्णन गति ध्रुवों पर अधिकतम और भूमध्य रेखा पर न्यूनतम होती है।"
+    },
+    "options": {
+      "en": [
+        "Only statements 1 and 2 are true.",
+        "Only statements 2 and 3 are true.",
+        "Only statements 1 and 3 are true.",
+        "All the 3 given statements are true."
+      ],
+      "hi": [
+        "केवल कथन 1 और 2 सत्य हैं।",
+        "केवल कथन 2 और 3 सत्य हैं।",
+        "केवल कथन 1 और 3 सत्य हैं।",
+        "दिए गए सभी 3 कथन सत्य हैं।"
+      ]
+    },
+    "ans": 0,
+    "exp": {
+      "hi": "<b>सही उत्तर: केवल कथन 1 और 2 सत्य हैं।</b><br><br><b>व्याख्या:</b> घूर्णन (पश्चिम से पूर्व, दिन-रात) और परिक्रमण (दीर्घवृत्ताकार कक्षा, ऋतुएँ) के कथन सत्य हैं, इसलिए कथन 1 और 2 सत्य हैं.",
+      "en": "<b>Correct Answer: Only statements 1 and 2 are true.</b><br><br><b>Explanation:</b> Rotation (west to east, day-night) and revolution (elliptical orbit, seasons) are true, so statements 1 and 2 are true."
+    }
+  }
+]
+};
+    </script>
+    
+    <style>
+        /* Robust long-question rendering */
+        #question-text, #solution-exp {
+            overflow-wrap: anywhere;
+            word-break: normal;
+            line-height: 1.75;
+        }
+        #question-text br + br { content: ""; }
+        @media (max-width: 640px) {
+            #question-text { font-size: 15px; }
+            #question-text br + br { line-height: 1.4; }
+        }
+        /* Testbook / Serious UI Theme */
+        :root {
+            --tb-blue: #0A2240; /* Dark navy header */
+            --tb-light-blue: #23527c;
+            --tb-green: #219653; /* Success/Correct */
+            --tb-red: #EB5757; /* Danger/Incorrect */
+            --tb-yellow: #F2C94C; /* Review */
+            --tb-grey-bg: #F4F5F8; /* Main body bg */
+            --tb-border: #E0E4E8;
+            --tb-text-dark: #333333;
+            --tb-text-light: #828282;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--tb-grey-bg);
+            color: var(--tb-text-dark);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .btn-tb {
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .btn-tb:active { transform: scale(0.97); }
+
+        /* Option Styling */
+        .option-container {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border: 1px solid var(--tb-border);
+            border-radius: 4px;
+            cursor: pointer;
+            background: #fff;
+            transition: all 0.2s;
+        }
+        .option-container:hover:not(.disabled) {
+            border-color: var(--tb-light-blue);
+            background-color: #F8FBFF;
+        }
+        .option-container.selected {
+            border-color: var(--tb-light-blue);
+            background-color: #EBF4FF;
+        }
+        .option-container.correct {
+            border-color: var(--tb-green);
+            background-color: #E8F5E9;
+        }
+        .option-container.incorrect {
+            border-color: var(--tb-red);
+            background-color: #FFEBEE;
+        }
+        .option-container input[type="radio"] {
+            margin-right: 12px;
+            accent-color: var(--tb-light-blue);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .option-container.disabled { cursor: not-allowed; }
+
+        /* Question Palette specific */
+        .q-node {
+            width: 36px; height: 36px;
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 4px; font-weight: 600; font-size: 13px;
+            cursor: pointer; transition: 0.2s; border: 1px solid #ccc;
+            background: #fff; color: #333; clip-path: polygon(100% 0, 100% 85%, 85% 100%, 0 100%, 0 0);
+        }
+        .q-node.active-node {
+            border: 2px solid var(--tb-blue);
+            font-weight: 700;
+            transform: scale(1.1);
+        }
+        .q-ans { background: var(--tb-green); color: white; border-color: var(--tb-green); }
+        .q-unans { background: var(--tb-red); color: white; border-color: var(--tb-red); clip-path: none; border-radius: 4px;} /* Red for unans (viewed) */
+        .q-mark { background: #8E44AD; color: white; border-color: #8E44AD; border-radius: 50%; clip-path: none;}
+        .q-mark-ans { background: #8E44AD; color: white; border-color: #8E44AD; border-radius: 50%; position: relative; clip-path: none;}
+        .q-mark-ans::after {
+            content: '✔'; position: absolute; bottom: -2px; right: -2px;
+            background: var(--tb-green); color: white; font-size: 8px; width: 14px; height: 14px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            border: 1px solid white;
+        }
+
+        /* Overlay */
+        .overlay {
+            background: rgba(10, 34, 64, 0.95);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .mobile-bottom-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 50;
+                background: white;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            }
+            .main-scroll-area {
+                padding-bottom: 120px; /* Make space for sticky bottom nav */
+            }
+            #sidebar {
+                display: none; /* Hide sidebar by default on mobile, can be toggled */
+            }
+        }
+        
+        .timer-blink { animation: blinker 1s linear infinite; color: #EB5757; }
+        @keyframes blinker { 50% { opacity: 0; } }
+    </style>
+</head>
+<body id="test-body">
+
+    <!-- FULLSCREEN & PAUSE OVERLAY -->
+    <div id="pause-overlay" class="hidden fixed inset-0 overlay z-[9000] flex flex-col justify-center items-center text-white p-4 text-center">
+        <i class="fas fa-pause-circle text-6xl mb-4"></i>
+        <h2 class="text-3xl font-bold mb-2">Test Paused</h2>
+        <p class="text-gray-300 mb-8 max-w-md">Questions are hidden to maintain test integrity. Your timer is currently stopped.</p>
+        <button onclick="resumeTest()" class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded text-lg font-bold shadow-lg transition">
+            Resume Test
+        </button>
+    </div>
+
+    <!-- ANTI-CHEAT WARNING -->
+    <div id="cheat-warning" class="hidden fixed inset-0 overlay z-[9500] flex flex-col justify-center items-center text-white p-4 text-center">
+        <i class="fas fa-exclamation-triangle text-6xl text-yellow-500 mb-4"></i>
+        <h2 class="text-3xl font-bold mb-2 text-yellow-400">Warning!</h2>
+        <p class="text-gray-300 mb-8 max-w-md">You attempted to exit full-screen or switched tabs. This is a strict exam environment.</p>
+        <button onclick="resumeFromWarning()" class="bg-yellow-600 hover:bg-yellow-500 text-white px-8 py-3 rounded text-lg font-bold shadow-lg transition">
+            I Understand, Return to Test
+        </button>
+    </div>
+
+    <!-- INTRO SCREEN -->
+    <div id="intro-screen" class="fixed inset-0 bg-gray-100 flex justify-center items-center z-50 p-4">
+        <div class="bg-white max-w-2xl w-full rounded-lg shadow-xl overflow-hidden border border-gray-200">
+            <div class="bg-[#0A2240] p-6 text-white text-center">
+                <h1 class="text-2xl font-bold tracking-wide" id="intro-title">Loading...</h1>
+                <p class="text-blue-200 text-sm mt-1 uppercase font-semibold">Strict Exam Environment</p>
+            </div>
+            
+            <div class="p-6 md:p-8">
+                <div class="flex flex-wrap gap-4 justify-between bg-gray-50 p-4 rounded border border-gray-200 mb-6">
+                    <div class="text-center flex-1">
+                        <div class="text-2xl font-bold text-[#0A2240]" id="intro-q-count">0</div>
+                        <div class="text-xs text-gray-500 font-bold uppercase mt-1">Questions</div>
+                    </div>
+                    <div class="w-px bg-gray-300 hidden md:block"></div>
+                    <div class="text-center flex-1">
+                        <div class="text-2xl font-bold text-[#0A2240]" id="intro-time">0</div>
+                        <div class="text-xs text-gray-500 font-bold uppercase mt-1">Minutes</div>
+                    </div>
+                    <div class="w-px bg-gray-300 hidden md:block"></div>
+                    <div class="text-center flex-1">
+                        <div class="text-2xl font-bold text-[#0A2240]">Bilingual</div>
+                        <div class="text-xs text-gray-500 font-bold uppercase mt-1">Language</div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Select Negative Marking:</label>
+                        <select id="neg-marking-select" class="w-full border border-gray-300 rounded p-2.5 bg-gray-50 text-sm focus:outline-none focus:border-blue-500 font-medium">
+                            <option value="0">No Negative Marking (0)</option>
+                            <option value="0.25">SSC Standard (1/4th - 0.25)</option>
+                            <option value="0.33">Railway Standard (1/3rd - 0.33)</option>
+                            <option value="0.5">Hardcore (1/2 - 0.5)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Set Target Score (Goal):</label>
+                        <input type="number" id="target-score-input" class="w-full border border-gray-300 rounded p-2.5 bg-gray-50 text-sm focus:outline-none focus:border-blue-500 font-medium" placeholder="E.g. 24 (out of 30)" max="30" min="1" value="24">
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 text-sm text-blue-800 mb-6 font-medium">
+                    <i class="fas fa-info-circle mr-2"></i> Note: Test will launch in <b>Full-Screen mode</b>. Do not exit or switch tabs.
+                </div>
+
+                <button onclick="startTest()" class="w-full bg-[#219653] hover:bg-[#1e8449] text-white font-bold py-3.5 rounded text-lg shadow transition btn-tb flex justify-center items-center gap-2">
+                    Start Test <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN EXAM UI -->
+    <div id="navbar" class="hidden bg-[#0A2240] text-white px-4 py-2 md:py-3 flex justify-between items-center shadow-md z-20 flex-shrink-0">
+        <div class="flex items-center gap-3">
+            <h1 class="text-sm md:text-lg font-bold tracking-wide truncate max-w-[150px] md:max-w-md" id="nav-title">Title</h1>
+        </div>
+        <div class="flex items-center gap-3 md:gap-5">
+            <!-- Bilingual Toggle -->
+            <button onclick="toggleLanguage()" class="bg-[#23527c] hover:bg-[#1a3c5e] px-2 py-1 md:px-3 md:py-1.5 rounded text-xs md:text-sm font-bold border border-[#3b719f] transition flex items-center gap-1" title="Switch Language">
+                <i class="fas fa-language"></i> <span id="lang-indicator">EN</span>
+            </button>
+            
+            <button onclick="pauseTest()" class="hidden md:flex bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded text-sm font-bold border border-gray-500 transition items-center gap-1">
+                <i class="fas fa-pause"></i> Pause
+            </button>
+            
+            <div class="flex items-center gap-2 bg-[#1a3c5e] px-3 py-1.5 rounded border border-[#3b719f]">
+                <i class="far fa-clock text-blue-300"></i>
+                <span id="timer-display" class="font-mono font-bold text-sm md:text-lg tracking-wider">00:00</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-container" class="hidden flex-1 overflow-hidden flex-col md:flex-row relative">
+        
+        <!-- Mobile Sidebar Toggle -->
+        <button onclick="toggleMobileSidebar()" class="md:hidden absolute right-0 top-[10%] bg-blue-600 text-white p-2 rounded-l-md shadow-lg z-40 border border-r-0 border-blue-700">
+            <i class="fas fa-th-list"></i>
+        </button>
+
+        <!-- Question Area -->
+        <div class="flex-[3] flex flex-col bg-white overflow-hidden main-scroll-area">
+            
+            <div class="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-gray-50 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <span class="font-bold text-sm text-[#0A2240] bg-gray-200 px-2.5 py-1 rounded border border-gray-300" id="txt-q-no">Q 1</span>
+                    <span class="text-gray-500 text-xs md:text-sm font-semibold" id="txt-subject-name">Subject</span>
+                </div>
+                
+                <div class="flex gap-2">
+                    <div class="hidden md:flex text-xs text-gray-500 font-mono bg-white px-2 py-1 rounded border border-gray-200 items-center gap-1" title="Time spent on this question">
+                        <i class="fas fa-stopwatch"></i> <span id="q-time-spent">0s</span>
+                    </div>
+                    <!-- Revision Vault Save -->
+                    <button onclick="toggleBookmark()" id="btn-bookmark" class="text-gray-400 hover:text-yellow-500 px-2 py-1 transition" title="Save to Revision Vault">
+                        <i class="far fa-star text-lg"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-4 md:p-6 flex-1 overflow-y-auto" id="q-scroll-area">
+                <div class="text-base md:text-lg font-medium mb-6 text-gray-800 leading-relaxed" id="question-text">Loading...</div>
+                
+                <div class="flex flex-col gap-2" id="options-container"></div>
+                
+                <!-- Guess Tracker -->
+                <div id="guess-tracker-container" class="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-md inline-flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition w-full md:w-auto">
+                    <input type="checkbox" id="guess-checkbox" onchange="markAsGuess()" class="w-4 h-4 text-blue-600 cursor-pointer">
+                    <label for="guess-checkbox" class="text-sm font-semibold text-blue-800 cursor-pointer select-none">I am guessing this answer (Tukka)</label>
+                </div>
+
+                <!-- Explanation (Visible only in solution mode) -->
+                <div id="explanation-box" class="hidden mt-6 bg-[#F8F9FA] border border-[#E0E4E8] rounded-md p-4">
+                    <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-200">
+                        <h4 class="font-bold text-green-700"><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Explanation</h4>
+                        <div id="sol-time-stat" class="text-xs font-mono font-bold text-gray-500 bg-white px-2 py-1 border rounded">Time Taken: 0s</div>
+                    </div>
+                    <div id="explanation-text" class="text-sm text-gray-700 leading-relaxed"></div>
+                    
+                    <!-- Mistake Categorizer -->
+                    <div id="mistake-categorizer" class="hidden mt-4 pt-3 border-t border-gray-200">
+                        <p class="text-xs font-bold text-gray-600 mb-2 uppercase">Categorize your mistake:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setMistakeTag('silly')" id="tag-silly" class="px-3 py-1 text-xs font-semibold rounded-full border border-gray-300 bg-white hover:bg-gray-50 transition">Silly Mistake</button>
+                            <button onclick="setMistakeTag('concept')" id="tag-concept" class="px-3 py-1 text-xs font-semibold rounded-full border border-gray-300 bg-white hover:bg-gray-50 transition">Concept Gap</button>
+                            <button onclick="setMistakeTag('tough')" id="tag-tough" class="px-3 py-1 text-xs font-semibold rounded-full border border-gray-300 bg-white hover:bg-gray-50 transition">Too Tough</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DESKTOP FOOTER -->
+            <div id="desktop-footer" class="hidden md:flex px-6 py-4 border-t border-gray-200 bg-white justify-between items-center flex-shrink-0">
+                <div class="flex gap-2">
+                    <button onclick="clearResponse()" class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded font-bold text-sm transition btn-tb">Clear Response</button>
+                    <button onclick="markForReview()" class="bg-[#F2C94C] hover:bg-[#e0b943] text-gray-900 border border-[#F2C94C] px-4 py-2 rounded font-bold text-sm transition btn-tb shadow-sm">Mark for Review & Next</button>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button onclick="navigateLive(-1)" class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded font-bold text-sm transition btn-tb"><i class="fas fa-chevron-left mr-1"></i> Prev</button>
+                    <button onclick="saveAndNext()" class="bg-[#0A2240] hover:bg-[#1a3c5e] text-white px-6 py-2 rounded font-bold text-sm shadow transition btn-tb">Save & Next <i class="fas fa-chevron-right ml-1"></i></button>
+                </div>
+            </div>
+            
+            <!-- DESKTOP REVIEW FOOTER -->
+            <div id="desktop-review-footer" class="hidden md:flex px-6 py-4 border-t border-gray-200 bg-gray-100 justify-between items-center flex-shrink-0">
+                 <button onclick="navigateReview(-1)" class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-2 rounded font-bold text-sm transition btn-tb"><i class="fas fa-chevron-left mr-1"></i> Prev</button>
+                 <button onclick="navigateReview(1)" class="bg-[#0A2240] hover:bg-[#1a3c5e] text-white px-6 py-2 rounded font-bold text-sm shadow transition btn-tb">Next <i class="fas fa-chevron-right ml-1"></i></button>
+            </div>
+        </div>
+
+        <!-- Sidebar / Palette -->
+        <div id="sidebar" class="w-[320px] flex flex-col bg-[#F4F5F8] border-l border-gray-200 flex-shrink-0 absolute md:relative right-0 top-0 bottom-0 z-30 transition-transform transform translate-x-full md:translate-x-0 shadow-2xl md:shadow-none">
+            
+            <div class="px-4 py-3 bg-white border-b border-gray-200 flex justify-between items-center md:block">
+                <span class="font-bold text-gray-800 text-sm">Question Palette</span>
+                <button onclick="toggleMobileSidebar()" class="md:hidden text-gray-500 hover:text-gray-800"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            
+            <div class="p-3 border-b border-gray-200 bg-white grid grid-cols-2 gap-y-2 gap-x-2 text-[11px] font-medium text-gray-600">
+                <div class="flex items-center gap-2"><div id="leg-ans" class="w-4 h-4 rounded-sm q-ans flex items-center justify-center text-[10px] text-white">0</div> Answered</div>
+                <div class="flex items-center gap-2"><div id="leg-unans" class="w-4 h-4 rounded-sm q-unans flex items-center justify-center text-[10px] text-white">0</div> Not Answered</div>
+                <div class="flex items-center gap-2"><div id="leg-unvis" class="w-4 h-4 rounded-sm bg-white border border-gray-400 flex items-center justify-center text-[10px] text-black">0</div> Not Visited</div>
+                <div class="flex items-center gap-2"><div id="leg-mark" class="w-4 h-4 rounded-full q-mark flex items-center justify-center text-[10px] text-white">0</div> Marked</div>
+                <div class="flex items-center gap-2 col-span-2"><div id="leg-mark-ans" class="w-4 h-4 rounded-full q-mark-ans flex items-center justify-center text-[10px] text-white">0</div> Answered & Marked for Review</div>
+            </div>
+
+            <div class="p-4 grid grid-cols-5 gap-3 overflow-y-auto flex-1 bg-white" id="palette-grid"></div>
+            
+            <div class="p-4 bg-white border-t border-gray-200 mt-auto shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]" id="submit-section">
+                <!-- Submit Button is extremely prominent here -->
+                <button onclick="submitConfirm()" class="w-full bg-[#EB5757] hover:bg-[#c93a3a] text-white py-3 rounded font-bold text-sm shadow-md transition btn-tb flex justify-center items-center gap-2">
+                    Submit Test <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- MOBILE BOTTOM NAV (Sticky) -->
+        <div id="mobile-footer" class="md:hidden mobile-bottom-nav">
+            <!-- Submit Bar -->
+            <div id="mobile-submit-bar" class="px-3 py-2 bg-gray-100 border-t border-gray-200 flex justify-between items-center">
+                 <button onclick="pauseTest()" class="text-gray-600 text-xs font-bold px-2 py-1"><i class="fas fa-pause mr-1"></i>Pause</button>
+                 <button onclick="submitConfirm()" class="bg-[#EB5757] text-white px-4 py-1.5 rounded font-bold text-xs shadow btn-tb">Submit Test</button>
+            </div>
+            <!-- Action Bar -->
+            <div class="flex flex-wrap border-t border-gray-200">
+                <button onclick="clearResponse()" class="flex-1 py-3 text-[10px] font-bold text-gray-600 border-r border-gray-200 bg-white">CLEAR</button>
+                <button onclick="markForReview()" class="flex-1 py-3 text-[10px] font-bold text-gray-900 border-r border-gray-200 bg-[#F2C94C]">MARK</button>
+                <button onclick="saveAndNext()" class="flex-[2] py-3 text-[12px] font-bold text-white bg-[#0A2240]">SAVE & NEXT</button>
+            </div>
+        </div>
+        
+        <div id="mobile-review-footer" class="md:hidden mobile-bottom-nav hidden flex border-t border-gray-200 bg-white">
+             <button onclick="navigateReview(-1)" class="flex-1 py-4 text-xs font-bold text-gray-700 border-r border-gray-200 bg-gray-50"><i class="fas fa-chevron-left"></i> PREV</button>
+             <button onclick="navigateReview(1)" class="flex-1 py-4 text-xs font-bold text-white bg-[#0A2240]">NEXT <i class="fas fa-chevron-right"></i></button>
+        </div>
+
+    </div>
+
+    <!-- RESULT DASHBOARD -->
+    <div id="result-dashboard" class="hidden fixed inset-0 bg-[#F4F5F8] z-[5000] overflow-y-auto" data-html2canvas-ignore="true">
+        <div id="pdf-content" class="min-h-screen flex flex-col items-center py-6 px-4 md:px-8">
+            
+            <div class="w-full max-w-4xl flex justify-between items-center mb-6" data-html2canvas-ignore="true">
+                <h1 class="text-xl md:text-2xl font-bold text-[#0A2240]"><i class="fas fa-chart-pie mr-2"></i> Test Analysis</h1>
+                <div class="flex gap-2">
+                    <button onclick="downloadPDF()" class="bg-gray-800 hover:bg-gray-700 text-white px-3 py-1.5 rounded text-sm font-bold shadow transition btn-tb">
+                        <i class="fas fa-file-pdf mr-1"></i> PDF
+                    </button>
+                    <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded text-sm font-bold shadow transition btn-tb">
+                        <i class="fas fa-home mr-1"></i> Home
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl w-full max-w-4xl shadow-lg border border-gray-200 overflow-hidden mb-6">
+                
+                <!-- Hero Header -->
+                <div class="bg-gradient-to-r from-[#0A2240] to-[#1a3c5e] p-6 text-white text-center relative">
+                    <h2 class="text-sm font-semibold text-blue-200 uppercase tracking-widest mb-1">Your Total Score</h2>
+                    <div class="text-5xl md:text-7xl font-bold font-mono tracking-tighter mb-2" id="final-score-display">0.00</div>
+                    <div class="inline-flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full text-xs font-bold">
+                        <span>Target: <span id="dash-target">0</span></span>
+                        <span class="w-1 h-1 bg-white rounded-full"></span>
+                        <span id="target-status">...</span>
+                    </div>
+                </div>
+
+                <!-- Core Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-200 border-b border-gray-200">
+                    <div class="bg-white p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-800" id="stat-attempted">0</div>
+                        <div class="text-[10px] font-bold text-gray-500 uppercase mt-1">Attempted</div>
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        <div class="text-2xl font-bold text-green-600" id="stat-correct">0</div>
+                        <div class="text-[10px] font-bold text-gray-500 uppercase mt-1">Correct</div>
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        <div class="text-2xl font-bold text-red-500" id="stat-incorrect">0</div>
+                        <div class="text-[10px] font-bold text-gray-500 uppercase mt-1">Incorrect</div>
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        <div class="text-2xl font-bold text-purple-600" id="stat-accuracy">0%</div>
+                        <div class="text-[10px] font-bold text-gray-500 uppercase mt-1">Accuracy</div>
+                    </div>
+                </div>
+
+                <!-- Deep Analytics -->
+                <div class="p-6 grid md:grid-cols-2 gap-6 bg-gray-50">
+                    
+                    <!-- Breakdown -->
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                        <h3 class="text-sm font-bold text-gray-700 uppercase border-b pb-2 mb-3"><i class="fas fa-list-ul mr-1"></i> Score Breakdown</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between"><span>Marks for Correct:</span> <span class="font-bold text-green-600" id="brk-pos">0</span></div>
+                            <div class="flex justify-between"><span>Negative Deductions:</span> <span class="font-bold text-red-500" id="brk-neg">0</span></div>
+                            <div class="flex justify-between"><span>Unattempted (0 marks):</span> <span class="font-bold text-gray-500" id="brk-unans">0</span></div>
+                            <div class="flex justify-between border-t pt-2 font-bold"><span>Final Raw Score:</span> <span id="brk-final">0</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Guess & Time Stats -->
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                        <h3 class="text-sm font-bold text-gray-700 uppercase border-b pb-2 mb-3"><i class="fas fa-brain mr-1"></i> Insights</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between"><span>Total Time Taken:</span> <span class="font-bold font-mono" id="ins-time">00:00</span></div>
+                            <div class="flex justify-between"><span>Total Guesses Made:</span> <span class="font-bold text-blue-600" id="ins-guess-tot">0</span></div>
+                            <div class="flex justify-between"><span>Guess Accuracy:</span> <span class="font-bold" id="ins-guess-acc">0%</span></div>
+                            <div class="flex justify-between mt-2 pt-2 border-t">
+                                <span class="text-red-600 font-bold"><i class="fas fa-exclamation-circle"></i> Panic Zone:</span>
+                                <span id="ins-panic" class="font-bold text-gray-700">None</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Time Traps Warning -->
+                <div id="time-trap-section" class="hidden px-6 pb-6 bg-gray-50">
+                    <div class="bg-orange-50 border border-orange-200 p-4 rounded-lg">
+                        <h3 class="text-sm font-bold text-orange-800 uppercase mb-2"><i class="fas fa-hourglass-half mr-1"></i> Time Traps Detected</h3>
+                        <p class="text-xs text-orange-700 mb-2">You spent excessive time (>60s) on these questions but got them incorrect or left them. Skip these next time!</p>
+                        <div id="time-trap-list" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="px-6 py-4 bg-white border-t border-gray-200 flex flex-col md:flex-row gap-3 justify-center" data-html2canvas-ignore="true">
+                    <button onclick="openSolutionMode()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded font-bold text-sm shadow transition btn-tb">
+                        <i class="fas fa-book-open mr-2"></i> View Full Solution
+                    </button>
+                    <button onclick="openFeedbackModal()" class="flex-1 bg-[#0A2240] hover:bg-[#16385f] text-white py-3 rounded font-bold text-sm shadow transition btn-tb">
+                        <i class="fas fa-chart-line mr-2"></i> AI Feedback
+                    </button>
+                    <button onclick="copyMistakes()" class="flex-1 bg-gray-700 hover:bg-gray-800 text-white py-3 rounded font-bold text-sm shadow transition btn-tb">
+                        <i class="fas fa-copy mr-2"></i> Copy Mistakes
+                    </button>
+                    <button onclick="openRedemptionMode()" class="flex-1 bg-[#8E44AD] hover:bg-[#732d91] text-white py-3 rounded font-bold text-sm shadow transition btn-tb" id="btn-redemption">
+                        <i class="fas fa-redo-alt mr-2"></i> Second Chance (Errors Only)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Security & Constraints
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    
+    // Config setup
+        function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+    const rawDB = JSON.parse(JSON.stringify(QUIZ_CONFIG.questions));
+    shuffleArray(rawDB);
+    const TEST_DURATION = QUIZ_CONFIG.timeMinutes * 60;
+    
+    // State variables
+    let currentQIndex = 0;
+    let language = 'en'; 
+    let timeRemaining = TEST_DURATION; 
+    let timerInterval, focusInterval;
+    let isPaused = false;
+    let viewMode = 'LIVE'; // LIVE, SOLUTION, REDEMPTION
+    let negMarkingValue = 0;
+    let targetScore = 0;
+    let redemptionList = [];
+    
+    // User analytics tracking
+    let userState = Array.from({length: rawDB.length}, () => ({ 
+        status: 'unvisited', // unvisited, skipped, answered, marked, marked-ans
+        selectedOpt: null, 
+        redemptionOpt: null,
+        timeSpent: 0, 
+        isGuessed: false,
+        isStarred: false,
+        mistakeTag: null // silly, concept, tough
+    }));
+
+    // Setup Intro Screen
+    document.getElementById('intro-title').innerText = QUIZ_CONFIG.title;
+    document.getElementById('nav-title').innerText = QUIZ_CONFIG.title;
+    document.getElementById('txt-subject-name').innerText = QUIZ_CONFIG.subject;
+    document.getElementById('intro-q-count').innerText = rawDB.length;
+    document.getElementById('intro-time').innerText = QUIZ_CONFIG.timeMinutes;
+    document.getElementById('target-score-input').max = rawDB.length;
+    document.getElementById('target-score-input').value = Math.ceil(rawDB.length * 0.8);
+
+    // Enter Fullscreen on test start
+    function requestFullScreen() {
+        let el = document.documentElement;
+        if(el.requestFullscreen) { el.requestFullscreen(); } 
+        else if(el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); } 
+        else if(el.msRequestFullscreen) { el.msRequestFullscreen(); }
+    }
+
+    // Anti-cheat Fullscreen listener
+    document.addEventListener("fullscreenchange", function() {
+        if (!document.fullscreenElement && viewMode === 'LIVE' && !isPaused) {
+            pauseTest();
+            document.getElementById('pause-overlay').classList.add('hidden');
+            document.getElementById('cheat-warning').classList.remove('hidden');
+        }
+    });
+
+    document.addEventListener("visibilitychange", function() {
+        if (document.hidden && viewMode === 'LIVE' && !isPaused) {
+            pauseTest();
+            document.getElementById('pause-overlay').classList.add('hidden');
+            document.getElementById('cheat-warning').classList.remove('hidden');
+        }
+    });
+
+    function resumeFromWarning() {
+        document.getElementById('cheat-warning').classList.add('hidden');
+        requestFullScreen();
+        resumeTest();
+    }
+
+    function startTest() {
+        if(rawDB.length === 0) return;
+        negMarkingValue = parseFloat(document.getElementById('neg-marking-select').value);
+        targetScore = parseFloat(document.getElementById('target-score-input').value) || 0;
+
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('navbar').classList.remove('hidden');
+        document.getElementById('main-container').classList.remove('hidden');
+        document.getElementById('main-container').classList.add('flex');
+        
+        requestFullScreen();
+        updatePaletteLegend();
+        renderPalette();
+        loadQuestion(0);
+        
+        // Main countdown timer
+        timerInterval = setInterval(() => {
+            if(isPaused) return;
+            if(timeRemaining <= 0) { clearInterval(timerInterval); submitTest(); return; }
+            timeRemaining--;
+            let m = Math.floor(timeRemaining / 60);
+            let s = timeRemaining % 60;
+            let display = document.getElementById('timer-display');
+            display.innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+            if(timeRemaining <= 60) display.classList.add('timer-blink');
+        }, 1000);
+
+        // Time per question tracker
+        focusInterval = setInterval(() => {
+            if(!isPaused && viewMode === 'LIVE') {
+                userState[currentQIndex].timeSpent++;
+                document.getElementById('q-time-spent').innerText = userState[currentQIndex].timeSpent + 's';
+            }
+        }, 1000);
+    }
+
+    function pauseTest() {
+        if(viewMode !== 'LIVE') return;
+        isPaused = true;
+        document.getElementById('pause-overlay').classList.remove('hidden');
+    }
+
+    function resumeTest() {
+        isPaused = false;
+        document.getElementById('pause-overlay').classList.add('hidden');
+    }
+
+    function toggleLanguage() {
+        language = language === 'en' ? 'hi' : 'en';
+        document.getElementById('lang-indicator').innerText = language.toUpperCase();
+        loadQuestion(currentQIndex);
+    }
+
+    function toggleMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar.classList.contains('translate-x-full')) {
+            sidebar.classList.remove('translate-x-full');
+            sidebar.classList.add('translate-x-0');
+        } else {
+            sidebar.classList.add('translate-x-full');
+            sidebar.classList.remove('translate-x-0');
+        }
+    }
+
+    // Load Question Logic
+    function loadQuestion(index) {
+        // If moving away from unvisited in live mode, mark skipped
+        if (viewMode === 'LIVE' && userState[currentQIndex].status === 'unvisited' && index !== currentQIndex) {
+            userState[currentQIndex].status = 'skipped';
+            updatePaletteBtn(currentQIndex);
+        }
+
+        let oldBtn = document.getElementById(`pal-btn-${currentQIndex}`);
+        if(oldBtn) oldBtn.classList.remove('active-node');
+        
+        currentQIndex = index;
+        const qData = rawDB[index];
+        const state = userState[index];
+        
+        // If unvisited, make skipped (viewed) immediately upon loading
+        if(viewMode === 'LIVE' && state.status === 'unvisited') {
+            state.status = 'skipped';
+            updatePaletteBtn(index);
+            updatePaletteLegend();
+        }
+
+        // Header Updates
+        document.getElementById('txt-q-no').innerText = 'Q ' + (index + 1);
+        document.getElementById('q-time-spent').innerText = state.timeSpent + 's';
+        
+        // Star Button
+        const btnStar = document.getElementById('btn-bookmark');
+        if(state.isStarred) {
+            btnStar.innerHTML = '<i class="fas fa-star text-lg text-yellow-500"></i>';
+        } else {
+            btnStar.innerHTML = '<i class="far fa-star text-lg"></i>';
+        }
+
+        // Content
+        document.getElementById('question-text').innerHTML = qData.q[language];
+        
+        // Trigger MathJax re-render if loaded
+        if(window.MathJax && typeof MathJax.typesetPromise === 'function') {
+            MathJax.typesetPromise([document.getElementById('question-text')]).catch(err => console.log(err));
+        }
+
+        const optContainer = document.getElementById('options-container');
+        optContainer.innerHTML = '';
+
+        qData.options[language].forEach((optText, optIndex) => {
+            let label = document.createElement('label');
+            label.className = 'option-container';
+            let radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'q_option';
+            radio.value = optIndex;
+
+            if (viewMode === 'LIVE') {
+                if(state.selectedOpt === optIndex) { label.classList.add('selected'); radio.checked = true; }
+                radio.onchange = () => {
+                    document.querySelectorAll('.option-container').forEach(el => el.classList.remove('selected'));
+                    label.classList.add('selected');
+                    state.selectedOpt = optIndex;
+                    // Auto update status to answered if it was skipped
+                    if(state.status === 'skipped') state.status = 'answered';
+                    if(state.status === 'marked') state.status = 'marked-ans';
+                    updatePaletteBtn(index);
+                    updatePaletteLegend();
+                };
+            } 
+            else if (viewMode === 'SOLUTION') {
+                label.classList.add('disabled'); radio.disabled = true;
+                if (optIndex === qData.ans) label.classList.add('correct'); 
+                if (state.selectedOpt === optIndex) {
+                    radio.checked = true;
+                    if (optIndex !== qData.ans) label.classList.add('incorrect');
+                }
+            }
+            else if (viewMode === 'REDEMPTION') {
+                if(state.redemptionOpt === optIndex) {
+                     radio.checked = true;
+                     if(optIndex === qData.ans) label.classList.add('correct');
+                     else label.classList.add('incorrect');
+                }
+                radio.onchange = () => {
+                    document.querySelectorAll('.option-container').forEach(el => el.classList.remove('selected', 'correct', 'incorrect'));
+                    state.redemptionOpt = optIndex;
+                    if(optIndex === qData.ans) label.classList.add('correct');
+                    else label.classList.add('incorrect');
+                    if(optIndex !== qData.ans) optContainer.children[qData.ans].classList.add('correct');
+                };
+            }
+
+            label.appendChild(radio);
+            let span = document.createElement('span');
+            span.innerHTML = optText;
+            label.appendChild(span);
+            optContainer.appendChild(label);
+            
+            if(window.MathJax && typeof MathJax.typesetPromise === 'function') MathJax.typesetPromise([span]).catch(err => console.log(err));
+        });
+
+        // Guess Tracker
+        const guessContainer = document.getElementById('guess-tracker-container');
+        const guessCheck = document.getElementById('guess-checkbox');
+        if(viewMode === 'LIVE') {
+            guessContainer.classList.remove('hidden');
+            guessCheck.checked = state.isGuessed;
+        } else {
+            guessContainer.classList.add('hidden');
+        }
+
+        // Explanation Box
+        const expBox = document.getElementById('explanation-box');
+        if (viewMode === 'SOLUTION') {
+            document.getElementById('explanation-text').innerHTML = qData.exp[language];
+            document.getElementById('sol-time-stat').innerText = `Time Taken: ${state.timeSpent}s`;
+            expBox.classList.remove('hidden');
+            
+            // Mistake Categorizer logic
+            const mistCat = document.getElementById('mistake-categorizer');
+            if(state.selectedOpt !== null && state.selectedOpt !== qData.ans) {
+                mistCat.classList.remove('hidden');
+                updateMistakeTagUI(state.mistakeTag);
+            } else {
+                mistCat.classList.add('hidden');
+            }
+        } else {
+            expBox.classList.add('hidden');
+        }
+
+        let newBtn = document.getElementById(`pal-btn-${index}`);
+        if(newBtn) {
+            newBtn.classList.add('active-node');
+            newBtn.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        if(viewMode !== 'LIVE' || isPaused || document.getElementById('result-dashboard').classList.contains('hidden') === false) return;
+        
+        // Options 1-4 or A-D
+        const opts = document.querySelectorAll('input[name="q_option"]');
+        let mappedIndex = -1;
+        if(e.key === '1' || e.key.toLowerCase() === 'a') mappedIndex = 0;
+        if(e.key === '2' || e.key.toLowerCase() === 'b') mappedIndex = 1;
+        if(e.key === '3' || e.key.toLowerCase() === 'c') mappedIndex = 2;
+        if(e.key === '4' || e.key.toLowerCase() === 'd') mappedIndex = 3;
+        
+        if(mappedIndex !== -1 && opts[mappedIndex]) {
+            opts[mappedIndex].click();
+        }
+
+        // Enter to Save & Next
+        if(e.key === 'Enter') {
+            saveAndNext();
+        }
+    });
+
+    function markAsGuess() {
+        if(viewMode === 'LIVE') {
+            userState[currentQIndex].isGuessed = document.getElementById('guess-checkbox').checked;
+        }
+    }
+
+    function toggleBookmark() {
+        userState[currentQIndex].isStarred = !userState[currentQIndex].isStarred;
+        loadQuestion(currentQIndex); // refresh icon
+    }
+
+    function setMistakeTag(tag) {
+        userState[currentQIndex].mistakeTag = tag;
+        updateMistakeTagUI(tag);
+    }
+
+    function updateMistakeTagUI(tag) {
+        document.getElementById('tag-silly').className = 'px-3 py-1 text-xs font-semibold rounded-full border border-gray-300 bg-white hover:bg-gray-50 transition';
+        document.getElementById('tag-concept').className = 'px-3 py-1 text-xs font-semibold rounded-full border border-gray-300 bg-white hover:bg-gray-50 transition';
+        document.getElementById('tag-tough').className = 'px-3 py-1 text-xs font-semibold rounded-full border border-gray-300 bg-white hover:bg-gray-50 transition';
+        
+        if(tag === 'silly') document.getElementById('tag-silly').className = 'px-3 py-1 text-xs font-bold rounded-full border border-orange-500 bg-orange-100 text-orange-700 transition';
+        if(tag === 'concept') document.getElementById('tag-concept').className = 'px-3 py-1 text-xs font-bold rounded-full border border-blue-500 bg-blue-100 text-blue-700 transition';
+        if(tag === 'tough') document.getElementById('tag-tough').className = 'px-3 py-1 text-xs font-bold rounded-full border border-red-500 bg-red-100 text-red-700 transition';
+    }
+
+    function navigateLive(step) {
+        let nextIndex = currentQIndex + step;
+        if (nextIndex >= 0 && nextIndex < rawDB.length) loadQuestion(nextIndex);
+    }
+
+    function saveAndNext() {
+        if(viewMode !== 'LIVE') return;
+        const state = userState[currentQIndex];
+        if(state.selectedOpt !== null) state.status = 'answered';
+        else state.status = 'skipped';
+        updatePaletteBtn(currentQIndex);
+        updatePaletteLegend();
+        if(currentQIndex < rawDB.length - 1) loadQuestion(currentQIndex + 1);
+        else loadQuestion(0); // Loop back if at end
+    }
+
+    function markForReview() {
+        if(viewMode !== 'LIVE') return;
+        const state = userState[currentQIndex];
+        if(state.selectedOpt !== null) state.status = 'marked-ans';
+        else state.status = 'marked';
+        updatePaletteBtn(currentQIndex);
+        updatePaletteLegend();
+        if(currentQIndex < rawDB.length - 1) loadQuestion(currentQIndex + 1);
+        else loadQuestion(0);
+    }
+
+    function clearResponse() {
+        if(viewMode !== 'LIVE') return;
+        userState[currentQIndex].selectedOpt = null;
+        userState[currentQIndex].isGuessed = false;
+        userState[currentQIndex].status = 'skipped'; // Back to skipped
+        document.querySelectorAll('input[name="q_option"]').forEach(r => r.checked = false);
+        document.querySelectorAll('.option-container').forEach(el => el.classList.remove('selected'));
+        document.getElementById('guess-checkbox').checked = false;
+        updatePaletteBtn(currentQIndex);
+        updatePaletteLegend();
+    }
+
+    function renderPalette() {
+        const grid = document.getElementById('palette-grid');
+        grid.innerHTML = '';
+        rawDB.forEach((_, i) => {
+            let btn = document.createElement('div');
+            btn.className = `q-node`;
+            if(userState[i].status === 'answered') btn.classList.add('q-ans');
+            else if(userState[i].status === 'skipped') btn.classList.add('q-unans');
+            else if(userState[i].status === 'marked') btn.classList.add('q-mark');
+            else if(userState[i].status === 'marked-ans') btn.classList.add('q-mark-ans');
+            
+            btn.innerText = i + 1;
+            btn.id = `pal-btn-${i}`;
+            
+            // Highlight stars in palette
+            if(userState[i].isStarred) {
+                let star = document.createElement('i');
+                star.className = 'fas fa-star absolute text-[8px] text-yellow-400 top-0.5 right-0.5';
+                btn.style.position = 'relative';
+                btn.appendChild(star);
+            }
+
+            btn.onclick = () => {
+                if(window.innerWidth < 768) toggleMobileSidebar(); // close on mobile click
+                loadQuestion(i);
+            }
+            grid.appendChild(btn);
+        });
+    }
+
+    function updatePaletteBtn(index) {
+        if(viewMode !== 'LIVE') return;
+        const btn = document.getElementById(`pal-btn-${index}`);
+        if(btn) {
+            btn.className = `q-node`;
+            if(userState[index].status === 'answered') btn.classList.add('q-ans');
+            else if(userState[index].status === 'skipped') btn.classList.add('q-unans');
+            else if(userState[index].status === 'marked') btn.classList.add('q-mark');
+            else if(userState[index].status === 'marked-ans') btn.classList.add('q-mark-ans');
+            
+            if(index === currentQIndex) btn.classList.add('active-node');
+        }
+    }
+
+    function updatePaletteLegend() {
+        if(viewMode !== 'LIVE') return;
+        let counts = { ans: 0, unans: 0, unvisited: 0, mark: 0, markAns: 0 };
+        userState.forEach(s => {
+            if(s.status === 'answered') counts.ans++;
+            else if(s.status === 'skipped') counts.unans++;
+            else if(s.status === 'unvisited') counts.unvisited++;
+            else if(s.status === 'marked') counts.mark++;
+            else if(s.status === 'marked-ans') counts.markAns++;
+        });
+        document.getElementById('leg-ans').innerText = counts.ans;
+        document.getElementById('leg-unans').innerText = counts.unans;
+        document.getElementById('leg-unvis').innerText = counts.unvisited;
+        document.getElementById('leg-mark').innerText = counts.mark;
+        document.getElementById('leg-mark-ans').innerText = counts.markAns;
+    }
+
+    function renderSolutionPalette() {
+        const grid = document.getElementById('palette-grid');
+        grid.innerHTML = '';
+        
+        let arr = viewMode === 'REDEMPTION' ? redemptionList : Array.from(rawDB.keys());
+
+        arr.forEach((qIdx) => {
+            let isCorrect = userState[qIdx].selectedOpt === rawDB[qIdx].ans;
+            let isUnattempted = userState[qIdx].selectedOpt === null;
+            let colorClass = isUnattempted ? 'bg-gray-400 text-white' : (isCorrect ? 'bg-[#219653] text-white' : 'bg-[#EB5757] text-white');
+            let btn = document.createElement('div');
+            btn.className = `q-node ${colorClass} border-none font-bold`;
+            // Keep clip-path flat for solution mode for cleaner look
+            btn.style.clipPath = 'none';
+            btn.style.borderRadius = '4px';
+            btn.innerText = qIdx + 1;
+            btn.id = `pal-btn-${qIdx}`;
+            
+            if(userState[qIdx].isStarred) {
+                let star = document.createElement('i');
+                star.className = 'fas fa-star absolute text-[8px] text-yellow-300 top-0.5 right-0.5';
+                btn.style.position = 'relative';
+                btn.appendChild(star);
+            }
+
+            btn.onclick = () => {
+                if(window.innerWidth < 768 && !document.getElementById('sidebar').classList.contains('translate-x-full')) {
+                    toggleMobileSidebar();
+                }
+                loadQuestion(qIdx);
+            }
+            grid.appendChild(btn);
+        });
+    }
+
+    function navigateReview(step) {
+        let arr = viewMode === 'REDEMPTION' ? redemptionList : Array.from(rawDB.keys());
+        let currentIndexInArr = arr.indexOf(currentQIndex);
+        let nextIndexInArr = currentIndexInArr + step;
+        
+        if (nextIndexInArr >= 0 && nextIndexInArr < arr.length) {
+            loadQuestion(arr[nextIndexInArr]);
+        }
+    }
+
+    function submitConfirm() {
+        let unans = 0;
+        userState.forEach(s => { if(s.selectedOpt === null) unans++; });
+        let msg = "Are you sure you want to submit the test?";
+        if(unans > 0) msg += `\nYou have ${unans} unattempted questions!`;
+        
+        if(confirm(msg)) submitTest();
+    }
+
+    function submitTest() {
+        clearInterval(timerInterval);
+        clearInterval(focusInterval);
+        if(document.fullscreenElement) document.exitFullscreen().catch(err => {});
+        
+        let correct = 0, incorrect = 0, unattempted = 0;
+        let guessTot = 0, guessCorr = 0;
+        let timeTraps = [];
+        let consecutiveWrongs = 0, maxConsecutiveWrongs = 0;
+
+        userState.forEach((state, i) => {
+            if(state.selectedOpt !== null) {
+                if(state.selectedOpt === rawDB[i].ans) {
+                    correct++;
+                    if(state.isGuessed) guessCorr++;
+                    consecutiveWrongs = 0; // reset
+                } else {
+                    incorrect++;
+                    consecutiveWrongs++;
+                    if(consecutiveWrongs > maxConsecutiveWrongs) maxConsecutiveWrongs = consecutiveWrongs;
+                    
+                    // Time Trap Detection (> 60s and incorrect)
+                    if(state.timeSpent > 60) timeTraps.push(i);
+                }
+                if(state.isGuessed) guessTot++;
+            } else {
+                unattempted++;
+                consecutiveWrongs = 0; // reset
+                // Time Trap Detection (> 60s and unattempted)
+                if(state.timeSpent > 60) timeTraps.push(i);
+            }
+        });
+
+        // Calculations
+        let marksPositive = correct * 1; // 1 mark per Q
+        let marksNegative = incorrect * negMarkingValue;
+        let rawScore = marksPositive - marksNegative;
+        // Don't let score drop below 0 unless strict. Usually SSC allows negative totals, but let's show real math.
+        
+        // Populate Dashboard
+        document.getElementById('final-score-display').innerText = rawScore.toFixed(2);
+        document.getElementById('dash-target').innerText = targetScore;
+        
+        let statusEl = document.getElementById('target-status');
+        if(rawScore >= targetScore) {
+            statusEl.innerText = "Target Achieved! 🏆";
+            statusEl.className = "text-green-400";
+        } else {
+            let diff = (targetScore - rawScore).toFixed(2);
+            statusEl.innerText = `Missed by ${diff} ⚠️`;
+            statusEl.className = "text-yellow-400";
+        }
+
+        document.getElementById('stat-attempted').innerText = correct + incorrect;
+        document.getElementById('stat-correct').innerText = correct;
+        document.getElementById('stat-incorrect').innerText = incorrect;
+        let acc = (correct + incorrect) > 0 ? Math.round((correct/(correct+incorrect))*100) : 0;
+        document.getElementById('stat-accuracy').innerText = acc + '%';
+
+        document.getElementById('brk-pos').innerText = '+' + marksPositive.toFixed(2);
+        document.getElementById('brk-neg').innerText = '-' + marksNegative.toFixed(2);
+        document.getElementById('brk-unans').innerText = '0.00';
+        document.getElementById('brk-final').innerText = rawScore.toFixed(2);
+
+        let timeSpent = TEST_DURATION - timeRemaining;
+        let tm = Math.floor(timeSpent / 60);
+        let ts = timeSpent % 60;
+        document.getElementById('ins-time').innerText = `${tm}m ${ts}s`;
+        
+        document.getElementById('ins-guess-tot').innerText = guessTot;
+        document.getElementById('ins-guess-acc').innerText = guessTot > 0 ? Math.round((guessCorr/guessTot)*100) + '%' : 'N/A';
+
+        let panicEl = document.getElementById('ins-panic');
+        if(maxConsecutiveWrongs >= 3) {
+            panicEl.innerHTML = `<span class="text-red-600">Yes (${maxConsecutiveWrongs} wrong in a row)</span>`;
+        } else {
+            panicEl.innerHTML = `<span class="text-green-600">No</span>`;
+        }
+
+        // Time Traps UI
+        if(timeTraps.length > 0) {
+            document.getElementById('time-trap-section').classList.remove('hidden');
+            let ttList = document.getElementById('time-trap-list');
+            ttList.innerHTML = '';
+            timeTraps.forEach(qIdx => {
+                let badge = document.createElement('span');
+                badge.className = 'px-2 py-1 bg-white border border-orange-300 text-orange-800 text-[10px] font-bold rounded shadow-sm cursor-pointer hover:bg-orange-100';
+                badge.innerText = `Q${qIdx + 1} (${userState[qIdx].timeSpent}s)`;
+                badge.onclick = () => { openSolutionMode(); loadQuestion(qIdx); };
+                ttList.appendChild(badge);
+            });
+        }
+
+        // Prepare Redemption List (Incorrect or Unattempted)
+        redemptionList = [];
+        userState.forEach((s, i) => { if(s.selectedOpt !== rawDB[i].ans) redemptionList.push(i); });
+        if(redemptionList.length === 0) document.getElementById('btn-redemption').classList.add('hidden');
+
+        document.getElementById('navbar').classList.add('hidden');
+        document.getElementById('main-container').classList.add('hidden');
+        document.getElementById('main-container').classList.remove('flex');
+        document.getElementById('result-dashboard').classList.remove('hidden');
+    }
+
+    function setupSolutionUI() {
+        document.getElementById('result-dashboard').classList.add('hidden');
+        document.getElementById('navbar').classList.remove('hidden');
+        
+        const mc = document.getElementById('main-container');
+        mc.classList.remove('hidden');
+        mc.classList.add('flex');
+        
+        // Hide/Show correct footers
+        document.getElementById('desktop-footer').classList.add('hidden');
+        document.getElementById('desktop-footer').classList.remove('md:flex');
+        document.getElementById('desktop-review-footer').classList.remove('hidden');
+        document.getElementById('desktop-review-footer').classList.add('md:flex');
+        
+        document.getElementById('mobile-footer').classList.add('hidden');
+        document.getElementById('mobile-review-footer').classList.remove('hidden');
+        
+        // Hide extra Palette stuff
+        document.querySelector('.p-3.border-b.bg-white.grid').classList.add('hidden');
+        document.getElementById('submit-section').classList.add('hidden');
+        
+        // Add back to dashboard button in nav
+        let navTitle = document.getElementById('nav-title');
+        navTitle.innerHTML = `<button onclick="goBackToDashboard()" class="text-blue-300 hover:text-white mr-2"><i class="fas fa-arrow-left"></i></button> ${viewMode} MODE`;
+    }
+
+    function openSolutionMode() {
+        viewMode = 'SOLUTION';
+        setupSolutionUI();
+        renderSolutionPalette();
+        loadQuestion(0);
+    }
+    
+    function openRedemptionMode() {
+        if(redemptionList.length === 0) return;
+        viewMode = 'REDEMPTION';
+        setupSolutionUI();
+        renderSolutionPalette();
+        loadQuestion(redemptionList[0]);
+    }
+
+    function goBackToDashboard() {
+        document.getElementById('navbar').classList.add('hidden');
+        document.getElementById('main-container').classList.add('hidden');
+        document.getElementById('main-container').classList.remove('flex');
+        document.getElementById('result-dashboard').classList.remove('hidden');
+        
+        document.getElementById('nav-title').innerText = QUIZ_CONFIG.title; // reset
+    }
+
+    function getPerformanceLines(acc, rawScore, target) {
+        const targetText = rawScore >= target
+            ? "Target achieved. Your score is at or above the target you set."
+            : "Target missed. Treat the gap as your immediate improvement zone.";
+        if (acc >= 90) return [
+            "Your accuracy is in the elite range; now protect it under exam pressure.",
+            "The next step is speed without sacrificing precision.",
+            "Review every incorrect answer because high scorers improve at the margins.",
+            targetText,
+            "Keep a strict error log and revisit repeated mistakes before the next mock.",
+            "Your benchmark now should be consistency across multiple full-length tests."
+        ];
+        if (acc >= 80) return [
+            "You are in a strong competitive zone, but consistency decides the final result.",
+            "Convert avoidable mistakes into guaranteed marks before chasing extra attempts.",
+            "Work on the questions that consumed time without producing marks.",
+            targetText,
+            "Use every mock as a post-mortem: accuracy first, then speed.",
+            "Push the next test toward the 90% accuracy band."
+        ];
+        if (acc >= 70) return [
+            "You have a workable base, but the score still has a meaningful improvement gap.",
+            "Focus first on concept gaps and repeated errors rather than random extra practice.",
+            "Reduce guesses unless the elimination logic is strong.",
+            targetText,
+            "Build accuracy in blocks of 20–25 questions and track the trend.",
+            "Your next milestone is 80%+ accuracy with stable timing."
+        ];
+        if (acc >= 60) return [
+            "The fundamentals are developing, but exam-level consistency needs work.",
+            "Spend more time analysing why an answer went wrong than simply checking the right answer.",
+            "Prioritise high-frequency concepts and revise them repeatedly.",
+            targetText,
+            "Avoid spending too long on one uncertain question; protect your total score.",
+            "Aim for a clear jump to 70%+ accuracy in the next mock."
+        ];
+        return [
+            "Do not judge your final potential from one mock; use this attempt as a diagnostic.",
+            "Start with the questions you got wrong or left unattempted and identify the exact reason.",
+            "Strengthen core concepts before increasing attempt speed.",
+            targetText,
+            "Keep a written error log and revise it before every new mock.",
+            "Your immediate goal is controlled improvement, not maximum attempts."
+        ];
+    }
+
+    function openFeedbackModal() {
+        const modal = document.getElementById('feedback-modal');
+        const acc = parseFloat(document.getElementById('stat-accuracy').innerText) || 0;
+        const rawScore = parseFloat(document.getElementById('brk-final').innerText) || 0;
+        const lines = getPerformanceLines(acc, rawScore, targetScore);
+        document.getElementById('feedback-summary').innerHTML =
+            `<b>Accuracy:</b> ${acc}% &nbsp; | &nbsp; <b>Raw Score:</b> ${rawScore} &nbsp; | &nbsp; <b>Target:</b> ${targetScore}`;
+        document.getElementById('feedback-lines').innerHTML = lines.map((x,i) =>
+            `<div class="flex gap-3"><span class="font-bold text-[#0A2240]">${i+1}.</span><span>${x}</span></div>`
+        ).join('');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeFeedbackModal(event) {
+        if (event && event.target && event.target.id !== 'feedback-modal') return;
+        const modal = document.getElementById('feedback-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    async function copyMistakes() {
+        const mistakes = [];
+        rawDB.forEach((q, i) => {
+            const st = userState[i];
+            if (st.selectedOpt === null || st.selectedOpt !== q.ans) {
+                const answer = q.options.en[q.ans];
+                const chosen = st.selectedOpt === null ? "Unattempted" : q.options.en[st.selectedOpt];
+                mistakes.push(`Q${i+1}. ${q.q.en.replace(/<br><br>/g, "\\n").replace(/<br>/g, "\\n")}\\nYour answer: ${chosen}\\nCorrect answer: ${answer}\\nExplanation: ${q.exp.en.replace(/<br>/g, " ")}`);
+            }
+        });
+        const text = mistakes.length ? mistakes.join("\\n\\n--------------------\\n\\n") : "No mistakes to copy. Excellent attempt!";
+        try {
+            await navigator.clipboard.writeText(text);
+            alert(mistakes.length ? "Mistakes copied to clipboard." : "No mistakes found.");
+        } catch (e) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+            alert("Mistakes copied to clipboard.");
+        }
+    }
+
+    function downloadPDF() {
+        const element = document.getElementById('pdf-content');
+        const opt = {
+          margin:       0.5,
+          filename:     'Test_Analysis_Polity.pdf',
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2 },
+          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        
+        // Simple notification
+        let btn = document.querySelector('button[onclick="downloadPDF()"]');
+        let oldTxt = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        html2pdf().set(opt).from(element).save().then(() => {
+            btn.innerHTML = oldTxt;
+        });
+    }
+
+</script>
+
+    <!-- AI FEEDBACK MODAL -->
+    <div id="feedback-modal" class="hidden fixed inset-0 z-[9000] bg-black/60 items-center justify-center p-4" onclick="closeFeedbackModal(event)">
+        <div class="w-full max-w-lg bg-white rounded-xl shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+            <div class="bg-[#0A2240] text-white px-5 py-4 flex items-center justify-between">
+                <div>
+                    <div class="text-xs uppercase tracking-wider opacity-80">Performance Feedback</div>
+                    <h2 class="text-lg font-bold">AI Feedback & Cut-off Mindset</h2>
+                </div>
+                <button onclick="closeFeedbackModal()" class="text-white/80 hover:text-white text-xl" aria-label="Close">&times;</button>
+            </div>
+            <div class="p-5">
+                <div id="feedback-summary" class="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm"></div>
+                <div id="feedback-lines" class="space-y-2 text-sm text-gray-700"></div>
+                <div class="mt-5 flex justify-end">
+                    <button onclick="closeFeedbackModal()" class="px-5 py-2.5 bg-[#0A2240] text-white rounded font-bold text-sm">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<style>
+.question-text,.question-content,.question-card,.question-area{
+  max-width:100%;overflow-wrap:anywhere;word-break:normal;
+}
+@media(max-width:640px){
+  .question-text,.question-content{font-size:15px!important;line-height:1.62!important;}
+}
+#ayush-credit{
+  position:fixed;left:50%;bottom:4px;transform:translateX(-50%);z-index:99999;
+  font:500 10px/1.2 Inter,Arial,sans-serif;color:#64748b;
+  background:rgba(255,255,255,.94);border:1px solid #dbe2ea;
+  border-radius:999px;padding:3px 9px;pointer-events:none;white-space:nowrap;
+}
+@media(max-width:640px){#ayush-credit{bottom:58px;font-size:9px;padding:2px 7px;}}
+</style>
+<div id="ayush-credit">© Ayush Trivedi · Developed by Ayush Trivedi</div>
+
+<script>
+(function(){
+const PAIRS={"Your accuracy is in the elite range; now protect it under exam pressure.": "आपकी सटीकता उत्कृष्ट स्तर पर है; अब परीक्षा के दबाव में भी इसे बनाए रखें।", "The next step is speed without sacrificing precision.": "अगला कदम है सटीकता से समझौता किए बिना गति बढ़ाना।", "Review every incorrect answer because high scorers improve at the margins.": "हर गलत उत्तर की समीक्षा करें, क्योंकि उच्च स्कोरर छोटी-छोटी गलतियाँ सुधारकर आगे बढ़ते हैं।", "Target achieved. Your score is at or above the target you set.": "लक्ष्य प्राप्त हुआ। आपका स्कोर आपके निर्धारित लक्ष्य के बराबर या उससे अधिक है।", "Target missed. Treat the gap as your immediate improvement zone.": "लक्ष्य प्राप्त नहीं हुआ। इस अंतर को अपना तत्काल सुधार क्षेत्र मानें।", "Keep a strict error log and revisit repeated mistakes before the next mock.": "गलतियों का व्यवस्थित रिकॉर्ड रखें और अगले मॉक से पहले बार-बार होने वाली गलतियों को दोहराकर सुधारें।", "Your benchmark now should be consistency across multiple full-length tests.": "अब आपका मानक कई पूर्ण लंबाई वाले टेस्ट में निरंतर प्रदर्शन होना चाहिए।", "You are in a strong competitive zone, but consistency decides the final result.": "आप मजबूत प्रतिस्पर्धी स्तर पर हैं, लेकिन अंतिम परिणाम निरंतरता तय करती है।", "Convert avoidable mistakes into guaranteed marks before chasing extra attempts.": "अतिरिक्त प्रश्नों के पीछे जाने से पहले टाली जा सकने वाली गलतियों को पक्के अंकों में बदलें।", "Work on the questions that consumed time without producing marks.": "उन प्रश्नों पर काम करें जिनमें समय लगा लेकिन अंक नहीं मिले।", "Use every mock as a post-mortem: accuracy first, then speed.": "हर मॉक का विश्लेषण करें: पहले सटीकता सुधारें, फिर गति।", "Push the next test toward the 90% accuracy band.": "अगले टेस्ट में 90%+ सटीकता की दिशा में बढ़ें।", "Your immediate goal is controlled improvement, not maximum attempts.": "आपका तत्काल लक्ष्य नियंत्रित सुधार है, अधिकतम प्रश्न हल करना नहीं।", "The fundamentals are developing, but exam-level consistency needs work.": "बुनियादी समझ विकसित हो रही है, लेकिन परीक्षा-स्तर की निरंतरता पर अभी काम करने की जरूरत है।", "Spend more time analysing why an answer went wrong than simply checking the right answer.": "सिर्फ सही उत्तर देखने के बजाय यह समझने में अधिक समय दें कि आपका उत्तर गलत क्यों हुआ।", "Prioritise high-frequency concepts and revise them repeatedly.": "बार-बार पूछे जाने वाले महत्वपूर्ण कॉन्सेप्ट को प्राथमिकता दें और उनका बार-बार पुनरावलोकन करें।", "Reduce guesses unless the elimination logic is strong.": "जब तक विकल्प हटाने का तर्क मजबूत न हो, अनुमान लगाने से बचें।", "Build accuracy in blocks of 20–25 questions and track the trend.": "20–25 प्रश्नों के ब्लॉक में सटीकता बढ़ाएँ और उसके रुझान को ट्रैक करें।", "Your next milestone is 80%+ accuracy with stable timing.": "आपका अगला लक्ष्य स्थिर समय-प्रबंधन के साथ 80%+ सटीकता हासिल करना है।", "Aim for a clear jump to 70%+ accuracy in the next mock.": "अगले मॉक में 70%+ सटीकता तक स्पष्ट सुधार का लक्ष्य रखें।", "Do not judge your final potential from one mock; use this attempt as a diagnostic.": "एक मॉक से अपनी अंतिम क्षमता का निर्णय न करें; इस प्रयास को अपनी कमियों की पहचान के लिए इस्तेमाल करें।", "Start with the questions you got wrong or left unattempted and identify the exact reason.": "जिन प्रश्नों में आप गलत हुए या जिन्हें छोड़ दिया, उनसे शुरुआत करें और सटीक कारण पहचानें।", "Strengthen core concepts before increasing attempt speed.": "प्रश्न हल करने की गति बढ़ाने से पहले मूल अवधारणाओं को मजबूत करें।", "Keep a written error log and revise it before every new mock.": "गलतियों का लिखित रिकॉर्ड रखें और हर नए मॉक से पहले उसे दोहराएँ।"};
+function add(){
+ const n=[...document.querySelectorAll('*')].find(x=>x.children.length===0&&/AI Feedback/i.test(x.textContent||''));
+ if(!n)return;
+ const r=n.closest('[role="dialog"],.modal,.fixed')||n.parentElement;
+ if(!r||r.querySelector('#aiFeedbackTranslate'))return;
+ const b=document.createElement('button'); b.id='aiFeedbackTranslate'; b.type='button'; b.textContent='A / अ';
+ b.title='हिंदी / English'; b.style.cssText='margin-left:8px;border:1px solid #cbd5e1;border-radius:7px;padding:3px 7px;background:#fff;font-size:11px;cursor:pointer';
+ b.onclick=()=>{const toHi=b.dataset.hi!=='1';const w=document.createTreeWalker(r,NodeFilter.SHOW_TEXT),a=[];let x;while(x=w.nextNode())if(x.nodeValue.trim()&&x.parentElement!==b)a.push(x);a.forEach(t=>{if(!t.dataset.enOriginal)t.dataset.enOriginal=t.nodeValue;let s=t.dataset.enOriginal;if(toHi)Object.keys(PAIRS).forEach(k=>s=s.split(k).join(PAIRS[k]));t.nodeValue=s;});b.dataset.hi=toHi?'1':'0';};
+ n.parentElement.appendChild(b);
+}
+new MutationObserver(add).observe(document.body,{childList:true,subtree:true});
+document.addEventListener('click',()=>setTimeout(add,50));
+})();
+</script>
+
+<style>
+/* Prevent Chrome/Google Translate from duplicating the already-bilingual
+   question/option content when the live question DOM is replaced. */
+#question-text,
+#options-container,
+#question-text *,
+#options-container * {
+  translate: no !important;
+}
+</style>
+<script>
+(function () {
+  function protectBilingualContent() {
+    const q = document.getElementById('question-text');
+    const o = document.getElementById('options-container');
+    if (q) q.setAttribute('translate', 'no');
+    if (o) o.setAttribute('translate', 'no');
+  }
+  protectBilingualContent();
+  new MutationObserver(protectBilingualContent).observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+})();
+</script>
+</body>
+</html>
+<script>
+(function(){
+ function patch(){
+  const bs=[...document.querySelectorAll('button,[role="button"],a')];
+  const b=bs.find(e=>{
+   const t=((e.getAttribute('aria-label')||'')+' '+(e.title||'')+' '+(e.textContent||'')).toLowerCase();
+   const r=e.getBoundingClientRect(),s=getComputedStyle(e);
+   return r.width<110&&r.height<110&&s.position==='fixed'&&/navigator|question table|question list|questions/.test(t);
+  });
+  if(!b||b.dataset.mobileNavFixed)return;
+  b.dataset.mobileNavFixed='1';
+  b.addEventListener('click',()=>setTimeout(()=>{
+   const ps=[...document.querySelectorAll('aside,[role="dialog"],.modal,.drawer,[class*="navigator"],[class*="question-panel"]')];
+   const panel=ps.find(x=>/question|navigator/i.test(x.textContent||''));
+   if(panel){
+    panel.removeAttribute('hidden');
+    panel.style.visibility='visible';
+    panel.style.opacity='1';
+    panel.style.pointerEvents='auto';
+    panel.style.transform='translateX(0)';
+    panel.setAttribute('aria-hidden','false');
+   }
+  },60),true);
+ }
+ new MutationObserver(patch).observe(document.documentElement,{childList:true,subtree:true});
+ setTimeout(patch,300);
+})();
+</script>
+
+<script>
+(function(){
+ function patch(){
+  const els=[...document.querySelectorAll('button,[role="button"],a')];
+  const b=els.find(e=>{
+   const t=((e.getAttribute('aria-label')||'')+' '+(e.title||'')+' '+(e.textContent||'')).toLowerCase();
+   const r=e.getBoundingClientRect(),s=getComputedStyle(e);
+   return r.width<110&&r.height<110&&s.position==='fixed'&&/navigator|question table|question list|questions/.test(t);
+  });
+  if(!b||b.dataset.mobileNavFixed)return;
+  b.dataset.mobileNavFixed='1';
+  b.addEventListener('click',()=>setTimeout(()=>{
+   const ps=[...document.querySelectorAll('aside,[role="dialog"],.modal,.drawer,[class*="navigator"],[class*="question-panel"]')];
+   const panel=ps.find(x=>/question|navigator/i.test(x.textContent||''));
+   if(panel){
+    panel.removeAttribute('hidden');
+    panel.style.visibility='visible';
+    panel.style.opacity='1';
+    panel.style.pointerEvents='auto';
+    panel.style.transform='translateX(0)';
+    panel.setAttribute('aria-hidden','false');
+   }
+  },60),true);
+ }
+ new MutationObserver(patch).observe(document.documentElement,{childList:true,subtree:true});
+ setTimeout(patch,300);
+})();
+</script>
