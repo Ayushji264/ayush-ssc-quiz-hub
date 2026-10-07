@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Salient Feature of Constitution Quiz | Ayush Education 264</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{--navy:#0a2240;--navy2:#173b61;--blue:#2563eb;--green:#219653;--red:#e55353;--yellow:#f2c94c;--purple:#7c3aed;--bg:#f4f5f8;--border:#dfe4ea;--text:#263241;--muted:#6b7280;--card:#fff}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,"Noto Sans Devanagari","Nirmala UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+button,input,select{font:inherit}button{cursor:pointer}img,video,iframe{max-width:100%}
+.hidden{display:none!important}#app{height:100dvh;display:flex;flex-direction:column}
+#exam{height:calc(100dvh - 58px);min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.intro-wrap{height:100%;overflow:auto;padding:24px 16px;display:flex;justify-content:center;align-items:flex-start}
+.intro-card{width:min(760px,100%);background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(10,34,64,.08);overflow:hidden}
+.intro-head{background:var(--navy);color:#fff;padding:24px}
+.intro-head h1{font-size:22px;margin:0 0 6px;font-weight:800}
+.intro-head p{margin:0;color:#cbdcf0;font-size:13px}
+.intro-body{padding:20px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat{border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;background:#fafbfc}
+.stat strong{display:block;font-size:22px;color:var(--navy)}
+.stat span{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+.field input,.field select{width:100%;height:44px;border:1px solid #cbd5e1;border-radius:6px;padding:0 12px;outline:none}
+.field input:read-only{background:#f1f5f9;color:#475569;font-weight:700}
+.note{background:#eef5ff;border-left:4px solid var(--blue);padding:10px 12px;font-size:12px;margin:16px 0}
+.start-btn{width:100%;height:48px;border:0;border-radius:6px;background:var(--navy);color:#fff;font-weight:800;font-size:15px}
+.start-btn:disabled{background:#94a3b8;cursor:not-allowed}
+.navbar{height:58px;min-height:58px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;z-index:20}
+.nav-title{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40vw}
+.nav-btn{height:36px;border:1px solid rgba(255,255,255,.25);background:var(--navy2);color:#fff;border-radius:6px;padding:0 10px;font-weight:800;font-size:12px}
+.timer{height:38px;min-width:96px;padding:0 8px;border:1px solid #467aa7;background:#173b61;border-radius:6px;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:800;font-family:monospace;font-size:18px}
+.timer.warning{background:#7f1d1d}
+.exam-main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 280px;background:#fff}
+.question-pane{min-width:0;min-height:0;display:flex;flex-direction:column;border-right:1px solid var(--border)}
+.q-head{height:58px;min-height:58px;padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.q-meta{display:flex;align-items:center;gap:10px}.q-badge{background:#eef1f5;border:1px solid #cfd6df;border-radius:6px;padding:6px 10px;font-size:16px;font-weight:800;color:var(--navy)}
+.credit{font-size:11px;color:#718096}
+.time-spent{font:700 13px monospace;color:#667085;border:1px solid var(--border);border-radius:6px;padding:6px 8px;background:#fafbfc}
+.q-scroll{flex:1;min-height:0;overflow:auto;padding:20px;scrollbar-gutter:stable}
+#question-text{font-size:16px;line-height:1.6;margin-bottom:14px;font-weight:600;overflow-wrap:anywhere} .statement-item,.option,.option span,.explanation{overflow-wrap:anywhere} .option>span{flex:1;min-width:0}
+.statement-item{background:#f8fafc;border-left:3px solid var(--blue);padding:8px 12px;margin:6px 0;line-height:1.5;font-size:14px;border-radius:0 4px 4px 0}
+.options{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer}
+.option:hover{border-color:#8eb3dc;background:#f8fbff}
+.option.selected{border-color:#4a86bd;background:#eef6ff}
+.option input{margin-top:2px;accent-color:#2563eb}
+.exam-footer{height:58px;min-height:58px;border-top:1px solid var(--border);display:grid;grid-template-columns:100px 1fr 140px;gap:8px;padding:8px 12px;background:#fff}
+.foot-btn{border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#334155;font-weight:800}
+.foot-btn.review{background:var(--yellow);color:#111827}
+.foot-btn.next{background:var(--navy);color:#fff}
+.sidebar{background:#fff;display:flex;flex-direction:column;min-height:0}
+.palette{flex:1;overflow:auto;padding:12px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-content:start}
+.q-node{height:36px;border:1px solid #cbd5e1;border-radius:4px;background:#fff;font-weight:800;font-size:12px}
+.q-node.answered{background:var(--green);color:#fff;border-color:var(--green)}
+.q-node.unanswered{background:var(--red);color:#fff;border-color:var(--red)}
+.q-node.marked{background:var(--purple);color:#fff;border-color:var(--purple)}
+.q-node.active{outline:3px solid rgba(10,34,64,.35)}
+.solution-mode .q-node.sol-correct{background:var(--green)!important;color:#fff!important;border-color:var(--green)!important}
+.solution-mode .q-node.sol-wrong{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important}
+.solution-mode .q-node.sol-unatt{background:#fff!important;color:#64748b!important;border:1px solid #cbd5e1!important}
+.submit-side{padding:10px;border-top:1px solid var(--border)}
+.submit-btn{height:42px;width:100%;border:0;border-radius:6px;background:#198754;color:#fff;font-weight:800}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal-card{width:min(400px,94vw);background:#fff;border-radius:10px;padding:20px}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.modal-actions button{height:40px;border-radius:6px;border:1px solid #cbd5e1;font-weight:800}
+#result{position:absolute;inset:0;background:var(--bg);overflow:auto;z-index:500;padding:20px 14px}
+.result-wrap{width:min(860px,100%);margin:auto}
+.hero{background:linear-gradient(120deg,#0a2240,#214d76);color:#fff;border-radius:10px 10px 0 0;padding:20px;text-align:center}
+.score{font-size:48px;font-weight:900;margin:8px 0}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border:1px solid var(--border);border-top:0}
+.rstat{text-align:center;padding:12px 4px;border-right:1px solid var(--border)}
+.rstat:last-child{border-right:0}
+.rstat b{display:block;font-size:20px}
+.rstat span{font-size:10px;text-transform:uppercase;color:#6b7280;font-weight:800}
+.result-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.result-buttons button{height:44px;border:0;border-radius:6px;color:#fff;font-weight:800;font-size:12px}
+.b-solution{background:#4338ca}.b-copy{background:#475569}.b-reattempt{background:#059669}
+body.solution-mode .option.correct{border-color:var(--green)!important;background:#f0fdf4!important;font-weight:bold}
+body.solution-mode .option.wrong{border-color:var(--red)!important;background:#fef2f2!important;font-weight:bold}
+.explanation{margin-top:16px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;padding:14px}
+.exp-title{font-size:15px;font-weight:800;color:#166534;margin-bottom:6px}
+.analysis-box{margin-top:12px;padding-top:10px;border-top:1px solid #e5e7eb}
+.tag{border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer;margin:3px}
+.tag.selected{border-color:#4338ca;background:#e0e7ff;color:#312e81}
+/* Responsive typography/layout: same design, adapts cleanly from phone to laptop */
+@media (max-width:900px){
+ .exam-main{grid-template-columns:minmax(0,1fr) 250px}
+ .q-scroll{padding:16px}
+ #question-text{font-size:clamp(15px,2.2vw,17px);line-height:1.58}
+ .statement-item{font-size:clamp(13px,1.8vw,14px);line-height:1.52}
+ .option{font-size:clamp(14px,1.8vw,15px);line-height:1.48;padding:11px 12px}
+ .nav-title{max-width:34vw}
+}
+@media(max-width:768px){
+ body{overflow:hidden}
+ #exam{height:100dvh;min-height:100dvh;overflow:hidden}
+ .exam-main{height:calc(100dvh - 58px);min-height:0;overflow:hidden}
+ .question-pane{height:100%;min-height:0}
+ .q-scroll{min-height:0;overflow-y:auto}
+ .intro-wrap{padding:14px 10px}.intro-head{padding:18px 16px}
+ .intro-head h1{font-size:clamp(17px,5vw,22px);line-height:1.25}.intro-head p{font-size:12px}
+ .intro-body{padding:16px}.stats{gap:7px}.stat{padding:10px 5px}
+ .stat strong{font-size:clamp(18px,6vw,22px)}.stat span{font-size:9px}
+ .field label{font-size:12px}.field input,.field select{height:44px;font-size:14px}.start-btn{height:46px;font-size:14px}
+
+ .exam-main{display:block}
+ .question-pane{height:calc(100dvh - 58px)}
+ .navbar{height:58px;min-height:58px;padding:0 8px;gap:5px}
+ .nav-title{font-size:13px;max-width:30vw;flex:1;min-width:0}
+ .nav-btn{height:34px;padding:0 7px;font-size:11px;white-space:nowrap}
+ .timer{height:36px;min-width:78px;font-size:16px;flex-shrink:0}
+
+ .q-head{height:auto;min-height:52px;padding:7px 10px;gap:8px}
+ .q-meta{min-width:0}.q-meta>div:nth-child(2){min-width:0;overflow:hidden}
+ .q-meta strong{font-size:clamp(11px,3.2vw,13px)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .q-badge{font-size:14px;padding:5px 8px;flex-shrink:0}
+ .credit{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .time-spent{font-size:11px;padding:5px 7px;flex-shrink:0}
+
+ .q-scroll{padding:14px 12px 76px}
+ #question-text{font-size:clamp(15px,4.2vw,18px);line-height:1.58;margin-bottom:12px}
+ .statement-item{font-size:clamp(13px,3.5vw,15px);line-height:1.52;padding:8px 10px}
+ .options{gap:8px;margin-top:13px}
+ .option{font-size:clamp(13.5px,3.7vw,15.5px);line-height:1.48;padding:11px 10px;gap:8px}
+ .option input{margin-top:3px;flex-shrink:0}
+
+ .exam-footer{height:58px;min-height:58px;grid-template-columns:1fr 1.35fr 1.35fr 1fr;gap:5px;padding:6px}
+ .foot-btn{font-size:9px;white-space:nowrap;min-width:0;padding:0 3px}
+
+ .sidebar{position:fixed;top:58px;right:0;bottom:0;width:min(85vw,300px);transform:translateX(105%);transition:transform .2s;z-index:90}
+ .sidebar.open{transform:translateX(0)}
+ .palette{grid-template-columns:repeat(5,1fr);gap:7px;padding:10px}.q-node{height:34px;font-size:11px}
+
+ #result{padding:12px 10px}.hero{padding:18px 12px}.score{font-size:clamp(38px,12vw,48px)}
+ .stats-row{grid-template-columns:repeat(2,1fr)}.rstat{border-bottom:1px solid var(--border)}
+ .rstat:nth-child(2n){border-right:0}.rstat b{font-size:18px}
+ .result-buttons{grid-template-columns:1fr;gap:7px}.result-buttons button{height:42px}
+ .modal{padding:12px}.modal-card{width:min(400px,96vw);padding:16px}
+}
+@media(max-width:420px){
+ .intro-wrap{padding:9px 7px}.intro-body{padding:13px}
+ .stats{gap:5px}.stat{padding:9px 3px}.stat strong{font-size:17px}.stat span{font-size:8px}
+ .navbar{gap:3px}.nav-title{max-width:27vw;font-size:12px}
+ .nav-btn{padding:0 5px;font-size:10px}.timer{min-width:68px;font-size:14px}
+ .q-scroll{padding-left:9px;padding-right:9px}
+ #question-text{font-size:clamp(14px,4.5vw,16px);line-height:1.56}
+ .statement-item{font-size:13px;line-height:1.5}
+ .option{font-size:13px;line-height:1.46;padding:10px 8px}
+ .exam-footer{height:58px;min-height:58px;grid-template-columns:1fr 1.35fr 1.35fr 1fr;gap:4px;padding:5px}
+ .foot-btn{font-size:8px;padding:0 2px}
+}
+@media(max-width:340px){
+ .nav-title{display:none}
+ .navbar>div:last-child{width:100%;justify-content:flex-end}
+ .nav-btn{font-size:9px;padding:0 4px}
+ .timer{min-width:64px;font-size:13px}
+ #question-text{font-size:14px}
+ .option{font-size:12.5px}
+}
+@media(pointer:coarse){
+ .option{min-height:46px}
+ .foot-btn,.nav-btn,.q-node,.tag{min-height:34px}
+}
+
+/* Final navigation visibility fix */
+.exam-footer{position:relative;z-index:5;flex-shrink:0}
+@media(max-width:768px){
+  .exam-footer{padding-bottom:max(6px,env(safe-area-inset-bottom))}
+  .q-scroll{padding-bottom:14px}
+  .exam-footer .foot-btn{display:block;visibility:visible;opacity:1}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<section id="intro" class="intro-wrap">
+  <div class="intro-card">
+    <div class="intro-head">
+      <h1>KNOWLEDGE LECTURE-2 SALIENT FEATURE OF CONSTITUTION QUIZ</h1>
+      <p>Polity • Lecture 2 • 122 Questions • Cloud Sync</p>
+    </div>
+    <div class="intro-body">
+      <div class="stats">
+        <div class="stat"><strong>122</strong><span>Questions</span></div>
+        <div class="stat"><strong>122:00</strong><span>Time</span></div>
+        <div class="stat"><strong>Bilingual</strong><span>Format</span></div>
+      </div>
+      <div class="field">
+        <label>Student Name (Real Name Required)</label>
+        <input id="student-name" type="text" placeholder="Apna pura naam likhein..." oninput="checkName()">
+      </div>
+      <div class="field">
+        <label>Negative Marking</label>
+        <select id="negative">
+          <option value="0" selected>No Negative Marking (Source)</option>
+          <option value="0.25">-0.25</option>
+          <option value="0">No Negative Marking</option>
+        </select>
+      </div>
+      <div class="note"><b>Rule:</b> Bina verified naam ke test start nahi hoga. Submit karte hi scorecard Supabase me save hoga.</div>
+      <button class="start-btn" id="start-btn" onclick="startTest()" disabled>ENTER NAME TO START</button>
+    </div>
+  </div>
+</section>
+
+<section id="exam" class="hidden">
+  <header class="navbar">
+    <div class="nav-title">KNOWLEDGE LECTURE-2 SALIENT FEATURE OF CONSTITUTION QUIZ</div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button class="nav-btn" onclick="toggleLang()" id="lang-btn">A/अ EN</button>
+      <button class="nav-btn" onclick="toggleSidebar()">☷ Palette</button>
+      <div class="timer" id="timer">15:00</div>
+    </div>
+  </header>
+  <main class="exam-main">
+    <section class="question-pane">
+      <div class="q-head">
+        <div class="q-meta">
+          <div class="q-badge" id="q-no">Q1</div>
+          <div><strong style="font-size:13px">KNOWLEDGE LECTURE-1 MAKING OF CONSTITUTION</strong><div class="credit" id="stu-tag">Student</div></div>
+        </div>
+        <div class="time-spent" id="q-timer">0s</div>
+      </div>
+      <div class="q-scroll">
+        <div id="question-text"></div>
+        <div id="statements-box"></div>
+        <div class="options" id="options"></div>
+        <div id="solution-box"></div>
+      </div>
+      <div class="exam-footer" id="exam-footer">
+        <button class="foot-btn" onclick="prevQ()">‹ PREV</button>
+        <button class="foot-btn review" onclick="markReview()">MARK & NEXT</button>
+        <button class="foot-btn next" onclick="saveNext()">SAVE & NEXT ›</button>
+        <button class="foot-btn" style="background:#198754;color:#fff;border-color:#198754" onclick="openSubmitModal()">SUBMIT</button>
+      </div>
+      <div class="exam-footer hidden" id="sol-footer">
+        <button class="foot-btn" onclick="solPrev()">‹ PREV</button>
+        <button class="foot-btn next" onclick="solNext()" id="sol-next-btn">NEXT ›</button>
+      </div>
+    </section>
+    <aside class="sidebar" id="sidebar">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-weight:800;font-size:13px">Question Palette</div>
+      <div class="palette" id="palette"></div>
+      <div class="submit-side"><button class="submit-btn" onclick="openSubmitModal()">SUBMIT TEST</button></div>
+    </aside>
+  </main>
+</section>
+
+<section id="result" class="hidden">
+  <div class="result-wrap">
+    <div class="hero">
+      <small>OVERALL SCORE</small>
+      <div class="score" id="r-score">0.00</div>
+      <div id="r-status" style="font-size:13px">Completed ✓</div>
+    </div>
+    <div class="stats-row">
+      <div class="rstat"><b id="r-att">0</b><span>Attempted</span></div>
+      <div class="rstat"><b id="r-cor">0</b><span>Correct</span></div>
+      <div class="rstat"><b id="r-wro">0</b><span>Incorrect</span></div>
+      <div class="rstat"><b id="r-acc">0%</b><span>Accuracy</span></div>
+      <div class="rstat"><b id="r-time">0:00</b><span>Time</span></div>
+    </div>
+    <div class="result-buttons">
+      <button class="b-solution" onclick="startAudit()">▣ AUDIT & SOLUTIONS</button>
+      <button class="b-copy" onclick="copyMistakes()">📋 COPY MISTAKES</button>
+      <button class="b-reattempt" onclick="reattempt()">↻ RE-ATTEMPT</button>
+    </div>
+    <div id="final-report-card" class="hidden" style="margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px">
+      <h3 style="margin:0 0 10px;color:var(--navy);font-size:15px">DIAGNOSTIC AUDIT REPORT</h3>
+      <div id="report-details" style="font-size:13px;line-height:1.6"></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="modal" id="modal-submit">
+  <div class="modal-card">
+    <h3 style="margin:0 0 8px;font-size:16px">Confirm Submit</h3>
+    <div style="font-size:13px;color:#475569" id="modal-submit-msg">Kya aap test submit karna chahte hain?</div>
+    <div class="modal-actions">
+      <button onclick="closeModal('modal-submit')">Cancel</button>
+      <button style="background:var(--navy);color:#fff" onclick="submitExam()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://nzahaumcnbqtcxqiumlm.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56YWhhdW1jbmJxdGN4cWl1bWxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxNzE3MjgsImV4cCI6MjEwMTc0NzcyOH0.h1ixAdxtDfDQTDIBM6x_XSOJKKs-lECED6CwqmcFoEo";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const QUESTIONS = [{"id":1,"q":{"en":"The office of the Speaker in the Indian Parliamentary system is heavily influenced by:","hi":"भारतीय संसदीय प्रणाली में लोकसभा अध्यक्ष ( स्पीकर ) का पद मुख्य रूप से किससे प्रभावित है ?"},"st":null,"opts":{"en":["British Constitution","Canadian Constitution","French Constitution","Irish Constitution"],"hi":["ब्रिटिश संविधान","कनाडाई संविधान","फ्रांसीसी संविधान","आयरिश संविधान"]},"ans":0,"exp":""},{"id":2,"q":{"en":"The “Power of Judicial Review” in India is inspired from which country's constitution?","hi":"भारत में “न्यायिक पुनरावलोकन” की अवधारणा किस देश के संविधान से प्रेरित है ?"},"st":null,"opts":{"en":["British Constitution","French Constitution","Irish Constitution","United States Constitution"],"hi":["ब्रिटिश संविधान","फ्रांसीसी संविधान","आयरिश संविधान","संयुक्त राज्य अमेरिका संविधान"]},"ans":3,"exp":""},{"id":3,"q":{"en":"The \"residuary powers\" in the Indian Constitution were inspired by the constitution of:","hi":"भारतीय संविधान में “अवशिष्ट शक्तियाँ” किस देश के संविधान से प्रेरित थीं ?"},"st":null,"opts":{"en":["Australia","Canada","South Africa","United States of America"],"hi":["ऑस्ट्रेलिया","कनाडा","दक्षिण अफ्रीका","संयुक्त राज्य अमेरिका"]},"ans":1,"exp":""},{"id":4,"q":{"en":"The Law-making procedure in Indian Constitution is taken from:","hi":"भारतीय संविधान में विधि - निर्माण की प्रक्रिया किस देश के संविधान से ली गई है ?"},"st":null,"opts":{"en":["British Constitution","Canadian Constitution","French Constitution","Irish Constitution"],"hi":["ब्रिटिश संविधान","कनाडाई संविधान","फ्रांसीसी संविधान","आयरिश संविधान"]},"ans":0,"exp":""},{"id":5,"q":{"en":"Which of the following pairs is correctly matched with regard to the subject and its respective list under the Seventh Schedule?","hi":"निम्नलिखित में से कौन सा युग्म सातवीं अनुसूची के अंतर्गत विषय और उसकी संबंधित सूची के संबंध में सही सुमेलित है ?"},"st":null,"opts":{"en":["Police - Union List","Education - State List","Trade and Commerce - Concurrent List","Banking - State List"],"hi":["पुलिस - संघ सूची","शिक्षा - राज्य सूची","व्यापार और वाणिज्य - समवर्ती सूची","बैंकिंग - राज्य सूची"]},"ans":2,"exp":""},{"id":6,"q":{"en":"Which of the following is NOT in the State List?","hi":"निम्नलिखित में से कौन राज्य सूची में नहीं है ?"},"st":null,"opts":{"en":["Police","Agriculture","Public health","Atomic energy"],"hi":["पुलिस","कृषि","सार्वजनिक स्वास्थ्य","परमाणु ऊर्जा"]},"ans":3,"exp":""},{"id":7,"q":{"en":"Indian Constitution is a unique blend of _______ and flexibility.","hi":"भारतीय संविधान _______ और लचीलेपन का एक अनूठा मिश्रण है।"},"st":null,"opts":{"en":["conformity","rigidity","durability","uniformity"],"hi":["अनुरूपता","कठोरता","स्थायित्व","एकरूपता"]},"ans":1,"exp":""},{"id":8,"q":{"en":"The Constitution of India establishes a judicial system that is:","hi":"भारतीय संविधान एक न्यायिक व्यवस्था स्थापित करता है जो :"},"st":null,"opts":{"en":["under the control of the Parliament","integral and independent","similar to the British system","under the control of the State"],"hi":["संसद के नियंत्रण में है।","अभिन्न और स्वतंत्र है।","ब्रिटिश प्रणाली के समान है।","राज्य के नियंत्रण में है।"]},"ans":1,"exp":""},{"id":9,"q":{"en":"The Parliamentary Form of Government has been borrowed by the Indian Constitution from the Constitution of which country?","hi":"भारतीय संविधान द्वारा संसदीय शासन प्रणाली किस देश के संविधान से ली गई है ?"},"st":null,"opts":{"en":["United Kingdom","Ireland","United States of America","France"],"hi":["यूनाइटेड किंगडम","आयरलैंड","संयुक्त राज्य अमेरिका","फ्रांस"]},"ans":0,"exp":""},{"id":10,"q":{"en":"Which of the following is NOT correct about the Constitution of India?","hi":"निम्नलिखित में से कौन - सा भारतीय संविधान के बारे में सही नहीं है ?"},"st":null,"opts":{"en":["It reflects the historical, social, political and economic conditions of the Indian people.","It is a document of social relevance.","It suits the requirement of India.","The original Constitution contained 395 Articles in 25 parts and 12 schedules."],"hi":["यह भारतीय लोगों की ऐतिहासिक , सामाजिक , राजनीतिक और आर्थिक स्थितियों को दर्शाता है।","यह सामाजिक प्रासंगिकता का एक दस्तावेज है।","यह भारत की आवश्यकता के अनुरूप है।","मूल संविधान में 25 भागों में 395 अनुच्छेद और 12 अनुसूचियां थीं।"]},"ans":3,"exp":""},{"id":11,"q":{"en":"As of July 2025, how many articles and parts does the Indian Constitution comprise (excluding repealed sections)?","hi":"जुलाई 2025 तक , भारतीय संविधान में कितने अनुच्छेद और भाग हैं ( निरस्त धाराओं को छोड़कर ) ?"},"st":null,"opts":{"en":["395 Articles, 22 Parts","448 Articles, 25 Parts","450 Articles, 28 Parts","356 Articles, 20 Parts"],"hi":["395 अनुच्छेद 22 भाग","448 अनुच्छेद , 25 भाग","450 अनुच्छेद , 28 भाग","356 अनुच्छेद , 20 भाग"]},"ans":1,"exp":""},{"id":12,"q":{"en":"From which country were the ideals of justice of the Indian Constitution borrowed?","hi":"भारतीय संविधान के न्याय के आदर्श किस देश से लिए गए थे ?"},"st":null,"opts":{"en":["The USSR USSR","The UK UK","The US US","Japan"],"hi":["The USSR USSR","The UK UK","The US US","जापान"]},"ans":0,"exp":""},{"id":13,"q":{"en":"Under which Schedule of the Indian Constitution is the form of oath or affirmation for a Judge of the Supreme Court mentioned?","hi":"भारतीय संविधान की किस अनुसूची के अंतर्गत सर्वोच्च न्यायालय के न्यायाधीश के लिए शपथ या प्रतिज्ञान का स्वरूप उल्लिखित है ?"},"st":null,"opts":{"en":["Fourth Schedule","Second Schedule","First Schedule","Third Schedule"],"hi":["चौथी अनुसूची","दूसरी अनुसूची","पहली अनुसूची","तीसरी अनुसूची"]},"ans":3,"exp":""},{"id":14,"q":{"en":"How many Schedules were originally there in the Constitution when it was adopted?","hi":"संविधान को अपनाए जाने के समय मूलतः इसमें कितनी अनुसूचियाँ थीं ?"},"st":null,"opts":{"en":["7","8","10","12"],"hi":["7","8","10","12"]},"ans":1,"exp":""},{"id":15,"q":{"en":"Which of the following features of the Indian Constitution is borrowed from United States of America?","hi":"भारतीय संविधान की निम्नलिखित में से कौन सी विशेषता संयुक्त राज्य अमेरिका से उधार ली गई है ?"},"st":null,"opts":{"en":["Fundamental duties","Concept of \"Republic\"","The Preamble of the constitution","Freedom of trade and commerce"],"hi":["मूल कर्तव्य","\" गणतंत्र \" की अवधारणा","संविधान की उद्देशिका","व्यापार और वाणिज्य की स्वतंत्रता"]},"ans":2,"exp":""},{"id":16,"q":{"en":"Which constitutional amendment gave constitutional status to cooperative societies?","hi":"किस संवैधानिक संशोधन ने सहकारी समितियों को संवैधानिक दर्जा प्रदान किया ?"},"st":null,"opts":{"en":["73rd Amendment","86th Amendment","91st Amendment","97th Amendment"],"hi":["73 वां संशोधन","86 वां संशोधन","91 वां संशोधन","97 वां संशोधन"]},"ans":3,"exp":""},{"id":17,"q":{"en":"Directive Principles of State Policy are borrowed from:","hi":"राज्य के नीति निदेशक तत्व कहाँ से लिए गए हैं ?"},"st":null,"opts":{"en":["United Kingdom","Canada","United States of America","Ireland"],"hi":["यूनाइटेड किंगडम","कनाडा","संयुक्त राज्य अमेरिका","आयरलैंड"]},"ans":3,"exp":""},{"id":18,"q":{"en":"Which of the following is part of the Concurrent List of the Indian Constitution? I. Forests II. Banking","hi":"निम्नलिखित में से कौन भारतीय संविधान की समवर्ती सूची का हिस्सा है ? I. वन II. बैंकिंग"},"st":null,"opts":{"en":["Only I","Only II","Both I and II","Neither I nor II"],"hi":["केवल I","केवल II","I और II दोनों","न तो I और न ही II"]},"ans":0,"exp":""},{"id":19,"q":{"en":"Which of the following is part of the Concurrent List of the Indian Constitution? I. Public Health II. Trade Unions","hi":"निम्नलिखित में से कौन भारतीय संविधान की समवर्ती सूची का हिस्सा है ? I. सार्वजनिक स्वास्थ्य II. मज़दूर संघ"},"st":null,"opts":{"en":["Only I","Only II","Both I and II","Neither I nor II"],"hi":["केवल I","केवल II","I तथा II दोनों","ना तो I तथा ना ही II"]},"ans":1,"exp":""},{"id":20,"q":{"en":"The last subject mentioned in the concurrent list of the Indian Constitution is numbered ____.","hi":"भारतीय संविधान की समवर्ती सूची में उल्लिखित अंतिम विषय ____ क्रमांकित है।"},"st":null,"opts":{"en":["34","42","47","41"],"hi":["34","42","47","41"]},"ans":2,"exp":""},{"id":21,"q":{"en":"Which of the following subjects is NOT included in the Union List under the Constitution, meaning it primarily falls under State legislative competence?","hi":"निम्नलिखित में से कौन सा विषय संविधान के तहत संघ सूची में शामिल नहीं है , जिसका अर्थ है कि यह मुख्य रूप से राज्य की विधायी क्षमता के अंतर्गत आता है ?"},"st":null,"opts":{"en":["Atomic energy","Banking","Public health","Citizenship"],"hi":["परमाणु ऊर्जा","बैंकिंग","सार्वजनिक स्वास्थ्य","नागरिकता"]},"ans":2,"exp":""},{"id":22,"q":{"en":"Which Schedule of the Indian Constitution contains the provisions of the Anti-defection Law, defining disqualification on grounds of defection for legislators in Parliament and State Legislatures?","hi":"भारतीय संविधान की कौनसी अनुसूची में दल - बदल विरोधी कानून के प्रावधान शामिल हैं , जो संसद और राज्य विधानसभाओं में विधायकों के लिए दलबदल के आधार पर अयोग्यता को परिभाषित करता है ?"},"st":null,"opts":{"en":["Sixth","Eighth","Tenth","Ninth"],"hi":["छठा","आठवाँ","दसवां","नौवीं"]},"ans":2,"exp":""},{"id":23,"q":{"en":"Office of CAG was brought to our constitution from which of the following country?","hi":"CAG का कार्यालय हमारे संविधान में निम्नलिखित में से किस देश से लाया गया था ?"},"st":null,"opts":{"en":["Britain","Australia","Canada","USA"],"hi":["ब्रिटेन","ऑस्ट्रेलिया","कनाडा","USA"]},"ans":0,"exp":""},{"id":24,"q":{"en":"​ Which of the following is not a feature of the Indian Constitution borrowed from the British system?","hi":"निम्नलिखित में से कौन सी भारतीय संविधान की एक विशेषता ब्रिटिश प्रणाली से उधार ली गई नहीं है ?"},"st":null,"opts":{"en":["Parliamentary government","Rule of Law","Cabinet responsibility","Fundamental Duties"],"hi":["संसदीय सरकार","कानून का शासन","कैबिनेट की जिम्मेदारी","मौलिक कर्तव्य"]},"ans":3,"exp":""},{"id":25,"q":{"en":"The term \"cooperative federalism\" means:","hi":"\" सहकारी संघवाद \" शब्द का अर्थ है :"},"st":null,"opts":{"en":["Federalism based on judiciary","Supremacy of the Union over States","Competition between Union and States","Cooperation and coordination between Union and States"],"hi":["न्यायपालिका पर आधारित संघवाद","राज्यों पर संघ की सर्वोच्चता","संघ और राज्यों के बीच प्रतिस्पर्धा","संघ और राज्यों के बीच सहयोग और समन्वय"]},"ans":3,"exp":""},{"id":26,"q":{"en":"Fill in the blank: The Constitution of India originally comprises of _______ number of articles, which later on increased to 448 articles through amendments.","hi":"रिक्त स्थान भरें : भारत का संविधान मूल रूप से _______ अनुच्छेदों से बना था , जिसे बाद में संशोधनों के माध्यम से बढ़ाकर 448 अनुच्छेद कर दिया गया।"},"st":null,"opts":{"en":["395","387","410","385"],"hi":["395","387","410","385"]},"ans":0,"exp":""},{"id":27,"q":{"en":"In which of the following cases does the Union have exclusive power?","hi":"निम्नलिखित में से किस मामले में संघ को विशेष शक्ति प्राप्त है ?"},"st":null,"opts":{"en":["Agriculture","Public health","Police","Banking"],"hi":["कृषि","सार्वजनिक स्वास्थ्य","पुलिस","बैंकिंग"]},"ans":3,"exp":""},{"id":28,"q":{"en":"Which of the following is not a feature of Indian federalism?","hi":"निम्नलिखित में से कौनसी भारतीय संघवाद की विशेषता नहीं है ?"},"st":null,"opts":{"en":["Dual citizenship","Division of powers","Independent judiciary","Written Constitution"],"hi":["दोहरी नागरिकता","शक्तियों का विभाजन","स्वतंत्र न्यायपालिका","लिखित संविधान"]},"ans":0,"exp":""},{"id":29,"q":{"en":"Match List-I (Schedules) with List-II (Provisions/Functionaries) and select the correct answer using the codes given below: List-I (Schedule) List-II (Specific Provisions/Functionaries) A. Second Schedule 1. Forms of Oaths for Union Ministers and Judges of SC/HC B. Third Schedule 2. Emoluments and Privileges of the President and Governors C. Fourth Schedule 3. Allocation of seats in the Council of States (Rajya Sabha) D. Seventh Schedule 4. Division of legislative powers between the Union and State governments","hi":"सूची -I ( अनुसूचियाँ ) को सूची -II ( प्रावधान / पदाधिकारी ) के साथ सुमेलित करें और नीचे दिए गए कूटों का उपयोग करके सही उत्तर का चयन करें : सूची -I ( अनुसूची ) सूची -II ( विशिष्ट प्रावधान / पदाधिकारी ) A. दूसरी अनुसूची 1. केंद्रीय मंत्रियों और SC/HC के न्यायाधीशों के लिए शपथ के प्रारूप B. तीसरी अनुसूची 2. राष्ट्रपति और राज्यपालों के परिलब्धियाँ और विशेषाधिकार C. चौथी अनुसूची 3. राज्यों की परिषद ( राज्य सभा ) में सीटों का आवंटन D. सातवीं अनुसूची 4. संघ और राज्य सरकारों के बीच विधायी शक्तियों का विभाजन"},"st":null,"opts":{"en":["A-2, B-1, C-3, D-4","A-1, B-2, C-4, D-3","A-4, B-1, C-3, D-2","A-2, B-3, C-1, D-4"],"hi":["A-2, B-1, C-3, D-4","A-1, B-2, C-4, D-3","A-4, B-1, C-3, D-2","A-2, B-3, C-1, D-4"]},"ans":0,"exp":""},{"id":30,"q":{"en":"What is the supreme law of India?","hi":"भारत का सर्वोच्च कानून कौन सा है ?"},"st":null,"opts":{"en":["Supreme Court Judgment","Parliament","Indian Constitution","President's Order"],"hi":["सर्वोच्च न्यायालय का निर्णय","संसद","भारतीय संविधान","राष्ट्रपति का आदेश"]},"ans":2,"exp":""},{"id":31,"q":{"en":"Which of the following statements about the All India Services (AIS) is correct?","hi":"अखिल भारतीय सेवाओं ( एआईएस ) के बारे में निम्नलिखित में से कौन सा कथन सही है ?"},"st":null,"opts":{"en":["All India Services officers can be transferred between states without the consent of the state governments.","The officers are recruited and controlled by the State Governments only.","The officers serve the Union Government exclusively.","The ultimate control lies with the Union Government."],"hi":["अखिल भारतीय सेवा के अधिकारियों को राज्य सरकारों की सहमति के बिना भी राज्यों के बीच स्थानांतरित किया जा सकता है।","अधिकारियों की भर्ती और नियंत्रण केवल राज्य सरकारों द्वारा किया जाता है।","ये अधिकारी विशेष रूप से केन्द्र सरकार को सेवा प्रदान करते हैं।","अंतिम नियंत्रण केन्द्र सरकार के पास है।"]},"ans":0,"exp":""},{"id":32,"q":{"en":"Which of the following subjects are included in the 'Union List/Center List' in the Indian Constitution?","hi":"निम्नलिखित में से कौन से विषय भारतीय संविधान में ' संघ सूची / केन्द्र सूची ' में शामिल हैं ?"},"st":null,"opts":{"en":["Police and public order","National defense and foreign affairs","Education and local government","Agriculture and rural development"],"hi":["पुलिस और सार्वजनिक व्यवस्था","राष्ट्रीय रक्षा और विदेशी मामले","शिक्षा और स्थानीय सरकार","कृषि एवं ग्रामीण विकास"]},"ans":1,"exp":""},{"id":33,"q":{"en":"Identify the correct option base on given statements: Assertion (A): The Union Government alone can legislate on matters related to the deployment and jurisdiction of armed forces within Indian states. Reason (R): The Constitution includes the deployment of Union forces in aid of civil power, regulation of cantonments, and control over arms and atomic energy in the Union List","hi":"दिए गए कथनों के आधार पर सही विकल्प की पहचान करें : अभिकथन (A): केवल संघ सरकार ही भारतीय राज्यों के भीतर सशस्त्र बलों की तैनाती और अधिकार क्षेत्र से संबंधित मामलों पर कानून बना सकती है। कारण (R): संविधान में नागरिक शक्ति की सहायता के लिए संघ बलों की तैनाती , छावनियों का विनियमन और हथियारों और परमाणु ऊर्जा पर नियंत्रण को संघ सूची में शामिल किया गया है।"},"st":null,"opts":{"en":["A and R are correct, and R is the correct reason for A","A and R both true, but R is not the appropriate explanation for A","A is true, but R is false.","A is false, but R is true"],"hi":["A और R सही हैं , और R, A का सही कारण है","A और R दोनों सत्य हैं , लेकिन R, A के लिए उपयुक्त स्पष्टीकरण नहीं है","A सत्य है , लेकिन R असत्य है।","A असत्य है , लेकिन R सत्य है"]},"ans":0,"exp":""},{"id":34,"q":{"en":"Which of the following statement about federalism in India is true?","hi":"निम्नलिखित में से भारत में संघवाद से संबंधित कौन - सा कथन सत्य है ?"},"st":null,"opts":{"en":["States have the right to secede from the Union","There is rigid division of powers","The Union has overriding authority","States are sovereign entities"],"hi":["राज्यों को संघ से अलग होने का अधिकार नहीं है","शक्तियों का कठोर विभाजन है","संघ को सर्वोच्च अधिकार प्राप्त है","राज्य स्वायत्त इकाइयाँ होती हैं"]},"ans":2,"exp":""},{"id":35,"q":{"en":"In case of a conflict between Central and State law on a Concurrent List subject, the State law prevails only if:","hi":"समवर्ती सूची के विषय पर केंद्रीय और राज्य कानून के बीच विवाद के मामले में , राज्य कानून तभी मान्य होता है जब :"},"st":null,"opts":{"en":["It is passed by a two-thirds majority","It has received Presidential assent","It is supported by a Supreme Court ruling","The Rajya Sabha passes it"],"hi":["यह दो - तिहाई बहुमत से पारित हो","इसे राष्ट्रपति की मंजूरी मिल गई हो","इसे सर्वोच्च न्यायालय के फैसले का समर्थन प्राप्त हो","राज्यसभा इसे पारित करे"]},"ans":1,"exp":""},{"id":36,"q":{"en":"Which of the following pair regarding the parts of the Indian constitution is NOT correctly matched?","hi":"भारतीय संविधान का निम्नलिखित में से कौन सा युग्म सही ढंग से सुमेलित नहीं है ?"},"st":null,"opts":{"en":["Fundamental Right - Part III","Panchayat - Part IX","Elections- Part XVII","Services Under the Union and the States - Part XIV"],"hi":["मूल अधिकार - भाग 3","पंचायत - भाग 9","निर्वाचन - भाग 17","राज्यों और संघ के अधीन सेवाएँ - भाग 14"]},"ans":2,"exp":""},{"id":37,"q":{"en":"Which of the following statements is correct regarding the parts of Indian constitution? I. Part VIII is related with the Union territories. II. Part IX is related with the Co-Operative Societies.","hi":"भारतीय संविधान के भागों के संदर्भ में निम्नलिखित में से कौन सा कथन सही है ? I. भाग 8 संघ राज्यक्षेत्र से संबंधित है। II. भाग 9 सहकारी सोसायटियों से संबंधित है।"},"st":null,"opts":{"en":["Only I","Only II","Both I and II","Neither I Nor II"],"hi":["केवल I","केवल II","I और II दोनों","न तो I और न ही II"]},"ans":0,"exp":""},{"id":38,"q":{"en":"Which of the following features of the Indian Constitution is borrowed from Japan?","hi":"भारतीय संविधान की निम्नलिखित में से कौन सी विशेषता जापान से उधार ली गई है ?"},"st":null,"opts":{"en":["Concept of \"procedure established by Law\"","Advisory jurisdiction of the Supreme court","Judicial review","Impeachment of the President"],"hi":["\" विधि द्वारा स्थापित प्रक्रिया \" की अवधारणा","सर्वोच्च न्यायालय का सलाहकार क्षेत्राधिकार","न्यायिक समीक्षा","राष्ट्रपति का महाभियोग"]},"ans":0,"exp":""},{"id":39,"q":{"en":"To which level of government do taxes on railway fares and freights accrue?","hi":"रेलवे किराये और मालभाड़े पर कर किस स्तर की सरकार को प्राप्त होता है ?"},"st":null,"opts":{"en":["Union","State","Municipal Corporation","Panchayat"],"hi":["संघ","राज्य","नगर निगम","पंचायत"]},"ans":0,"exp":""},{"id":40,"q":{"en":"Fill in the blanks: The _____ List in Schedule VII deals solely with matters of national importance like defence and foreign affairs.","hi":"रिक्त स्थान भरें : अनुसूची VII की _____ सूची केवल राष्ट्रीय महत्व के मामलों जैसे रक्षा और विदेशी मामलों से संबंधित है।"},"st":null,"opts":{"en":["Union","State","Concurrent","Residuary"],"hi":["संघ","राज्य","समवर्ती","अवशिष्ट"]},"ans":0,"exp":""},{"id":41,"q":{"en":"Consider the following statements: 1. Criminal law is exclusively under the Union List. 2. Agriculture is a State subject. 3. Trade and commerce within a State falls under the State List. Which of the above is/are correct ?","hi":"निम्नलिखित कथनों पर विचार कीजिए : 1. आपराधिक कानून विशेष रूप से संघ सूची के अंतर्गत आता है। 2. कृषि राज्य का विषय है। 3. किसी राज्य के भीतर व्यापार और वाणिज्य राज्य सूची के अंतर्गत आता है। उपर्युक्त में से कौन सा / से सही है / हैं ?"},"st":null,"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":1,"exp":""},{"id":42,"q":{"en":"Consider the following statements: 1. The Sixth Schedule is applicable to Nagaland and Arunachal Pradesh. 2. It empowers autonomous district councils to make laws on specified subjects. Which of the above is/are correct?","hi":"निम्नलिखित कथनों पर विचार कीजिए : 1. छठी अनुसूची नागालैंड और अरुणाचल प्रदेश पर लागू है। 2. यह स्वायत्त जिला परिषदों को निर्दिष्ट विषयों पर कानून बनाने का अधिकार देती है। उपर्युक्त में से कौन - सा / से सही है / हैं ?"},"st":null,"opts":{"en":["Only 1","Only 2","Both 1 and 2","Neither 1 nor 2"],"hi":["केवल 1","केवल 2","1 और 2 दोनों","न तो 1 और न ही 2"]},"ans":1,"exp":""},{"id":43,"q":{"en":"Which major constitutional feature was first introduced by the Government of India Act, 1935 and later adopted in the Indian Constitution?","hi":"कौन सी प्रमुख संवैधानिक विशेषता सर्वप्रथम भारत सरकार अधिनियम , 1935 द्वारा प्रस्तुत की गई तथा बाद में भारतीय संविधान में अपनाई गई ?"},"st":null,"opts":{"en":["Fundamental Duties","Federal structure with Provincial Autonomy","Parliamentary Sovereignty","Universal Adult Franchise"],"hi":["मौलिक कर्तव्य","प्रांतीय स्वायत्तता के साथ संघीय संरचना","संसदीय संप्रभुता","सार्वभौमिक वयस्क मताधिकार"]},"ans":1,"exp":""},{"id":44,"q":{"en":"Consider the following statements: 1. The Concurrent List allows both Centre and States to legislate. 2. In case of conflict, State law prevails over Union law. Which of the above is/are correct ?","hi":"निम्नलिखित कथनों पर विचार करें : 1. समवर्ती सूची केंद्र और राज्य दोनों को कानून बनाने की अनुमति देती है। 2. टकराव की स्थिति में , राज्य का कानून संघ के कानून से ऊपर होता है। उपरोक्त में से कौन - सा / से सही है / हैं ?"},"st":null,"opts":{"en":["Only 1","Only 2","Both 1 and 2","Neither 1 nor 2"],"hi":["केवल 1","केवल 2","1 और 2 दोनों","न तो 1 और न ही 2"]},"ans":0,"exp":""},{"id":45,"q":{"en":"Education is now placed under which list after the 42nd Amendment?","hi":"भारतीय संविधान में 42 वें संशोधन के बाद शिक्षा को अब किस सूची में रखा गया है ?"},"st":null,"opts":{"en":["Union List","State List","Concurrent List","None of these"],"hi":["संघ सूची","राज्य सूची","समवर्ती सूची","इनमें से कोई नहीं"]},"ans":2,"exp":""},{"id":46,"q":{"en":"Schedule VII of the Constitution contains _______.","hi":"संविधान की अनुसूची VII में _______ शामिल है।"},"st":null,"opts":{"en":["Election guidelines","Three legislative lists","Emergency powers","Judicial provisions"],"hi":["चुनाव दिशानिर्देश","तीन विधायी सूचियाँ","आपातकालीन शक्तियाँ","न्यायिक प्रावधान"]},"ans":1,"exp":""},{"id":47,"q":{"en":"In the Indian Constitution, the Concept of Concurrent list was borrowed from the Constitution of ______.","hi":"भारतीय संविधान में समवर्ती सूची की अवधारणा किसके संविधान से ली गई है ?"},"st":null,"opts":{"en":["Japan","Australia","Spain","Portugal"],"hi":["जापान","ऑस्ट्रेलिया","स्पेन","पुर्तगाल"]},"ans":1,"exp":""},{"id":48,"q":{"en":"From which of the following countries were the principles of liberty, equality and fraternity taken in the Indian Constitution?","hi":"भारतीय संविधान में स्वतंत्रता , समानता और बंधुत्व के सिद्धांत किस देश से लिए गए हैं ?"},"st":null,"opts":{"en":["United Kingdom","France","Ireland","United States of America"],"hi":["यूनाइटेड किंगडम","फ्रांस","आयरलैंड","संयुक्त राज्य अमेरिका"]},"ans":1,"exp":""},{"id":49,"q":{"en":"From which country is the power of judicial review taken in the Indian Constitution?","hi":"भारतीय संविधान में न्यायिक समीक्षा की शक्ति किस देश से ली गई है ?"},"st":null,"opts":{"en":["United Kingdom","United States of America","France","Japan"],"hi":["यूनाइटेड किंगडम","संयुक्त राज्य अमेरिका","फ्रांस","जापान"]},"ans":1,"exp":""},{"id":50,"q":{"en":"On which of the following days, that is celebrated as a national festival, did India become a Sovereign, Democratic and Republic state?","hi":"किस राष्ट्रीय पर्व के दिन भारत एक संप्रभु , लोकतांत्रिक और गणराज्य राज्य बना ?"},"st":null,"opts":{"en":["Republic Day","Independence Day","Martyr’s Day","Gandhi Jayanti"],"hi":["गणतंत्र दिवस","स्वतंत्रता दिवस","शहीद दिवस","गांधी जयंती"]},"ans":0,"exp":""},{"id":51,"q":{"en":"Which of the following can be considered a DEMERIT of the parliamentary form of government ?","hi":"निम्नलिखित में से किसे संसदीय शासन प्रणाली का दोष माना जा सकता है ?"},"st":null,"opts":{"en":["Wide representation","Unstable government","Prevents despotism","Responsible government"],"hi":["व्यापक प्रतिनिधित्व","अस्थिर सरकार","निरंकुशता को रोकता है","उत्तरदायी सरकार"]},"ans":1,"exp":""},{"id":52,"q":{"en":"Which of the following is the characteristic of the Indian Constitution?","hi":"निम्नलिखित में से कौन - सी भारतीय संविधान की विशेषता है ?"},"st":null,"opts":{"en":["Smallest constitution","Rigid as well as flexible","Multiple citizenship","Presidential form of Government"],"hi":["सबसे छोटा संविधान","कठोर और लचीला दोनों","बहु नागरिकता","राष्ट्रपति शासन प्रणाली"]},"ans":1,"exp":""},{"id":53,"q":{"en":"Which is the lengthiest written Constitution in the world?","hi":"विश्व का सबसे लंबा लिखित संविधान कौन सा है ?"},"st":null,"opts":{"en":["Indian Constitution","US Constitution","British Constitution","French Constitution"],"hi":["भारतीय संविधान","अमेरिकी संविधान","ब्रिटिश संविधान","फ्रांसीसी संविधान"]},"ans":0,"exp":""},{"id":54,"q":{"en":"From which country is the concept of independence of the judiciary in the Indian Constitution taken?","hi":"भारतीय संविधान में न्यायपालिका की स्वतंत्रता की अवधारणा किस देश से ली गई है ?"},"st":null,"opts":{"en":["Australia","United States of America","Germany","South Africa"],"hi":["ऑस्ट्रेलिया","संयुक्त राज्य अमेरिका","जर्मनी","दक्षिण अफ्रीका"]},"ans":1,"exp":""},{"id":55,"q":{"en":"Part ___________________ of the Constitution of India deals with the Union Executive.","hi":"भारत के संविधान का कौन सा भाग संघीय कार्यपालिका से संबंधित है ?"},"st":null,"opts":{"en":["V","VI","I","III"],"hi":["V","VI","I","III"]},"ans":0,"exp":""},{"id":56,"q":{"en":"Which of the following is a salient feature of the Indian Constitution?","hi":"निम्नलिखित में से कौन सी भारतीय संविधान की एक प्रमुख विशेषता है ?"},"st":null,"opts":{"en":["It is the shortest written Constitution in the world.","It was adopted before India got independence.","It is the longest written Constitution in the world.","It is not a written Constitution."],"hi":["यह दुनिया का सबसे छोटा लिखित संविधान है।","इसे भारत को स्वतंत्रता मिलने से पहले अपनाया गया था।","यह दुनिया का सबसे लंबा लिखित संविधान है।","यह एक लिखित संविधान नहीं है।"]},"ans":2,"exp":""},{"id":57,"q":{"en":"The post of Vice President has been taken from the Constitution of ______.","hi":"उपराष्ट्रपति का पद किस देश के संविधान से अपनाया गया है ?"},"st":null,"opts":{"en":["Australia","Germany","The UK","The US"],"hi":["ऑस्ट्रेलिया","जर्मनी","यूनाइटेड किंगडम","अमेरिका"]},"ans":3,"exp":""},{"id":58,"q":{"en":"Which of the following is NOT a quality/feature of the parliamentary form of government?","hi":"निम्नलिखित में से कौन सा संसदीय शासन प्रणाली का गुण / विशेषता नहीं है ?"},"st":null,"opts":{"en":["Wide representation","Single executive","Collective responsibility","Harmony between legislature and executive"],"hi":["व्यापक प्रतिनिधित्व","एकल कार्यपालिका","सामूहिक उत्तरदायित्व","विधायिका और कार्यपालिका के बीच सामंजस्य"]},"ans":1,"exp":""},{"id":59,"q":{"en":"Originally, the Constitution of India had ________ Schedules.","hi":"मूल रूप से , भारत के संविधान में ________ अनुसूचियाँ थीं।"},"st":null,"opts":{"en":["8","6","7","10"],"hi":["8","6","7","10"]},"ans":0,"exp":""},{"id":60,"q":{"en":"Which of the following is not a federal feature of the Indian Constitution?","hi":"निम्नलिखित में से कौन - सी , भारतीय संविधान की संघीय विशेषता नहीं है ?"},"st":null,"opts":{"en":["Written Constitution","Division of powers between the centre and the states","Single citizenship","Independent Judiciary"],"hi":["लिखित संविधान","केंद्र और राज्यों के बीच शक्तियों का बँटवारा","एकल नागरिकता","स्वतंत्र न्यायपालिका"]},"ans":2,"exp":""},{"id":61,"q":{"en":"Part XV of the Constitution of India deals with:","hi":"भारत के संविधान का भाग XV संबंधित है :"},"st":null,"opts":{"en":["official languages","amendment of the constitution","emergency provisions","elections"],"hi":["आधिकारिक भाषायें","संविधान का संशोधन","आपातकालीन प्रावधान","निर्वाचन"]},"ans":3,"exp":""},{"id":62,"q":{"en":"Which schedule of the Constitution of India has provisions which apply to the administration of the tribal areas in the states of Assam, Meghalaya, Tripura and Mizoram?","hi":"भारत के संविधान के किस अनुसूची में प्रावधान हैं जो असम , मेघालय , त्रिपुरा और मिजोरम राज्यों के जनजातीय क्षेत्रों के प्रशासन पर लागू होते हैं ?"},"st":null,"opts":{"en":["10th","4th","8th","6th"],"hi":["दसवीं","चौथी","आठवीं","छठी"]},"ans":3,"exp":""},{"id":63,"q":{"en":"In which year was the 9th Schedule added in the Constitution of India?","hi":"भारत के संविधान में नवीं अनुसूची को किस वर्ष जोड़ा गया था ?"},"st":null,"opts":{"en":["1954","1953","1951","1952"],"hi":["1954","1953","1951","1952"]},"ans":2,"exp":""},{"id":64,"q":{"en":"The Indian Constitution is often described as 'quasi-federal' or 'federal in form, unitary in spirit primarily due to which characteristic ?","hi":"भारतीय संविधान को प्रायः ' अर्ध संघीय ' या ' रूप में संघीय , भावना में एकात्मक ' के रूप में वर्णित किया जाता है , मुख्यतः किस विशेषता के कारण ?"},"st":null,"opts":{"en":["The equal representation of states in the Rajya Sabha.","The presence of a written constitution.","Strong centralizing tendencies and powers of the Union Government.","The existence of independent judiciary."],"hi":["राज्यसभा में राज्यों का समान प्रतिनिधित्व ।","लिखित संविधान की उपस्थिति।","केंद्र सरकार की प्रबल केंद्रीकरण प्रवृत्तियों और शक्तियाँ।","स्वतंत्र न्यायपालिका का अस्तित्व।"]},"ans":2,"exp":""},{"id":65,"q":{"en":"Which list allows both Centre and State to legislate on the same subject?","hi":"कौन - सी सूची में केंद्र और राज्य दोनों एक ही विषय पर कानून बना सकते हैं ?"},"st":null,"opts":{"en":["Reserved List","Union List","Concurrent List","State List"],"hi":["आरक्षित सूची","संघ सूची","समवर्ती सूची","राज्य सूची"]},"ans":2,"exp":""},{"id":66,"q":{"en":"The \"emoluments, allowances, and privileges of constitutional officeholders\" are governed under which schedule of the Indian Constitution?","hi":"' संवैधानिक पदाधिकारियों की उपलब्धियाँ , भत्ते और विशेषाधिकार ' भारतीय संविधान की किस अनुसूची के अंतर्गत शासित होते हैं ?"},"st":null,"opts":{"en":["Fifth Schedule","Seventh Schedule","Eleventh Schedule","Second Schedule"],"hi":["पाँचवीं अनुसूची","सातवीं अनुसूची","ग्यारहवीं अनुसूची","दूसरी अनुसूची"]},"ans":3,"exp":""},{"id":67,"q":{"en":"Match the following Schedules of the Indian Constitution with their respective features: Column A (Schedule) Column B (Feature) 1. First Schedule a. Allocation of powers and responsibilities between Union and States 2. Third schedule b. Forms of Oaths or Affirmations 3. Fifth Schedule c. Administration and control of Scheduled Areas and Tribes (excluding NE states) 4. Seventh Schedule d. Names of the States and Union Territories and their territorial jurisdiction","hi":"भारतीय संविधान की निम्नलिखित अनुसूचियों का उनकी संबंधित विशेषताओं से मिलान कीजिए : स्तंभ A ( अनुसूची ) स्तंभ B ( विशेषता ) 1. प्रथम अनुसूची a. संघ और राज्यों के बीच शक्तियों और उत्तरदायित्वों का आबंटन 2. तृतीय अनुसूची b. शपथ या प्रतिज्ञान के प्रकार 3. पाँचवीं अनुसूची c. अनुसूचित क्षेत्रों और जनजातियों का प्रशासन और नियंत्रण ( पूर्वोत्तर राज्यों को छोड़कर ) 4. सातवीं अनुसूची d. राज्यों और केंद्र शासित प्रदेशों के नाम और उनका क्षेत्रीय अधिकार क्षेत्र"},"st":null,"opts":{"en":["1 - b, 2 - d, 3 - a, 4 - c","1 - a, 2 - c, 3 - b, 4 - d","1 - c, 2 - a, 3 - d, 4 - b","1 - d, 2 - b, 3 - c, 4 - a"],"hi":["1 - b, 2 - d, 3 - a, 4 - c","1 - a, 2 - c, 3 - b, 4 - d","1 - c, 2 - a, 3 - d, 4 - b","1 - d, 2 - b, 3 - c, 4 - a"]},"ans":3,"exp":""},{"id":68,"q":{"en":"Consider the following statements: Statement I: Land and agriculture fall under the State List. Statement II: Marriage laws and adoption fall under the Concurrent List. Which of the statements given above is/are correct?","hi":"निम्नलिखित कथनों पर विचार करें : कथन I: भूमि और कृषि राज्य सूची के अंतर्गत आते हैं। कथन II: विवाह कानून और गोद लेना समवर्ती सूची के अंतर्गत आते हैं। उपर्युक्त कथनों में से कौन सा / से सही है / हैं ?"},"st":null,"opts":{"en":["Only Statement I is correct","Only Statement II is correct","Both statements I and II are correct","Neither statement I nor II is correct"],"hi":["केवल कथन I सही है।","केवल कथन II सही है।","कथन I और II दोनों सही हैं।","न तो कथन I और न ही II सही है।"]},"ans":2,"exp":""},{"id":69,"q":{"en":"Which constitutional features in India are linked to the Australian Constitution? A) Freedom of trade and commerce B) Joint sitting of the two Houses c) Federal structure with strong Centre D) Advisory jurisdiction of the Supreme Court","hi":"भारत में कौन सी संवैधानिक विशेषताएँ ऑस्ट्रेलियाई संविधान से जुड़ी हैं ? A) व्यापार और वाणिज्य की स्वतंत्रता (B) दोनों सदनों की संयुक्त बैठक (C) मजबूत केंद्र के साथ संघीय संरचना (D) सर्वोच्च न्यायालय का सलाहकार क्षेत्राधिकार"},"st":null,"opts":{"en":["Only B","A and B both","A and C both","Only A"],"hi":["केवल B ।","A और B दोनों।","A और C दोनों।","केवल ​ A ।"]},"ans":1,"exp":""},{"id":70,"q":{"en":"Read the statements given below: Statement 1: The Constitution of India divides the legislative subjects into 3 lists, namely the Union, State and Concurrent List. Statement 2: The subject of 'Protection of wild animals and birds' is transferred to the Concurrent list from the State list by the 42nd Amendment Act Statement 3: Only the Parliament of India can make laws on the subjects under the Concurrent List. Which of the following statements given above is/are correct?","hi":"नीचे दिए गए कथनों को पढ़ें : कथन 1: भारत का संविधान विधायी विषयों को 3 सूचियों में विभाजित करता है , अर्थात् संघ , राज्य और समवर्ती सूची। कथन 2: ' जंगली जानवरों और पक्षियों के संरक्षण ' विषय को 42 वें संशोधन अधिनियम द्वारा राज्य सूची से समवर्ती सूची में स्थानांतरित कर दिया गया है। कथन 3: केवल भारत की संसद ही समवर्ती सूची के विषयों पर कानून बना सकती है। उपर्युक्त में से कौन सा / से कथन सही है / हैं ?"},"st":null,"opts":{"en":["Only Statements 1 and 3 are correct","All three statements 1,2 and 3 are correct","Only Statement 2 is correct","Only Statements 1 and 2 are correct"],"hi":["केवल कथन 1 और 3 सही हैं","सभी तीन कथन 1,2 और 3 सही हैं","केवल कथन 2 सही है","केवल कथन 1 और 2 सही हैं।"]},"ans":3,"exp":""},{"id":71,"q":{"en":"Which of the following statements based on the Union List entries is/are correct? 1.The Parliament has exclusive power to legislate on lotteries conducted by both the Central and State governments. 2.Matters related to the incorporation and regulation of cooperative societies are included in the Union List. 3. The Reserve Bank of India, foreign exchange, and currency are all under the legislative domain of the Union. 4.Parliament can make laws regarding corporations whose activities are not limited to one State, excluding universities.","hi":"संघ सूची प्रविष्टियों पर आधारित निम्नलिखित में से कौन सा कथन सही है / हैं ? 1. संसद के पास केंद्र और राज्य सरकारों द्वारा आयोजित लॉटरी पर कानून बनाने का विशेष अधिकार है। 2. सहकारी समितियों के निगमन और विनियमन से संबंधित मामले संघ सूची में शामिल हैं। 3. रिजर्व बैंक ऑफ़ इंडिया , विदेशी मुद्रा और मुद्रा सभी संघ के विधायी क्षेत्राधिकार के अंतर्गत आते हैं। 4. संसद उन निगमों के बारे में कानून बना सकती है जिनकी गतिविधियाँ विश्वविद्यालयों को छोड़कर एक राज्य तक सीमित नहीं हैं।"},"st":null,"opts":{"en":["Only 1, 3, and 4","Only 2 and 3","Only 1 and 4","All four statements 1,2,3 and 4 are correct"],"hi":["केवल 1, 3, और 4","केवल 2 और 3","केवल 1 और 4","सभी चार कथन 1,2,3 और 4 सही है।"]},"ans":0,"exp":""},{"id":72,"q":{"en":"Which schedule of the Constitution contains provisions for the disqualification of legislators under the anti-defection law?","hi":"कौन - सी अनुसूची विधायकों को दलबदल कानून के तहत अयोग्य ठहराने के प्रावधानों को शामिल करती है ?"},"st":null,"opts":{"en":["Ninth Schedule","Eleventh Schedule","Tenth Schedule","Eighth Schedule"],"hi":["नौवीं अनुसूची","ग्यारहवीं अनुसूची","दसवीं अनुसूची","आठवीं अनुसूची"]},"ans":2,"exp":""},{"id":73,"q":{"en":"Which of the following pairs is correctly matched with respect to the Schedules of the Indian Constitution?","hi":"निम्नलिखित में से कौन सा युग्म भारतीय संविधान की अनुसूचियों के संबंध में सही सुमेलित है ?"},"st":null,"opts":{"en":["Eleventh Schedule - Powers and responsibilities of Panchayats","Twelfth Schedule - Election of President and Vice-President","Tenth Schedule – Constitutionally recognized languages.","Ninth Schedule Allocation of powers between Union and States"],"hi":["ग्यारहवीं अनुसूची - पंचायतों की शक्तियां और जिम्मेदारियां","बारहवीं अनुसूची - राष्ट्रपति और उपराष्ट्रपति का चुनाव","दसवीं अनुसूची - संविधान द्वारा मान्यता प्राप्त भाषाएँ","नौवीं अनुसूची संघ और राज्यों के बीच शक्तियों का आवंटन"]},"ans":0,"exp":""},{"id":74,"q":{"en":"Which of the following parts of the Constitution of India gives details of the procedures for its amendments?","hi":"भारत के संविधान का निम्नलिखित में से कौन सा भाग इसके संशोधनों के लिए प्रक्रियाओं का विवरण देता है ?"},"st":null,"opts":{"en":["Part XIII","Part XX","Part XV","Part XI"],"hi":["भाग XIII","भाग XX","भाग XV","भाग XI"]},"ans":1,"exp":""},{"id":75,"q":{"en":"Which of the following is the federal feature of the Indian Constitution?","hi":"निम्नलिखित में से कौन सा भारतीय संविधान की संघीय विशेषता है ?"},"st":null,"opts":{"en":["Bicameralism","Integrated Judiciary","Single Citizenship","None of the above"],"hi":["द्विसदनीयता","एकीकृत न्यायपालिका","एकल नागरिकता","उपरोक्त में से कोई नहीं"]},"ans":0,"exp":""},{"id":76,"q":{"en":"Which of the following correctly describes the nature of the Indian Constitution?","hi":"निम्नलिखित में से कौन सा भारतीय संविधान की प्रकृति का सही वर्णन करता है ?"},"st":null,"opts":{"en":["Very rigid and difficult to amend","Flexible","Rigid","Neither rigid nor flexible"],"hi":["बहुत कठोर और संशोधन करना कठिन","लचीला","कठोर","न तो कठोर और न ही लचीला"]},"ans":3,"exp":""},{"id":77,"q":{"en":"Which of the following features of the Indian Constitution is taken from the USA's constitution?","hi":"निम्नलिखित में से कौन सी विशेषता भारतीय संविधान की , अमेरिका के संविधान से ली गई है ?"},"st":null,"opts":{"en":["Removal of Supreme Court Judges","Parliamentary Privileges","Prerogative Writs","Cabinet System"],"hi":["सर्वोच्च न्यायालय के न्यायाधीशों का हटाना","संसदीय विशेषाधिकार","प्रतिषेधात्मक प्रादेश","मंत्रिमंडल प्रणाली"]},"ans":0,"exp":""},{"id":78,"q":{"en":"Which feature of the Indian Constitution refers to the existence of more than one level of government in the country?","hi":"भारतीय संविधान की कौन - सी विशेषता देश में सरकार के एक से अधिक स्तरों के अस्तित्व का उल्लेख करती है ?"},"st":null,"opts":{"en":["Radicalism","Federalism","Liberalism","Secularism"],"hi":["आमूलवाद","संघवाद","उदारतावाद","धर्मनिरपेक्षता"]},"ans":1,"exp":""},{"id":79,"q":{"en":"Which one of the following is not a characteristic of the federal government?","hi":"निम्नलिखित में से कौन सी संघीय सरकार की विशेषता नहीं है ?"},"st":null,"opts":{"en":["Supremacy of the Constitution","Written Constitution","Unicameral Legislature","Dual Government"],"hi":["संविधान की सर्वोच्चता","लिखित संविधान","एकसदनी विधायिका","दोहरी सरकार"]},"ans":2,"exp":""},{"id":80,"q":{"en":"Federalism is one of the key features of the Constitution of India, under which:","hi":"संघवाद भारत के संविधान की प्रमुख विशेषताओं में से एक है , जिसके तहत :"},"st":null,"opts":{"en":["The head of the government is also head of the state","states draw their authority from the Parliament","all persons in India are governed by laws and policies made by the Judiciary only","states are agents of the Federal government"],"hi":["सरकार का प्रमुख राष्ट्र का भी प्रमुख होता है।","राज्य संसद से अपना अधिकार प्राप्त करते हैं।","भारत में सभी व्यक्ति केवल न्यायपालिका द्वारा बनाए गए कानूनों और नीतियों द्वारा शासित होते हैं।","राज्य संघीय सरकार के प्रतिनिधि हैं।"]},"ans":3,"exp":""},{"id":81,"q":{"en":"In which Schedule of the Constitution of India is the language ‘Hindi’ included?","hi":"भारत के संविधान की किस अनुसूची में ' हिंदी ' भाषा शामिल है ?"},"st":null,"opts":{"en":["Tenth","Fourth","Fifth","Eighth"],"hi":["दसवीं","चौथी","पांचवीं","आठवीं"]},"ans":3,"exp":""},{"id":82,"q":{"en":"How many Articles were there in the Constitution of India in 2019?","hi":"2019 तक भारत के संविधान में कितने अनुच्छेद थे ?"},"st":null,"opts":{"en":["398","395","393","396"],"hi":["398","395","393","396"]},"ans":1,"exp":""},{"id":83,"q":{"en":"The ________ Schedule of the Constitution of India added by the Constitution (Fifty-Second Amendment) Act, 1985 deals with the disqualification of a person for being a member of either house of Parliament or the Legislative Assembly or Legislative Council of a State, on the ground of defection.","hi":"1985 के संविधान (52 वें संशोधन ) अधिनियम ने भारतीय संविधान की _______ अनुसूची को सम्मिलित किया , जो दलबदल के कारण संसद , विधान सभा या राज्य की विधान परिषद के किसी भी सदन में सेवा करने से किसी व्यक्ति की अयोग्यता से संबंधित है। ."},"st":null,"opts":{"en":["Tenth","Sixth","Third","Fifth"],"hi":["दसवीं","छठीं","तीसरी","पांचवीं"]},"ans":0,"exp":""},{"id":84,"q":{"en":"The Fourth Schedule of the Constitution of India contains the subject matter related to:","hi":"भारत के संविधान की चौथी अनुसूची में __________ से संबंधित विषय शामिल हैं।"},"st":null,"opts":{"en":["languages recognized by the Constitution","forms of oath or affirmationshe","power, authority and responsibilities of panchayats","allocation of seats in the Rajya Sabha"],"hi":["संविधान द्वारा मान्यता प्राप्त भाषाओं","शपथ या पुष्टि के रूपों","पंचायतों की शक्तियों , अधिकारों और उत्तरदायित्वों","राज्यसभा में सीटों के आवंटन"]},"ans":3,"exp":""},{"id":85,"q":{"en":"The Constitution of a country serves many purposes. Which of the following may NOT be one?","hi":"किसी देश का संविधान कई उद्देश्यों को पूरा करता है। निम्न में से कौन सा एक नहीं हो सकता है ?"},"st":null,"opts":{"en":["It serves as a set of rules and principles on which the country can be governed.","It agrees on certain ideals the country should uphold.","It tells us the fundamental nature of our society.","It includes that the country should uphold a Presidential form of government."],"hi":["यह नियमों और सिद्धांतों के एक समूह के रूप में कार्य करता है जिस पर देश को शासित किया जा सकता है।","यह कुछ आदर्शों पर सहमत है जिन्हें देश को बनाए रखना चाहिए।","यह हमें हमारे समाज की मौलिक प्रकृति बताता है।","इसमें शामिल है कि देश को सरकार के राष्ट्रपति के रूप को बनाए रखना चाहिए।"]},"ans":3,"exp":""},{"id":86,"q":{"en":"Which of the following statements is true?","hi":"निम्नलिखित में से कौन - से कथन सत्य हैं ?"},"st":null,"opts":{"en":["The Constituent Assembly elected Dr. BR Ambedkar as its permanent Chairman on 11 December 1946.","The Constitution of India was handwritten in English and Hindi.","The Constitution of India was framed by a Constituent Assembly set up under the Hunter Commission.","26 August is observed as 'Samvidhan Divas' in India."],"hi":["11 दिसंबर 1946 को संविधान सभा ने डॉ . बी . आर . अंबेडकर को अपना स्थायी अध्यक्ष चुना।","भारत का संविधान अंग्रेजी और हिंदी में हस्तलिखित था।","भारत के संविधान का निर्माण हंटर आयोगके तहत गठित एक संविधान सभा द्वारा किया गया था।","26 अगस्त को भारत में ' संविधान दिवस ' के रूप में मनाया जाता है।"]},"ans":1,"exp":""},{"id":87,"q":{"en":"Bicameralism was borrowed into the Constitution of India from which country?","hi":"भारत के संविधान में द्विसदनीय व्यवस्था किस देश से लिया गया था ?"},"st":null,"opts":{"en":["The UK","Australia","Ireland","The US"],"hi":["ब्रिटेन","ऑस्ट्रेलिया","आयरलैंड","अमेरिका"]},"ans":0,"exp":""},{"id":88,"q":{"en":"Which feature of the Indian Constitution reflects the idea that the powers of government are divided among the executive, legislative, and judicial branches to prevent the concentration of power?","hi":"भारतीय संविधान का कौन सा लक्षण इस विचार को दर्शाता है कि सरकार की शक्तियाँ कार्यपालिका , विधायिका और न्यायपालिका शाखाओं में विभाजित हैं ताकि शक्ति के एकत्रीकरण को रोका जा सके ?"},"st":null,"opts":{"en":["Sovereign","Separation of powers","Parliamentary system","Federalism"],"hi":["संप्रभु","शक्तियों का पृथक्करण","संसदीय प्रणाली","संघवाद"]},"ans":1,"exp":""},{"id":89,"q":{"en":"According to the Indian Constitution, how many organs are there in the government of India?","hi":"भारतीय संविधान के अनुसार , भारत सरकार में कितने अंग हैं ?"},"st":null,"opts":{"en":["Two","Three","Four","Five"],"hi":["दो","तीन","चार","पाँच"]},"ans":1,"exp":""},{"id":90,"q":{"en":"A ________ government governs within the bounds established by constitutional law and citizen rights.","hi":"एक ________ सरकार संवैधानिक कानून और नागरिक अधिकारों द्वारा स्थापित सीमाओं के भीतर शासन करती है।"},"st":null,"opts":{"en":["democratic","dictatorship","autocracy","monarchy"],"hi":["लोकतांत्रिक","तानाशाही","एकतंत्र","राजशाही"]},"ans":0,"exp":""},{"id":91,"q":{"en":"The idea of __________ has been borrowed from the Constitution of erstwhile USSR (Union of Soviet Socialist Republics).","hi":"__________ का विचार पूर्व सोवियत संघ (USSR) के संविधान से लिया गया है।"},"st":null,"opts":{"en":["Fundamental Rights","Preamble","Both Fundamental Duties and Fundamental Rights","Fundamental Duties"],"hi":["मौलिक अधिकार","प्रस्तावना","मौलिक कर्तव्य और मौलिक अधिकार दोनों","मौलिक कर्तव्य"]},"ans":3,"exp":""},{"id":92,"q":{"en":"Which of the following parts of the Indian Constitution deals with The Union and its Territories?","hi":"भारतीय संविधान का कौन - सा भाग ' संघ और उसके क्षेत्रों ' से संबंधित है ?"},"st":null,"opts":{"en":["Part II","Part III","Part IV","Part I"],"hi":["भाग II","भाग III","भाग IV","भाग I"]},"ans":3,"exp":""},{"id":93,"q":{"en":"Which of the parts of the Indian Constitution deals with the Directive Principles of State Policy?","hi":"भारतीय संविधान का कौन - सा भाग राज्य नीति के निदेशक सिद्धांतों से संबंधित है ?"},"st":null,"opts":{"en":["Part II","Part IV","Part I","Part III"],"hi":["भाग II","भाग IV","भाग I","भाग III"]},"ans":1,"exp":""},{"id":94,"q":{"en":"Which of the following subjects comes under the Concurrent List?","hi":"निम्नलिखित में से कौन सा विषय समवर्ती सूची के अंतर्गत आता है ?"},"st":null,"opts":{"en":["Newspapers","Currency","Fisheries","Gambling"],"hi":["समाचार पत्र","मुद्रा","मत्स्य पालन","जुआ"]},"ans":0,"exp":""},{"id":95,"q":{"en":"In which Part of the Indian Constitution are Directive Principles of State Policy enumerated?","hi":"भारतीय संविधान के किस भाग में राज्य के नीति निदेशक तत्वों का उल्लेख है ?"},"st":null,"opts":{"en":["Part III","Part V","Part II","Part IV"],"hi":["भाग III","भाग V","भाग II","भाग IV"]},"ans":3,"exp":""},{"id":96,"q":{"en":"In the Indian federal structure, which list includes subjects on which both the centre and states can legislate?","hi":"भारतीय संघीय ढाँचे में , किस सूची में वे विषय शामिल हैं जिन पर केंद्र और राज्य दोनों विधान बना सकते हैं ?"},"st":null,"opts":{"en":["Concurrent List","Union List","Residual List","State List"],"hi":["समवर्ती सूची","संघ सूची","अवशिष्ट सूची","राज्य सूची"]},"ans":0,"exp":""},{"id":97,"q":{"en":"According to the Indian Constitution, which of the following Schedule deals with the separation of powers of the government?","hi":"भारतीय संविधान के अनुसार , निम्नलिखित में से कौन सी अनुसूची सरकार की शक्तियों के पृथक्करण से संबंधित है ?"},"st":null,"opts":{"en":["Fifth Schedule","Seventh Schedule","Eighth Schedule","Sixth Schedule"],"hi":["पाँचवीं अनुसूची","सातवीं अनुसूची","आठवीं अनुसूची","छठी अनुसूची"]},"ans":1,"exp":""},{"id":98,"q":{"en":"Which of the following is NOT a basic feature of the Indian Constitution?","hi":"निम्नलिखित में से कौन सा भारतीय संविधान की मूल विशेषता नहीं है ?"},"st":null,"opts":{"en":["Blend of rigidity and flexibility","Lengthiest written Constitution","Parliamentary system","Drawn from one source"],"hi":["कठोरता और लचीलेपन का मिश्रण","सबसे लंबा लिखित संविधान","संसदीय प्रणाली","एक स्रोत से लिया गया"]},"ans":3,"exp":""},{"id":99,"q":{"en":"Directive Principles of State Policy in India have been taken from the Constitution of which country?","hi":"भारत में राज्य के नीति - निदेशक सिद्धांत किस देश के संविधान से लिए गए हैं ?"},"st":null,"opts":{"en":["Britain","USSR","Ireland","The US"],"hi":["ब्रिटेन","सोवियत संघ","आयरलैंड","अमेरिका"]},"ans":2,"exp":""},{"id":100,"q":{"en":"To which feature of the Constitution of India does the appointment of the Governor by the Centre belong?","hi":"केंद्र द्वारा राज्यपाल की नियुक्ति भारत के संविधान की किस विशेषता से संबंधित है ?"},"st":null,"opts":{"en":["Federal feature","Directive Principles","Supremacy of the Constitution","Unitary system"],"hi":["संघीय विशेषता","निदेशक सिद्धांत","संविधान की सर्वोच्चता","एकात्मक प्रणाली"]},"ans":3,"exp":""},{"id":101,"q":{"en":"Which schedule of the Constitution of India contains provisions for disqualification of legislator on the ground of defection?","hi":"भारत के संविधान की किस अनुसूची में दलबदल के आधार पर विधायक को अयोग्य घोषित करने का प्रावधान है ?"},"st":null,"opts":{"en":["Schedule-X","Schedule-IX","Schedule-XI","Schedule-VIII"],"hi":["अनुसूची -X","अनुसूची -IX","अनुसूची -XI","अनुसूची -VIII"]},"ans":0,"exp":""},{"id":102,"q":{"en":"In which part of the Constitution are fundamental duties added?","hi":"मौलिक कर्तव्य संविधान के किस भाग में जोड़े गए हैं ?"},"st":null,"opts":{"en":["Part III-B","Part II-B","Part I-A","Part IV-A"],"hi":["भाग III-B","भाग II-B","भाग IA","भाग IV-A"]},"ans":3,"exp":""},{"id":103,"q":{"en":"The principles of Liberty, Equality and Fraternity were adopted from the Constitution of:","hi":"स्वतंत्रता , समानता और बंधुत्व के सिद्धांतों को किस देश के संविधान से अपनाया गया था ?"},"st":null,"opts":{"en":["United Kingdom","France","Canada","Ireland"],"hi":["युनाइटेड किंगडम","फ़्रांस","कनाडा","आयरलैंड"]},"ans":1,"exp":""},{"id":104,"q":{"en":"Which of the following is a unitary feature of the Indian Constitution?","hi":"निम्नलिखित में से कौन - सी एक भारतीय संविधान की एकात्मक विशेषता है ?"},"st":null,"opts":{"en":["Distribution of Power","Written Constitution","Rigidity","Single Citizenship"],"hi":["शक्ति का वितरण","लिखित संविधान","कठोरता","एकल नागरिकता"]},"ans":3,"exp":""},{"id":105,"q":{"en":"Federalism in the Indian constitutional context means:","hi":"भारतीय संवैधानिक संदर्भ में संघवाद का अर्थ है :"},"st":null,"opts":{"en":["the existence of more than one level of government in the country","the existence only one level of government in the country","the existence of states in the country","the existence of one nation one government in the country"],"hi":["देश में एक से अधिक स्तर की सरकार का अस्तित्व","देश में केवल एक स्तर की सरकार का अस्तित्व","देश में राज्यों का अस्तित्व","देश में एक राष्ट्र एक सरकार का अस्तित्व"]},"ans":0,"exp":""},{"id":106,"q":{"en":"Secularism is a feature of the Indian Constitution, which means:","hi":"धर्मनिरपेक्षता भारतीय संविधान की एक विशेषता है , जिसका अर्थ है :"},"st":null,"opts":{"en":["The State promotes the religion of the majority community.","The State does not promote any religion.","The State can promote any religion.","The State promotes the religion of the minority community."],"hi":["राज्य बहुसंख्यक समुदाय के धर्म को बढ़ावा देता है।","राज्य किसी भी धर्म को बढ़ावा नहीं देता है।","राज्य किसी भी धर्म को बढ़ावा दे सकता है।","राज्य अल्पसंख्यक समुदाय के धर्म को बढ़ावा देता है।"]},"ans":1,"exp":""},{"id":107,"q":{"en":"Which of the following statement(s) is/are INCORRECT vis-&agrave;-vis features of the Indian Constitution? 1) Though India has a federal system, the Constitution does not mention the word ‘federation’. 2) Article 5 of the Constitution says that the Parliament by law can create a new state. 3) On the subjects in the Union list, each State Legislature can enact laws for the State. 4) Both the Parliament and State Legislature can pass laws on subjects in concurrent list.","hi":"निम्नलिखित में से कौन सा / से कथन भारतीय संविधान की विशेषताओं के संबंध में गलत है / हैं ? 1) यद्यपि भारत में संघीय व्यवस्था है , लेकिन संविधान में ' संघ ' शब्द का उल्लेख नहीं है। 2) संविधान का अनुच्छेद 5 कहता है कि संसद कानून द्वारा एक नया राज्य बना सकती है। 3) संघ सूची में विषयों पर , प्रत्येक राज्य विधानमंडल राज्य के लिए कानून बना सकता है। 4) संसद और राज्य विधानमंडल दोनों समवर्ती सूची में विषयों पर कानून बना सकते हैं।"},"st":null,"opts":{"en":["Only 1","1 and 3","2 and 3","1 and 4"],"hi":["केवल 1","1 और 3","2 और 3","1 और 4"]},"ans":2,"exp":""},{"id":108,"q":{"en":"Who described Indian federal system as a bargaining federalism?","hi":"किसने भारतीय संघीय व्यवस्था को सौदेबाजी वाला संघवाद बताया ?"},"st":null,"opts":{"en":["KC Wheare","Ivor Jennings","Granville Austin","Morris Jones"],"hi":["केसी व्हेयर","आइवर जेनिंग्स","ग्रानविले ऑस्टिन","मॉरिस जोन्स"]},"ans":3,"exp":""},{"id":109,"q":{"en":"Which of the following comes under 5th schedule of the Indian constitution?","hi":"निम्नलिखित में से कौन भारतीय संविधान की 5 वीं अनुसूची के अंतर्गत आता है ?"},"st":null,"opts":{"en":["Provisions related to Schedule Areas and Scheduled Tribes","Provisions related to Tribal areas in states of Assam, Meghalaya, Tripura, Mizoram","Provisions related to Oaths or Affirmations","Provisions related to Languages"],"hi":["अनुसूचित क्षेत्रों और अनुसूचित जनजातियों से संबंधित प्रावधान","असम , मेघालय , त्रिपुरा , मिजोरम राज्यों में जनजातीय क्षेत्रों से संबंधित प्रावधान","शपथ या प्रतिज्ञान से संबंधित प्रावधान","भाषाओं से संबंधित प्रावधान"]},"ans":0,"exp":""},{"id":110,"q":{"en":"Concurrent list of seventh schedule does NOT have provision related to ______.","hi":"सातवीं अनुसूची की समवर्ती सूची में ____________ संबंधी प्रावधान नहीं है।"},"st":null,"opts":{"en":["Industrial and labour disputes","Forests","Taxes on lands and buildings","Economic and social planning"],"hi":["औद्योगिक और श्रम विवाद","वन","भूमि और भवनों पर कर","आर्थिक और सामाजिक योजना"]},"ans":2,"exp":""},{"id":111,"q":{"en":"The concept of “Procedure Established by Law” in the Indian constitution is borrowed from which of the following countries?","hi":"भारतीय संविधान में \" कानून द्वारा स्थापित प्रक्रिया \" की अवधारणा निम्नलिखित में से किस देश से ली गई है ?"},"st":null,"opts":{"en":["Britain","France","United States of America","Japan"],"hi":["ब्रिटेन","फ्रांस","संयुक्त राज्य अमेरिका","जापान"]},"ans":3,"exp":""},{"id":112,"q":{"en":"Which part of the Indian Constitution is related with the Fundamental rights?","hi":"भारतीय संविधान का कौन सा भाग मौलिक अधिकारों से संबंधित है ?"},"st":null,"opts":{"en":["III","I","IV","II"],"hi":["III","I","IV","II"]},"ans":0,"exp":""},{"id":113,"q":{"en":"In which part of the Indian constitution are the provisions related to panchayat mentioned?","hi":"भारतीय संविधान के किस भाग में पंचायत से संबंधित प्रावधानों का उल्लेख है ?"},"st":null,"opts":{"en":["Part XI","Part IX","Part IX A","Part X"],"hi":["भाग XI","​ भाग IX","​ भाग IX A","​ भाग X"]},"ans":1,"exp":""},{"id":114,"q":{"en":"Which of the following is mentioned in state list of the seventh schedule of the Indian constitution?","hi":"भारतीय संविधान की सातवीं अनुसूची की राज्य सूची में निम्नलिखित में से किसका उल्लेख है ?"},"st":null,"opts":{"en":["Betting and gambling","Railways","Post office saving Bank","Inter-state trade and commerce"],"hi":["सट्टेबाजी और जुआ","रेलवे","डाकघर बचत बैंक","अंतर्राज्यीय व्यापार और वाणिज्य"]},"ans":0,"exp":""},{"id":115,"q":{"en":"From which country's constitution no feature has been taken in the constitution of India?","hi":"भारतीय संविधान में किस देश के संविधान से कोई विशेषता नहीं ली गई है ?"},"st":null,"opts":{"en":["United States of America","Britain","China","France"],"hi":["संयुक्त राज्य अमेरिका","ब्रिटेन","चीन","फ्रांस"]},"ans":2,"exp":""},{"id":116,"q":{"en":"Provisions as to disqualification on ground of defection are mentioned under which schedule of the Indian constitution?","hi":"भारतीय संविधान की किस अनुसूची में दल - बदल के आधार पर अयोग्यता के प्रावधानों का उल्लेख किया गया है ?"},"st":null,"opts":{"en":["12th schedule","9th schedule","11th schedule","10th schedule"],"hi":["12 वीं अनुसूची","9 वीं अनुसूची","11 वीं अनुसूची","10 वीं अनुसूची"]},"ans":3,"exp":""},{"id":117,"q":{"en":"Which of the following do/does NOT come under Union list of seventh schedule of the Indian constitution?","hi":"निम्नलिखित में से कौन भारतीय संविधान की सातवीं अनुसूची की संघ सूची के अंतर्गत नहीं आता है / नहीं आते हैं ?"},"st":null,"opts":{"en":["Post and telegraphs","Banking","Intoxicating liquors","Audit of the accounts of the states"],"hi":["पोस्ट और टेलीग्राफ","बैंकिंग","मादक द्रव्य","राज्यों के खातों की लेखापरीक्षा"]},"ans":2,"exp":""},{"id":118,"q":{"en":"Which of the following comes under the part IX of the Indian constitution?","hi":"निम्नलिखित में से कौन भारतीय संविधान के भाग IX के अंतर्गत आता है ?"},"st":null,"opts":{"en":["Relations between the Union and the States","The Scheduled and Tribal Areas","The Panchayats","Finance, Property, Contracts and Suits"],"hi":["संघ और राज्यों के बीच संबंध","अनुसूचित और जनजातीय क्षेत्र","पंचायतें","वित्त , संपत्ति , अनुबंध और सूट"]},"ans":2,"exp":""},{"id":119,"q":{"en":"The idea of preamble of the Indian constitution is borrowed from the constitution of USA.","hi":"भारतीय संविधान की प्रस्तावना का विचार _______ के संविधान से लिया गया है।"},"st":null,"opts":{"en":["USSR (Present Russia)","Canada","Britain","United States of America"],"hi":["सोवियत संघ ( वर्तमान रूस )","कनाडा","ब्रिटेन","संयुक्त राज्य अमेरिका"]},"ans":3,"exp":""},{"id":120,"q":{"en":"Which of the following comes under Union List of 7th schedule of the Indian constitution?","hi":"निम्नलिखित में से कौन भारतीय संविधान की 7 वीं अनुसूची की संघ सूची के अंतर्गत आता है ?"},"st":null,"opts":{"en":["Public Health and sanitation","Public order","Hospitals and dispensaries","Establishment of standards of weight and measure"],"hi":["सार्वजनिक स्वास्थ्य और स्वच्छता","सार्वजनिक व्यवस्था","अस्पताल और औषधालय","बाट और माप के मानकों की स्थापना"]},"ans":3,"exp":""},{"id":121,"q":{"en":"The idea of a single citizenship in the Constitution of India was borrowed from:","hi":"भारत के संविधान में एकल नागरिकता का विचार कहाँ से लिया गया था ?"},"st":null,"opts":{"en":["United Kingdom","Austria","France","Germany"],"hi":["ब्रिटेन से","ऑस्ट्रेलिया से","फ्रांस से","जर्मनी से"]},"ans":0,"exp":""},{"id":122,"q":{"en":"Which of the following is NOT a federal feature of the Indian Constitution?","hi":"निम्नलिखित में से कौन सी भारतीय संविधान की संघीय विशेषता नहीं है ?"},"st":null,"opts":{"en":["Dual Government","Division of Powers","All India Service","Written Constitution"],"hi":["दोहरी सरकार","शक्तियों का विभाजन","अखिल भारतीय सेवा","लिखित संविधान"]},"ans":2,"exp":""}];
+
+let state = [], current = 0, remaining = 7320, lang = 'en', neg = 0.5, timerId = null, qTimerId = null;
+let studentName = "", view = 'intro', auditTags = {};
+
+function initApp(){
+  const params = new URLSearchParams(window.location.search);
+  const urlName = params.get('name') || localStorage.getItem('student_real_name') || "";
+  const nameInput = document.getElementById('student-name');
+  if(urlName.trim()){
+    nameInput.value = urlName.trim();
+    nameInput.readOnly = true;
+    checkName();
+  }
+}
+
+function checkName(){
+  const val = document.getElementById('student-name').value.trim();
+  const btn = document.getElementById('start-btn');
+  if(val.length >= 2){
+    btn.disabled = false;
+    btn.textContent = "START TEST";
+  } else {
+    btn.disabled = true;
+    btn.textContent = "ENTER NAME TO START";
+  }
+}
+
+function startTest(){
+  studentName = document.getElementById('student-name').value.trim();
+  if(!studentName) return;
+  neg = parseFloat(document.getElementById('negative').value);
+  state = QUESTIONS.map(()=>({selected:null, review:false, time:0}));
+  current = 0; remaining = 7320; view = 'test';
+  
+  document.getElementById('stu-tag').textContent = studentName;
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('sol-footer').classList.add('hidden');
+  document.getElementById('exam-footer').classList.remove('hidden');
+  document.body.classList.remove('solution-mode');
+  
+  renderQ(); renderPalette(); startTimers();
+}
+
+function startTimers(){
+  clearInterval(timerId); clearInterval(qTimerId);
+  timerId = setInterval(()=>{
+    if(view === 'test' && remaining > 0){
+      remaining--;
+      const m = String(Math.floor(remaining/60)).padStart(2,'0');
+      const s = String(remaining%60).padStart(2,'0');
+      const t = document.getElementById('timer');
+      t.textContent = `${m}:${s}`;
+      t.classList.toggle('warning', remaining <= 60);
+      if(remaining === 0) submitExam();
+    }
+  },1000);
+  qTimerId = setInterval(()=>{
+    if(view === 'test' && state[current]){
+      state[current].time++;
+      document.getElementById('q-timer').textContent = state[current].time + 's';
+    }
+  },1000);
+}
+
+function renderQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-no').textContent = `Q${current+1}`;
+  document.getElementById('question-text').textContent = q.q[lang];
+  document.getElementById('q-timer').textContent = (state[current]?.time || 0) + 's';
+  
+  const stBox = document.getElementById('statements-box');
+  stBox.innerHTML = '';
+  if(q.st && q.st[lang]){
+    q.st[lang].forEach(txt => {
+      const d = document.createElement('div');
+      d.className = 'statement-item';
+      d.textContent = txt;
+      stBox.appendChild(d);
+    });
+  }
+  
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  q.opts[lang].forEach((opt, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'option ' + (state[current].selected === idx ? 'selected' : '');
+    el.innerHTML = `<input type="radio" name="opt_choice" ${state[current].selected === idx ? 'checked':''}> <span>${String.fromCharCode(65 + idx)}. ${opt}</span>`;
+    el.onclick = ()=>{
+      if(view === 'test'){
+        state[current].selected = idx;
+        renderQ(); renderPalette();
+      }
+    };
+    box.appendChild(el);
+  });
+  document.getElementById('solution-box').innerHTML = '';
+}
+
+function renderPalette(){
+  const p = document.getElementById('palette');
+  p.innerHTML = '';
+  QUESTIONS.forEach((q, i)=>{
+    const b = document.createElement('button');
+    b.className = 'q-node';
+    if(view === 'solution'){
+      const sel = state[i].selected;
+      if(sel === null) b.classList.add('sol-unatt');
+      else if(sel === q.ans) b.classList.add('sol-correct');
+      else b.classList.add('sol-wrong');
+    } else {
+      if(state[i].selected !== null) b.classList.add('answered');
+      else if(state[i].review) b.classList.add('marked');
+    }
+    if(i === current) b.classList.add('active');
+    b.textContent = i+1;
+    b.onclick = ()=>{ current = i; if(view === 'solution') renderSolQ(); else renderQ(); renderPalette(); document.getElementById('sidebar').classList.remove('open'); };
+    p.appendChild(b);
+  });
+}
+
+function saveNext(){ if(current < QUESTIONS.length - 1){ current++; renderQ(); renderPalette(); } else openSubmitModal(); }
+function prevQ(){ if(current > 0){ current--; renderQ(); renderPalette(); } }
+function markReview(){ state[current].review = true; saveNext(); }
+function toggleLang(){ lang = lang === 'en' ? 'hi' : 'en'; document.getElementById('lang-btn').textContent = lang === 'en' ? 'A/अ EN' : 'A/अ HI'; if(view==='solution') renderSolQ(); else renderQ(); }
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
+function openSubmitModal(){ document.getElementById('modal-submit').classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+async function submitExam(){
+  closeModal('modal-submit'); clearInterval(timerId); clearInterval(qTimerId);
+  view = 'result';
+  
+  let cor = 0, wro = 0, att = 0;
+  state.forEach((s, idx)=>{
+    if(s.selected !== null){
+      att++;
+      if(s.selected === QUESTIONS[idx].ans) cor++;
+      else wro++;
+    }
+  });
+  
+  const score = (cor * 1) - (wro * neg);
+  const acc = att ? Math.round((cor/att)*100) : 0;
+  const timeTaken = `${Math.floor((7320-remaining)/60)}m ${(7320-remaining)%60}s`;
+  
+  document.getElementById('r-score').textContent = score.toFixed(2);
+  document.getElementById('r-att').textContent = att;
+  document.getElementById('r-cor').textContent = cor;
+  document.getElementById('r-wro').textContent = wro;
+  document.getElementById('r-acc').textContent = acc + '%';
+  document.getElementById('r-time').textContent = timeTaken;
+  
+  document.getElementById('exam').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  
+  try {
+    await sb.from('quiz_attempts').insert([{
+      student_name: studentName,
+      quiz_title: "Salient Feature of Constitution",
+      score: score,
+      accuracy: acc + '%',
+      total_questions: QUESTIONS.length,
+      correct_answers: cor,
+      wrong_answers: wro,
+      time_taken: timeTaken
+    }]);
+  } catch(e){}
+}
+
+function startAudit(){
+  view = 'solution'; current = 0;
+  document.body.classList.add('solution-mode');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('exam-footer').classList.add('hidden');
+  document.getElementById('sol-footer').classList.remove('hidden');
+  renderSolQ(); renderPalette();
+}
+
+function renderSolQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-no').textContent = `Q${current+1}`;
+  document.getElementById('question-text').textContent = q.q[lang];
+  document.getElementById('q-timer').textContent = (state[current]?.time || 0) + 's';
+  
+  const stBox = document.getElementById('statements-box');
+  stBox.innerHTML = '';
+  if(q.st && q.st[lang]){
+    q.st[lang].forEach(txt => {
+      const d = document.createElement('div');
+      d.className = 'statement-item';
+      d.textContent = txt;
+      stBox.appendChild(d);
+    });
+  }
+  
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  q.opts[lang].forEach((opt, idx)=>{
+    const el = document.createElement('div');
+    let cls = 'option ';
+    if(idx === q.ans) cls += 'correct ';
+    if(state[current].selected === idx && idx !== q.ans) cls += 'wrong ';
+    el.className = cls;
+    el.innerHTML = `<span>${String.fromCharCode(65 + idx)}. ${opt}</span> ${idx === q.ans ? '<b style="color:var(--green)">✓ [Correct]</b>' : (state[current].selected === idx ? '<b style="color:var(--red)">✗ [Your Choice]</b>':'')}`;
+    box.appendChild(el);
+  });
+  
+  const tags = ['100% Aata Tha','Elimination','Tukka / Guess','Silly Mistake','Concept Gap','Time Trap'];
+  const userTag = auditTags[current] || "";
+  let tagHtml = tags.map(t=>`<button class="tag ${userTag===t?'selected':''}" onclick="setAuditTag('${t}')">${t}</button>`).join('');
+  
+  document.getElementById('solution-box').innerHTML = `
+    <div class="explanation">
+      <div class="exp-title">💡 Explanation & Context</div>
+      <div style="font-size:13px;line-height:1.5">${q.exp}</div>
+      <div class="analysis-box">
+        <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:6px">QUESTION DIAGNOSTIC TAG:</div>
+        <div>${tagHtml}</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('sol-next-btn').textContent = current === QUESTIONS.length - 1 ? 'FINISH AUDIT ➔' : 'NEXT ›';
+}
+
+function setAuditTag(t){ auditTags[current] = t; renderSolQ(); }
+function solPrev(){ if(current > 0){ current--; renderSolQ(); renderPalette(); } }
+function solNext(){
+  if(current < QUESTIONS.length - 1){ current++; renderSolQ(); renderPalette(); }
+  else {
+    document.body.classList.remove('solution-mode');
+    document.getElementById('exam').classList.add('hidden');
+    document.getElementById('result').classList.remove('hidden');
+    renderReport();
+  }
+}
+
+function renderReport(){
+  const rep = document.getElementById('final-report-card');
+  rep.classList.remove('hidden');
+  const counts = {};
+  Object.values(auditTags).forEach(t=>{ counts[t] = (counts[t]||0)+1; });
+  let details = "<b>Mistake Breakdown:</b><br>";
+  for(let k in counts){ details += `• ${k}: ${counts[k]} questions<br>`; }
+  if(!Object.keys(counts).length) details += "Koi specific tag select nahi kiya gaya.";
+  document.getElementById('report-details').innerHTML = details;
+}
+
+function copyMistakes(){
+  let str = "MISTAKES - MAKING OF CONSTITUTION:\n\n";
+  state.forEach((s, idx)=>{
+    if(s.selected !== QUESTIONS[idx].ans){
+      str += `Q${idx+1}: ${QUESTIONS[idx].q.en}\nCorrect: ${QUESTIONS[idx].opts.en[QUESTIONS[idx].ans]}\nTag: ${auditTags[idx]||'Untagged'}\n\n`;
+    }
+  });
+  navigator.clipboard.writeText(str).then(()=>alert("Mistakes copied to clipboard!"));
+}
+
+function reattempt(){ startTest(); }
+
+window.onload = initApp;
+</script>
+</body>
+</html>
