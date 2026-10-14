@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Advent of Europeans in India - Part 1 | Ayush Education 264</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{--navy:#0a2240;--navy2:#173b61;--blue:#2563eb;--green:#219653;--red:#e55353;--yellow:#f2c94c;--purple:#7c3aed;--bg:#f4f5f8;--border:#dfe4ea;--text:#263241;--muted:#6b7280;--card:#fff}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,"Noto Sans Devanagari","Nirmala UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+button,input,select{font:inherit}button{cursor:pointer}img,video,iframe{max-width:100%}
+.hidden{display:none!important}#app{height:100dvh;display:flex;flex-direction:column}
+#exam{height:calc(100dvh - 58px);min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.intro-wrap{height:100%;overflow:auto;padding:24px 16px;display:flex;justify-content:center;align-items:flex-start}
+.intro-card{width:min(760px,100%);background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(10,34,64,.08);overflow:hidden}
+.intro-head{background:var(--navy);color:#fff;padding:24px}
+.intro-head h1{font-size:22px;margin:0 0 6px;font-weight:800}
+.intro-head p{margin:0;color:#cbdcf0;font-size:13px}
+.intro-body{padding:20px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat{border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;background:#fafbfc}
+.stat strong{display:block;font-size:22px;color:var(--navy)}
+.stat span{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+.field input,.field select{width:100%;height:44px;border:1px solid #cbd5e1;border-radius:6px;padding:0 12px;outline:none}
+.field input:read-only{background:#f1f5f9;color:#475569;font-weight:700}
+.note{background:#eef5ff;border-left:4px solid var(--blue);padding:10px 12px;font-size:12px;margin:16px 0}
+.start-btn{width:100%;height:48px;border:0;border-radius:6px;background:var(--navy);color:#fff;font-weight:800;font-size:15px}
+.start-btn:disabled{background:#94a3b8;cursor:not-allowed}
+.navbar{height:58px;min-height:58px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;z-index:20}
+.nav-title{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40vw}
+.nav-btn{height:36px;border:1px solid rgba(255,255,255,.25);background:var(--navy2);color:#fff;border-radius:6px;padding:0 10px;font-weight:800;font-size:12px}
+.timer{height:38px;min-width:96px;padding:0 8px;border:1px solid #467aa7;background:#173b61;border-radius:6px;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:800;font-family:monospace;font-size:18px}
+.timer.warning{background:#7f1d1d}
+.exam-main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 280px;background:#fff}
+.question-pane{min-width:0;min-height:0;display:flex;flex-direction:column;border-right:1px solid var(--border)}
+.q-head{height:58px;min-height:58px;padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.q-meta{display:flex;align-items:center;gap:10px}.q-badge{background:#eef1f5;border:1px solid #cfd6df;border-radius:6px;padding:6px 10px;font-size:16px;font-weight:800;color:var(--navy)}
+.credit{font-size:11px;color:#718096}
+.time-spent{font:700 13px monospace;color:#667085;border:1px solid var(--border);border-radius:6px;padding:6px 8px;background:#fafbfc}
+.q-scroll{flex:1;min-height:0;overflow:auto;padding:20px;scrollbar-gutter:stable}
+#question-text{font-size:16px;line-height:1.6;margin-bottom:14px;font-weight:600;overflow-wrap:anywhere} .statement-item,.option,.option span,.explanation{overflow-wrap:anywhere} .option>span{flex:1;min-width:0}
+.statement-item{background:#f8fafc;border-left:3px solid var(--blue);padding:8px 12px;margin:6px 0;line-height:1.5;font-size:14px;border-radius:0 4px 4px 0}
+.options{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer}
+.option:hover{border-color:#8eb3dc;background:#f8fbff}
+.option.selected{border-color:#4a86bd;background:#eef6ff}
+.option input{margin-top:2px;accent-color:#2563eb}
+.exam-footer{height:58px;min-height:58px;border-top:1px solid var(--border);display:grid;grid-template-columns:100px 1fr 140px;gap:8px;padding:8px 12px;background:#fff}
+.foot-btn{border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#334155;font-weight:800}
+.foot-btn.review{background:var(--yellow);color:#111827}
+.foot-btn.next{background:var(--navy);color:#fff}
+.sidebar{background:#fff;display:flex;flex-direction:column;min-height:0}
+.palette{flex:1;overflow:auto;padding:12px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-content:start}
+.q-node{height:36px;border:1px solid #cbd5e1;border-radius:4px;background:#fff;font-weight:800;font-size:12px}
+.q-node.answered{background:var(--green);color:#fff;border-color:var(--green)}
+.q-node.unanswered{background:var(--red);color:#fff;border-color:var(--red)}
+.q-node.marked{background:var(--purple);color:#fff;border-color:var(--purple)}
+.q-node.active{outline:3px solid rgba(10,34,64,.35)}
+.solution-mode .q-node.sol-correct{background:var(--green)!important;color:#fff!important;border-color:var(--green)!important}
+.solution-mode .q-node.sol-wrong{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important}
+.solution-mode .q-node.sol-unatt{background:#fff!important;color:#64748b!important;border:1px solid #cbd5e1!important}
+.submit-side{padding:10px;border-top:1px solid var(--border)}
+.submit-btn{height:42px;width:100%;border:0;border-radius:6px;background:#198754;color:#fff;font-weight:800}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal-card{width:min(400px,94vw);background:#fff;border-radius:10px;padding:20px}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.modal-actions button{height:40px;border-radius:6px;border:1px solid #cbd5e1;font-weight:800}
+#result{position:absolute;inset:0;background:var(--bg);overflow:auto;z-index:500;padding:20px 14px}
+.result-wrap{width:min(860px,100%);margin:auto}
+.hero{background:linear-gradient(120deg,#0a2240,#214d76);color:#fff;border-radius:10px 10px 0 0;padding:20px;text-align:center}
+.score{font-size:48px;font-weight:900;margin:8px 0}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border:1px solid var(--border);border-top:0}
+.rstat{text-align:center;padding:12px 4px;border-right:1px solid var(--border)}
+.rstat:last-child{border-right:0}
+.rstat b{display:block;font-size:20px}
+.rstat span{font-size:10px;text-transform:uppercase;color:#6b7280;font-weight:800}
+.result-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.result-buttons button{height:44px;border:0;border-radius:6px;color:#fff;font-weight:800;font-size:12px}
+.b-solution{background:#4338ca}.b-copy{background:#475569}.b-reattempt{background:#059669}
+body.solution-mode .option.correct{border-color:var(--green)!important;background:#f0fdf4!important;font-weight:bold}
+body.solution-mode .option.wrong{border-color:var(--red)!important;background:#fef2f2!important;font-weight:bold}
+.explanation{margin-top:16px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;padding:14px}
+.exp-title{font-size:15px;font-weight:800;color:#166534;margin-bottom:6px}
+.analysis-box{margin-top:12px;padding-top:10px;border-top:1px solid #e5e7eb}
+.tag{border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer;margin:3px}
+.tag.selected{border-color:#4338ca;background:#e0e7ff;color:#312e81}
+/* Responsive typography/layout: same design, adapts cleanly from phone to laptop */
+@media (max-width:900px){
+ .exam-main{grid-template-columns:minmax(0,1fr) 250px}
+ .q-scroll{padding:16px}
+ #question-text{font-size:clamp(15px,2.2vw,17px);line-height:1.58}
+ .statement-item{font-size:clamp(13px,1.8vw,14px);line-height:1.52}
+ .option{font-size:clamp(14px,1.8vw,15px);line-height:1.48;padding:11px 12px}
+ .nav-title{max-width:34vw}
+}
+@media(max-width:768px){
+ body{overflow:hidden}
+ #exam{height:100dvh;min-height:100dvh;overflow:hidden}
+ .exam-main{height:calc(100dvh - 58px);min-height:0;overflow:hidden}
+ .question-pane{height:100%;min-height:0}
+ .q-scroll{min-height:0;overflow-y:auto}
+ .intro-wrap{padding:14px 10px}.intro-head{padding:18px 16px}
+ .intro-head h1{font-size:clamp(17px,5vw,22px);line-height:1.25}.intro-head p{font-size:12px}
+ .intro-body{padding:16px}.stats{gap:7px}.stat{padding:10px 5px}
+ .stat strong{font-size:clamp(18px,6vw,22px)}.stat span{font-size:9px}
+ .field label{font-size:12px}.field input,.field select{height:44px;font-size:14px}.start-btn{height:46px;font-size:14px}
+
+ .exam-main{display:block}
+ .question-pane{height:calc(100dvh - 58px)}
+ .navbar{height:58px;min-height:58px;padding:0 8px;gap:5px}
+ .nav-title{font-size:13px;max-width:30vw;flex:1;min-width:0}
+ .nav-btn{height:34px;padding:0 7px;font-size:11px;white-space:nowrap}
+ .timer{height:36px;min-width:78px;font-size:16px;flex-shrink:0}
+
+ .q-head{height:auto;min-height:52px;padding:7px 10px;gap:8px}
+ .q-meta{min-width:0}.q-meta>div:nth-child(2){min-width:0;overflow:hidden}
+ .q-meta strong{font-size:clamp(11px,3.2vw,13px)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .q-badge{font-size:14px;padding:5px 8px;flex-shrink:0}
+ .credit{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .time-spent{font-size:11px;padding:5px 7px;flex-shrink:0}
+
+ .q-scroll{padding:14px 12px 76px}
+ #question-text{font-size:clamp(15px,4.2vw,18px);line-height:1.58;margin-bottom:12px}
+ .statement-item{font-size:clamp(13px,3.5vw,15px);line-height:1.52;padding:8px 10px}
+ .options{gap:8px;margin-top:13px}
+ .option{font-size:clamp(13.5px,3.7vw,15.5px);line-height:1.48;padding:11px 10px;gap:8px}
+ .option input{margin-top:3px;flex-shrink:0}
+
+ .exam-footer{height:58px;min-height:58px;grid-template-columns:1fr 1.35fr 1.35fr 1fr;gap:5px;padding:6px}
+ .foot-btn{font-size:9px;white-space:nowrap;min-width:0;padding:0 3px}
+
+ .sidebar{position:fixed;top:58px;right:0;bottom:0;width:min(85vw,300px);transform:translateX(105%);transition:transform .2s;z-index:90}
+ .sidebar.open{transform:translateX(0)}
+ .palette{grid-template-columns:repeat(5,1fr);gap:7px;padding:10px}.q-node{height:34px;font-size:11px}
+
+ #result{padding:12px 10px}.hero{padding:18px 12px}.score{font-size:clamp(38px,12vw,48px)}
+ .stats-row{grid-template-columns:repeat(2,1fr)}.rstat{border-bottom:1px solid var(--border)}
+ .rstat:nth-child(2n){border-right:0}.rstat b{font-size:18px}
+ .result-buttons{grid-template-columns:1fr;gap:7px}.result-buttons button{height:42px}
+ .modal{padding:12px}.modal-card{width:min(400px,96vw);padding:16px}
+}
+@media(max-width:420px){
+ .intro-wrap{padding:9px 7px}.intro-body{padding:13px}
+ .stats{gap:5px}.stat{padding:9px 3px}.stat strong{font-size:17px}.stat span{font-size:8px}
+ .navbar{gap:3px}.nav-title{max-width:27vw;font-size:12px}
+ .nav-btn{padding:0 5px;font-size:10px}.timer{min-width:68px;font-size:14px}
+ .q-scroll{padding-left:9px;padding-right:9px}
+ #question-text{font-size:clamp(14px,4.5vw,16px);line-height:1.56}
+ .statement-item{font-size:13px;line-height:1.5}
+ .option{font-size:13px;line-height:1.46;padding:10px 8px}
+ .exam-footer{height:58px;min-height:58px;grid-template-columns:1fr 1.35fr 1.35fr 1fr;gap:4px;padding:5px}
+ .foot-btn{font-size:8px;padding:0 2px}
+}
+@media(max-width:340px){
+ .nav-title{display:none}
+ .navbar>div:last-child{width:100%;justify-content:flex-end}
+ .nav-btn{font-size:9px;padding:0 4px}
+ .timer{min-width:64px;font-size:13px}
+ #question-text{font-size:14px}
+ .option{font-size:12.5px}
+}
+@media(pointer:coarse){
+ .option{min-height:46px}
+ .foot-btn,.nav-btn,.q-node,.tag{min-height:34px}
+}
+
+/* Final navigation visibility fix */
+.exam-footer{position:relative;z-index:5;flex-shrink:0}
+@media(max-width:768px){
+  .exam-footer{padding-bottom:max(6px,env(safe-area-inset-bottom))}
+  .q-scroll{padding-bottom:14px}
+  .exam-footer .foot-btn{display:block;visibility:visible;opacity:1}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<section id="intro" class="intro-wrap">
+  <div class="intro-card">
+    <div class="intro-head">
+      <h1>ADVENT OF EUROPEANS IN INDIA - PART 1</h1>
+      <p>Modern History • Part 1 • 25 Questions • Cloud Sync</p>
+    </div>
+    <div class="intro-body">
+      <div class="stats">
+        <div class="stat"><strong>25</strong><span>Questions</span></div>
+        <div class="stat"><strong>15:00</strong><span>Time</span></div>
+        <div class="stat"><strong>Bilingual</strong><span>Format</span></div>
+      </div>
+      <div class="field">
+        <label>Student Name (Real Name Required)</label>
+        <input id="student-name" type="text" placeholder="Apna pura naam likhein..." oninput="checkName()">
+      </div>
+      <div class="field">
+        <label>Negative Marking</label>
+        <select id="negative">
+          <option value="0.5" selected>-0.50 (Standard SSC)</option>
+          <option value="0.25">-0.25</option>
+          <option value="0">No Negative Marking</option>
+        </select>
+      </div>
+      <div class="note"><b>Rule:</b> Bina verified naam ke test start nahi hoga. Submit karte hi scorecard Supabase me save hoga.</div>
+      <button class="start-btn" id="start-btn" onclick="startTest()" disabled>ENTER NAME TO START</button>
+    </div>
+  </div>
+</section>
+
+<section id="exam" class="hidden">
+  <header class="navbar">
+    <div class="nav-title">ADVENT OF EUROPEANS IN INDIA - PART 1</div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button class="nav-btn" onclick="toggleLang()" id="lang-btn">A/अ EN</button>
+      <button class="nav-btn" onclick="toggleSidebar()">☷ Palette</button>
+      <div class="timer" id="timer">15:00</div>
+    </div>
+  </header>
+  <main class="exam-main">
+    <section class="question-pane">
+      <div class="q-head">
+        <div class="q-meta">
+          <div class="q-badge" id="q-no">Q1</div>
+          <div><strong style="font-size:13px">KNOWLEDGE LECTURE-1 MAKING OF CONSTITUTION</strong><div class="credit" id="stu-tag">Student</div></div>
+        </div>
+        <div class="time-spent" id="q-timer">0s</div>
+      </div>
+      <div class="q-scroll">
+        <div id="question-text"></div>
+        <div id="statements-box"></div>
+        <div class="options" id="options"></div>
+        <div id="solution-box"></div>
+      </div>
+      <div class="exam-footer" id="exam-footer">
+        <button class="foot-btn" onclick="prevQ()">‹ PREV</button>
+        <button class="foot-btn review" onclick="markReview()">MARK & NEXT</button>
+        <button class="foot-btn next" onclick="saveNext()">SAVE & NEXT ›</button>
+        <button class="foot-btn" style="background:#198754;color:#fff;border-color:#198754" onclick="openSubmitModal()">SUBMIT</button>
+      </div>
+      <div class="exam-footer hidden" id="sol-footer">
+        <button class="foot-btn" onclick="solPrev()">‹ PREV</button>
+        <button class="foot-btn next" onclick="solNext()" id="sol-next-btn">NEXT ›</button>
+      </div>
+    </section>
+    <aside class="sidebar" id="sidebar">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-weight:800;font-size:13px">Question Palette</div>
+      <div class="palette" id="palette"></div>
+      <div class="submit-side"><button class="submit-btn" onclick="openSubmitModal()">SUBMIT TEST</button></div>
+    </aside>
+  </main>
+</section>
+
+<section id="result" class="hidden">
+  <div class="result-wrap">
+    <div class="hero">
+      <small>OVERALL SCORE</small>
+      <div class="score" id="r-score">0.00</div>
+      <div id="r-status" style="font-size:13px">Completed ✓</div>
+    </div>
+    <div class="stats-row">
+      <div class="rstat"><b id="r-att">0</b><span>Attempted</span></div>
+      <div class="rstat"><b id="r-cor">0</b><span>Correct</span></div>
+      <div class="rstat"><b id="r-wro">0</b><span>Incorrect</span></div>
+      <div class="rstat"><b id="r-acc">0%</b><span>Accuracy</span></div>
+      <div class="rstat"><b id="r-time">0:00</b><span>Time</span></div>
+    </div>
+    <div class="result-buttons">
+      <button class="b-solution" onclick="startAudit()">▣ AUDIT & SOLUTIONS</button>
+      <button class="b-copy" onclick="copyMistakes()">📋 COPY MISTAKES</button>
+      <button class="b-reattempt" onclick="reattempt()">↻ RE-ATTEMPT</button>
+    </div>
+    <div id="final-report-card" class="hidden" style="margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px">
+      <h3 style="margin:0 0 10px;color:var(--navy);font-size:15px">DIAGNOSTIC AUDIT REPORT</h3>
+      <div id="report-details" style="font-size:13px;line-height:1.6"></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="modal" id="modal-submit">
+  <div class="modal-card">
+    <h3 style="margin:0 0 8px;font-size:16px">Confirm Submit</h3>
+    <div style="font-size:13px;color:#475569" id="modal-submit-msg">Kya aap test submit karna chahte hain?</div>
+    <div class="modal-actions">
+      <button onclick="closeModal('modal-submit')">Cancel</button>
+      <button style="background:var(--navy);color:#fff" onclick="submitExam()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://nzahaumcnbqtcxqiumlm.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56YWhhdW1jbmJxdGN4cWl1bWxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxNzE3MjgsImV4cCI6MjEwMTc0NzcyOH0.h1ixAdxtDfDQTDIBM6x_XSOJKKs-lECED6CwqmcFoEo";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const QUESTIONS = [{"id":1,"q":{"en":"The 'Treaty of Tordesillas', signed on 7 June 1494, was concluded between which two European nations?","hi":"7 जून 1494 को हस्ताक्षरित 'टॉर्डेंसिलस की संधि' किन दो यूरोपीय देशों के बीच हुई थी?"},"st":null,"opts":{"en":["Spain and Portugal","Britain and France","Portugal and Netherlands","Spain and Britain"],"hi":["स्पेन और पुर्तगाल","ब्रिटेन और फ्रांस","पुर्तगाल और नीदरलैंड","स्पेन और ब्रिटेन"]},"ans":0,"exp":"• सही उत्तर की व्याख्या: 7 जून 1494 को स्पेन और पुर्तगाल के बीच टॉर्डेंसिलस की संधि पर हस्ताक्षर किए गए थे। इसका मुख्य उद्देश्य नव-खोजी गई भूमि को लेकर दोनों देशों के बीच उपजे विवाद को सुलझाना था। इसके तहत एक काल्पनिक सीमांकन रेखा खींची गई, जिसके अनुसार पूर्व की भूमि पुर्तगाल के और पश्चिम की भूमि स्पेन के प्रभाव-क्षेत्र में मानी गई।<br>• अन्य विकल्पों की व्याख्या:<br>- (b) ब्रिटेन और फ्रांस: इनके बीच कर्नाटक के तीन युद्ध (1744-1763) और सात वर्षीय युद्ध लड़े गए थे, जिनका प्रभाव भारत में दोनों कंपनियों की प्रतिद्वंद्विता पर पड़ा।<br>- (c) पुर्तगाल और नीदरलैंड: 17वीं शताब्दी में मसाला द्वीप (इंडोनेशिया) और भारत के व्यापारिक एकाधिकार को लेकर डच और पुर्तगालियों के बीच संघर्ष हुआ, जिसमें डचों ने पुर्तगालियों को मलाका और सीलोन से बेदखल कर दिया।<br>- (d) स्पेन और ब्रिटेन: 1588 में ब्रिटिश नौसेना ने स्पेनिश आर्मडा को पराजित किया था, जिसके बाद ब्रिटिश समुद्री शक्ति का वैश्विक उदय हुआ।"},{"id":2,"q":{"en":"In 1498 AD, Vasco da Gama reached the coast of Calicut in India aboard which Portuguese ship?","hi":"1498 ई. में वास्को डी गामा किस पुर्तगाली जहाज़ से भारत के कालीकट तट पर पहुँचा था?"},"st":null,"opts":{"en":["Hector","Sao Gabriel","Santa Maria","Red Dragon"],"hi":["हेक्टर","साओ गैब्रियल","सांता मारिया","रेड ड्रैगन"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: वास्को डी गामा &#x27;केप ऑफ गुड होप&#x27; (उत्तमाशा अंतरीप) के रास्ते 20 मई 1498 को कालीकट (केरल) के कपकडाबू तट पर पहुँचा। वह जिस मुख्य पुर्तगाली जहाज़ी बेड़े का नेतृत्व कर रहा था, उसका प्रमुख फ्लैगशिप जहाज़ &#x27;साओ गैब्रियल&#x27; (Gabriel) था। भारत आने में गुजराती पथ-प्रदर्शक अब्दुल मजीद ने उसकी सहायता की थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) हेक्टर: यह वह अंग्रेज़ी जहाज़ था जिससे कैप्टन विलियम हॉकिन्स 1608 में सूरत पहुँचा और जहाँगीर के दरबार में उपस्थित हुआ।<br>- (c) सांता मारिया: यह क्रिस्टोफर कोलंबस का प्रमुख जहाज़ था, जिससे उसने 1492 में अमेरिका की समुद्री यात्रा की थी।<br>- (d) Red Dragon: यह ईस्ट इंडिया कंपनी के पहले व्यापारिक अभियान (1601) का प्रमुख युद्धपोत था, जिसका नेतृत्व जेम्स लैंकेस्टर ने किया था।"},{"id":3,"q":{"en":"When Vasco da Gama arrived at Calicut in 1498 AD, who was the local Hindu ruler?","hi":"1498 ई. में जब वास्को डी गामा कालीकट पहुँचा, तब वहाँ का स्थानीय हिंदू शासक कौन था?"},"st":null,"opts":{"en":["Marthanda Varma","King Zamorin","Krishnadevaraya","Chikkadevaraja Wodeyar"],"hi":["मार्तंड वर्मा","राजा जमोरिन","कृष्णदेवराय","चिक्कदेवराज वोडेयार"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: वास्को डी गामा के कालीकट आगमन के समय वहाँ का शासक &#x27;जमोरिन&#x27; (सामुद्री) था, जो वहाँ के हिंदू शासकों की वंशानुगत पैतृक उपाधि थी। जमोरिन ने वास्को डी गामा का स्वागत किया और उसे व्यापार की अनुमति दी, जिसका वहाँ पहले से व्यापार कर रहे अरब व्यापारियों ने विरोध किया था।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) मार्तंड वर्मा: ये त्रावणकोर के प्रतापी राजा थे, जिन्होंने 1741 के प्रसिद्ध &#x27;कोलाचेल के युद्ध&#x27; में डच ईस्ट इंडिया कंपनी को निर्णायक रूप से पराजित किया था।<br>- (c) कृष्णदेवराय: विजयनगर साम्राज्य के तुलुव वंश के महानतम शासक थे। इन्होंने पुर्तगाली गवर्नर अल्बुकर्क को भटकल में किला बनाने की अनुमति दी थी।<br>- (d) चिक्कदेवराज वोडेयार: मैसूर के वोडेयार वंश के शासक थे, जिनके शासनकाल में मैसूर राज्य अपनी प्रशासनिक व आर्थिक उन्नति के चरम पर पहुँचा था।"},{"id":4,"q":{"en":"The cultivation of tobacco and cashew in India was introduced by which of the following European powers?","hi":"भारत में तंबाकू और काजू की खेती की शुरुआत निम्नलिखित में से किस यूरोपीय शक्ति द्वारा की गई थी?"},"st":null,"opts":{"en":["Dutch","British","Portuguese","French"],"hi":["डच","अंग्रेज़","पुर्तगाली","फ्रांसीसी"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: भारत में तंबाकू, काजू, लाल मिर्च, मूंगफली, अनन्नास, पपीता और मक्का लाने का श्रेय पुर्तगालियों को जाता है। इसके अतिरिक्त 1556 ई. में गोवा में भारत की पहली प्रिंटिंग प्रेस की स्थापना और गोथिक स्थापत्य कला का विकास भी पुर्तगालियों की ही देन है।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) डच: डचों ने भारत से मुख्य रूप से सूती वस्त्रों (कोरोमंडल तट से) और नील के निर्यात को प्राथमिकता दी और भारतीय वस्त्रों को अंतर्राष्ट्रीय व्यापार की प्रमुख वस्तु बनाया।<br>- (b) अंग्रेज़: अंग्रेजों ने भारत में चाय, कॉफ़ी और अफ़ीम के बड़े पैमाने पर व्यावसायिक बागान और रेलवे तंत्र विकसित किए।<br>- (c) फ्रांसीसी: फ्रांसीसियों ने मुख्य रूप से चंदन, रेशम और इत्र के व्यापार पर ध्यान केंद्रित किया और पांडिचेरी को अपना प्रमुख केंद्र बनाया।"},{"id":5,"q":{"en":"Who was the first Portuguese Viceroy in India who introduced the 'Blue Water Policy'?","hi":"भारत में प्रथम पुर्तगाली वायसराय कौन था, जिसने 'शांत जल की नीति' (ब्लू वॉटर पॉलिसी) लागू की थी?"},"st":null,"opts":{"en":["Afonso de Albuquerque","Francisco de Almeida","Nuno da Cunha","Duarte Barbosa"],"hi":["अफोंसो डी अल्बुकर्क","फ्रांसिस्को डी अल्मेडा","नूनो दा कुन्हा","डुआर्टे बारबोसा"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: फ्रांसिस्को डी अल्मेडा (1505-1509) भारत में पहला पुर्तगाली वायसराय था। उसने &#x27;ब्लू वॉटर पॉलिसी&#x27; (शांत जल की नीति) शुरू की, जिसका उद्देश्य थल पर किले बनाने के बजाय हिंद महासागर में नौसैनिक वर्चस्व स्थापित करना था। उसने &#x27;कार्टाज़ प्रणाली&#x27; (समुद्री व्यापार परमिट) की शुरुआत की।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) अफोंसो डी अल्बुकर्क: यह भारत में दूसरा पुर्तगाली गवर्नर था, जिसे भारत में पुर्तगाली साम्राज्य का वास्तविक संस्थापक माना जाता है।<br>- (c) नूनो दा कुन्हा: इसने 1530 में पुर्तगाली सरकार का मुख्यालय कोचीन से बदलकर गोवा स्थानांतरित किया था।<br>- (d) डुआर्टे बारबोसा: यह एक प्रसिद्ध पुर्तगाली यात्री और लेखक था, जिसने कृष्णदेवराय के शासनकाल में विजयनगर साम्राज्य की यात्रा की थी।"},{"id":6,"q":{"en":"Which Portuguese Governor captured Goa from the Adil Shahi ruler of Bijapur in 1510 AD?","hi":"1510 ई. में बीजापुर के शासक यूसुफ आदिल शाह से गोवा छीनने वाला पुर्तगाली गवर्नर कौन था?"},"st":null,"opts":{"en":["Francisco de Almeida","Afonso de Albuquerque","Nuno da Cunha","Nino Fernandes"],"hi":["फ्रांसिस्को डी अल्मेडा","अफोंसो डी अल्बुकर्क","नूनो दा कुन्हा","नीनो फर्नांडीस"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: अफोंसो डी अल्बुकर्क (1509-1515) ने 1510 ई. में बीजापुर के सुल्तान यूसुफ आदिल शाह से गोवा को छीना। यह भारत में किसी भारतीय भूभाग पर यूरोपीय आधिपत्य की पहली बड़ी घटना थी। अल्बुकर्क ने पुर्तगालियों को भारतीय महिलाओं से विवाह करने के लिए प्रोत्साहित किया तथा अपने अधिकार क्षेत्र में सती प्रथा को प्रतिबंधित किया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) फ्रांसिस्को डी अल्मेडा: इसने 1509 में दीव के प्रसिद्ध नौसैनिक युद्ध में मिस्र, गुजरात और तुर्की के संयुक्त मुस्लिम जहाज़ी बेड़े को पराजित किया था।<br>- (c) नूनो दा कुन्हा: इसने 1534 में बेसिन और 1535 में दीव पर पुर्तगाली नियंत्रण स्थापित किया।<br>- (d) नीनो फर्नांडीस: पुर्तगाली नौसेना का कमांडर था, जिसका उपयोग बंगाल की खाड़ी में समुद्री अभियानों में हुआ।"},{"id":7,"q":{"en":"Which Portuguese Governor officially transferred the Portuguese capital from Cochin to Goa in 1530 AD?","hi":"किस पुर्तगाली गवर्नर ने 1530 ई. में औपचारिक रूप से पुर्तगाली राजधानी को कोचीन से गोवा स्थानांतरित किया था?"},"st":null,"opts":{"en":["Afonso de Albuquerque","Nuno da Cunha","Francisco de Almeida","Pedro Alvares Cabral"],"hi":["अफोंसो डी अल्बुकर्क","नूनो दा कुन्हा","फ्रांसिस्को डी अल्मेडा","पेड्रो अल्वारेस कैब्रल"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: नूनो दा कुन्हा (1529-1538) ने 1530 ई. में सरकारी कार्यालयों और राजधानी को कोचीन से गोवा स्थानांतरित कर दिया, जिसके बाद गोवा भारत में पुर्तगाली बस्तियों की स्थायी राजधानी बना रहा। इसी के समय गुजरात के सुल्तान बहादुर शाह ने 1535 में दीव में पुर्तगालियों को किला बनाने की अनुमति दी थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) अफोंसो डी अल्बुकर्क: इसने 1511 में मलक्का (दक्षिण-पूर्व एशिया) और 1515 में होर्मुज (फारस की खाड़ी) पर नियंत्रण स्थापित किया था।<br>- (c) फ्रांसिस्को डी अल्मेडा: इसका मुख्य केंद्र कोचीन और कन्नूर था, जहाँ इसने प्रारंभिक पुर्तगाली फैक्ट्रियों की किलेबंदी की।<br>- (d) पेड्रो अल्वारेस कैब्रल: 1500 ई. में भारत आने वाला दूसरा पुर्तगाली नाविक था, जिसने 1500 में ब्राजील की खोज भी की थी।"},{"id":8,"q":{"en":"In which year was the 'Dutch East India Company' (VOC) established?","hi":"'डच ईस्ट इंडिया कंपनी' (Vereenigde Oostindische Compagnie - VOC) की स्थापना किस वर्ष हुई थी?"},"st":null,"opts":{"en":["1599 AD","1600 AD","1602 AD","1664 AD"],"hi":["1599 ई.","1600 ई.","1602 ई.","1664 ई."]},"ans":2,"exp":"• सही उत्तर की व्याख्या: डच ईस्ट इंडिया कंपनी की स्थापना 1602 ई. में हॉलैंड (नीदरलैंड्स) की संसद द्वारा एक चार्टर पारित करके की गई थी। इसे 21 वर्षों के लिए पूर्व में व्यापार करने, युद्ध छेड़ने, संधियाँ करने और किले बनाने का संप्रभु अधिकार दिया गया था। यह इतिहास की पहली संयुक्त पूँजी वाली सार्वजनिक कंपनी (Public Limited Company) थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) 1599 ई.: इस वर्ष लंदन के व्यापारियों के एक समूह (मर्चेंट एडवेंचरर्स) ने अंग्रेज़ी ईस्ट इंडिया कंपनी की आधारशिला रखी थी।<br>- (b) 1600 ई.: 31 दिसंबर 1600 को इंग्लैंड की महारानी एलिज़ाबेथ प्रथम ने ईस्ट इंडिया कंपनी को 15 वर्षों के व्यापार का शाही अधिकार-पत्र दिया था।<br>- (d) 1664 ई.: फ्रांस के राजा लुई चौदहवें के प्रसिद्ध मंत्री कोलबर्ट के प्रयासों से &#x27;फ्रेंच ईस्ट इंडिया कंपनी&#x27; (Compagnie des Indes Orientales) की स्थापना हुई थी।"},{"id":9,"q":{"en":"Where did the Dutch establish their first trading factory in India in 1605 AD?","hi":"डचों ने 1605 ई. में भारत में अपना पहला व्यापारिक कारखाना (Factory) कहाँ स्थापित किया था?"},"st":null,"opts":{"en":["Pulicat","Masulipatnam","Surat","Chinsurah"],"hi":["पुलीकट","मसूलीपट्टनम","सूरत","चिनसुरा"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: डचों ने भारत में अपना पहला व्यापारिक कारखाना 1605 ई. में आंध्र प्रदेश के मसूलीपट्टनम (मछलीपट्टनम) में स्थापित किया। इसके बाद 1610 में पुलीकट (तमिलनाडु) में अपनी फैक्ट्री स्थापित की, जो लंबे समय तक डचों का मुख्य मुख्यालय रहा और जहाँ उन्होंने &#x27;पगोडा&#x27; नामक स्वर्ण सिक्के ढाले।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) पुलीकट: यहाँ डचों ने &#x27;फोर्ट गेल्ड्रिया&#x27; नामक प्रसिद्ध किले का निर्माण कराया था।<br>- (c) सूरत: यहाँ डचों ने 1616 ई. में अपनी व्यापारिक कोठी खोली थी। अंग्रेजों ने भी अपनी पहली स्थायी फैक्ट्री यहीं स्थापित की थी।<br>- (d) चिनसुरा: यह बंगाल में हुगली के पास डचों का प्रमुख केंद्र था, जहाँ उन्होंने &#x27;फोर्ट गुस्तावस&#x27; का निर्माण कराया था।"},{"id":10,"q":{"en":"Who was the first Englishman to arrive at Mughal Emperor Jahangir's court in 1608 AD as an envoy of King James I?","hi":"इंग्लैंड के राजा जेम्स प्रथम के दूत के रूप में 1608 ई. में मुगल सम्राट जहाँगीर के दरबार में पहुँचने वाला पहला अंग्रेज़ कौन था?"},"st":null,"opts":{"en":["Sir Thomas Roe","Captain William Hawkins","Job Charnock","Gerald Aungier"],"hi":["सर थॉमस रो","कैप्टन विलियम हॉकिन्स","जॉब चार्नॉक","गेराल्ड औंगियार"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: कैप्टन विलियम हॉकिन्स 1608 ई. में &#x27;हेक्टर&#x27; नामक जहाज़ से सूरत पहुँचा और वहाँ से 1609 में आगरा में जहाँगीर के दरबार में उपस्थित हुआ। हॉकिन्स तुर्की और फ़ारसी भाषा का अच्छा ज्ञाता था। जहाँगीर ने उससे प्रसन्न होकर उसे 400 का मनसब और &#x27;इंग्लिश ख़ान&#x27; की उपाधि प्रदान की थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) सर थॉमस रो: यह 1615 ई. में जेम्स प्रथम का आधिकारिक राजदूत बनकर जहाँगीर के दरबार (अजमेर) में पहुँचा और व्यापारिक रियायतें प्राप्त करने में सफल रहा।<br>- (c) जॉब चार्नॉक: इसने 1690 ई. में सुतानाती, कलिकाता और गोविंदपुर को मिलाकर आधुनिक कलकत्ता शहर की नींव रखी थी।<br>- (d) गेराल्ड औंगियार: यह 1669 से 1677 तक बॉम्बे का अंग्रेज़ गवर्नर था और उसे आधुनिक बॉम्बे (मुंबई) का वास्तविक संस्थापक माना जाता है।"},{"id":11,"q":{"en":"Where did the English East India Company establish its first permanent factory in western India in 1613 AD?","hi":"अंग्रेज़ी ईस्ट इंडिया कंपनी ने पश्चिमी भारत में अपनी पहली स्थायी फैक्ट्री 1613 ई. में कहाँ स्थापित की थी?"},"st":null,"opts":{"en":["Masulipatnam","Surat","Madras","Bombay"],"hi":["मसूलीपट्टनम","सूरत","मद्रास","बॉम्बे"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: मुगल सम्राट जहाँगीर के शाही फरमान के बाद अंग्रेजों ने 1613 ई. में सूरत में अपनी पहली स्थायी फैक्ट्री स्थापित की। इससे पहले अंग्रेजों ने 1611 ई. में दक्षिण भारत के मसूलीपट्टनम में एक अस्थायी व्यापारिक कोठी खोली थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) मसूलीपट्टनम: यह कोरोमंडल तट पर स्थित था जहाँ अंग्रेजों ने 1611 में अपनी पहली दक्षिण भारतीय व्यापारिक चौकी स्थापित की थी।<br>- (c) मद्रास: 1639 में फ्रांसिस डे ने चंद्रगिरि के राजा से मद्रास पट्टे पर लिया और वहाँ &#x27;फोर्ट सेंट जॉर्ज&#x27; का निर्माण कराया।<br>- (d) बॉम्बे: 1661 में ब्रिटिश राजकुमार चार्ल्स द्वितीय को पुर्तगाली राजकुमारी कैथरीन से विवाह में बॉम्बे दहेज में मिला, जिसे 1668 में 10 पाउंड वार्षिक किराये पर कंपनी को दे दिया गया।"},{"id":12,"q":{"en":"Where did the Danish East India Company open its first commercial factory in India in 1620 AD?","hi":"डेनिश (डेनमार्क) ईस्ट इंडिया कंपनी ने 1620 ई. में भारत में अपना पहला व्यापारिक कारखाना कहाँ खोला था?"},"st":null,"opts":{"en":["Serampore","Tranquebar","Mahe","Karaikal"],"hi":["सेरामपुर","ट्रैंकेबार","माहे","कराईकल"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: डेनमार्क की ईस्ट इंडिया कंपनी 1616 ई. में गठित हुई थी। उन्होंने 1620 ई. में तमिलनाडु के तंजौर जिले के तट पर &#x27;ट्रैंकेबार&#x27; (तरंगमबाडी) में अपना पहला व्यापारिक केंद्र स्थापित किया और &#x27;डैनसबर्ग किला&#x27; बनवाया। 1676 में उन्होंने बंगाल के सेरामपुर में दूसरी फैक्ट्री खोली, जो उनका प्रमुख केंद्र बना।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) सेरामपुर: यह बंगाल में डेनिशों का मुख्य प्रशासनिक और प्रिंटिंग/मिशनरी केंद्र था, जिसे 1845 में उन्होंने अंग्रेजों को बेच दिया।<br>- (c) माहे: यह मालाबार तट (केरल) पर स्थित एक फ्रांसीसी व्यापारिक बस्ती थी, जिस पर 1725 में फ्रांसीसियों ने अधिकार किया था।<br>- (d) कराईकल: यह तमिलनाडु तट पर स्थित फ्रांसीसी उपनिवेश था, जिसे फ्रांसीसियों ने 1739 में तंजौर के राजा से प्राप्त किया था।"},{"id":13,"q":{"en":"Under whose leadership and where did the French East India Company establish its first factory in India in 1668 AD?","hi":"फ्रांसीसी ईस्ट इंडिया कंपनी ने 1668 ई. में भारत में अपनी पहली फैक्ट्री किसकी अध्यक्षता में और कहाँ स्थापित की?"},"st":null,"opts":{"en":["Francois Caron, Surat","Francois Martin, Pondicherry","Joseph Dupleix, Chandernagore","Comte de Lally, Madras"],"hi":["फ्रैंकोइस कैरों, सूरत","फ्रैंकोइस मार्टिन, पांडिचेरी","जोसेफ डुप्ले, चंद्रनगर","कॉम्टे डी लाली, मद्रास"]},"ans":0,"exp":"• सही उत्तर की व्याख्या: फ्रांसीसियों ने भारत में अपनी पहली फैक्ट्री 1668 ई. में सूरत (गुजरात) में स्थापित की थी। इस दल का नेतृत्व &#x27;फ्रैंकोइस कैरों&#x27; (Francois Caron) कर रहा था, जिसके साथ मर्करा नामक एक ईरानी व्यापारी भी था। इसके बाद 1669 में उन्होंने मसूलीपट्टनम में दूसरी कोठी खोली।<br>• अन्य विकल्पों की व्याख्या:<br>- (b) फ्रैंकोइस मार्टिन, पांडिचेरी: फ्रैंकोइस मार्टिन ने 1673 में वलिकोंडापुरम के सूबेदार शेर खान लोदी से एक छोटा गाँव प्राप्त कर पांडिचेरी की स्थापना की और &#x27;फोर्ट लुई&#x27; का निर्माण करवाया।<br>- (c) जोसेफ डुप्ले, चंद्रनगर: डुप्ले 1731 में चंद्रनगर का गवर्नर बना और बाद में पांडिचेरी का महानतम फ्रांसीसी गवर्नर-जनरल (1742) बना।<br>- (d) कॉम्टे डी लाली, मद्रास: लाली तीसरे कर्नाटक युद्ध के दौरान फ्रांसीसी सेना का सेनापति था, जिसे 1760 के वांडीवाश के युद्ध में पराजय का सामना करना पड़ा था।"},{"id":14,"q":{"en":"The famous 'Battle of Swally' (1612 AD) was fought between which two European powers?","hi":"1612 ई. का प्रसिद्ध 'स्वाली (सुवाली) का युद्ध' किन दो यूरोपीय शक्तियों के मध्य लड़ा गया था?"},"st":null,"opts":{"en":["British and Dutch","British and Portuguese","French and Portuguese","British and French"],"hi":["अंग्रेज़ और डच","अंग्रेज़ और पुर्तगाली","फ्रांसीसी और पुर्तगाली","अंग्रेज़ और फ्रांसीसी"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: स्वाली (सूरत के निकट) का नौसैनिक युद्ध 1612 ई. में अंग्रेज़ कप्तान थॉमस बेस्ट के नेतृत्व में ब्रिटिश जहाजी बेड़े और पुर्तगालियों के मध्य लड़ा गया था। अंग्रेजों ने पुर्तगालियों के शक्तिशाली जहाजी बेड़े को पराजित कर दिया। इस विजय से मुगल सम्राट जहाँगीर अत्यधिक प्रभावित हुआ और उसने अंग्रेजों को सूरत में स्थायी फैक्ट्री की अनुमति दी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) अंग्रेज़ और डच: इनके बीच 1759 में हुगली के पास बेदरा का निर्णायक युद्ध हुआ था, जिसमें अंग्रेजों ने डचों को भारत से निष्कासित कर दिया।<br>- (c) फ्रांसीसी और पुर्तगाली: भारत में इन दोनों के मध्य कोई बड़ा प्रत्यक्ष सैन्य टकराव नहीं हुआ क्योंकि दोनों के प्रभाव-क्षेत्र भिन्न थे।<br>- (d) अंग्रेज़ और फ्रांसीसी: इनके बीच 1760 में वांडीवाश का ऐतिहासिक युद्ध लड़ा गया था, जिसने भारत में फ्रांसीसी साम्राज्य का अंत कर दिया।"},{"id":15,"q":{"en":"The 'Battle of Bedara' (Chinsurah/Hooghly), fought in 1759 AD, occurred between which two powers that ended Dutch supremacy?","hi":"1759 ई. में लड़ा गया 'बेदरा (चिनसुरा/हुगली) का युद्ध' किन दो शक्तियों के बीच हुआ था, जिसमें डच सत्ता समाप्त हो गई?"},"st":null,"opts":{"en":["British and French","British and Dutch","Portuguese and Dutch","Dutch and Nawab of Bengal"],"hi":["अंग्रेज़ और फ्रांसीसी","अंग्रेज़ और डच","पुर्तगाली और डच","डच और बंगाल के नवाब"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: नवंबर 1759 में बंगाल में हुगली नदी के तट पर &#x27;बेदरा का युद्ध&#x27; ब्रिटिश सेना (जिसका संचालन रॉबर्ट क्लाइव कर रहा था और कर्नल फोर्ड ने नेतृत्व किया) और डच सेना के बीच लड़ा गया। अंग्रेजों ने डचों को बुरी तरह पराजित किया। इस युद्ध के बाद डच भारत में अपनी राजनीतिक महत्वाकांक्षा त्यागकर केवल इंडोनेशियाई मसाला द्वीपों तक सीमित रह गए।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) अंग्रेज़ और फ्रांसीसी: 1760 के वांडीवाश के युद्ध में इनके बीच निर्णायक संघर्ष हुआ था।<br>- (c) पुर्तगाली और डच: 1641 में डचों ने पुर्तगालियों से मलक्का जलडमरूमध्य छीन लिया था।<br>- (d) डच और बंगाल के नवाब: मीर जाफ़र ने गुप्त रूप से डचों को अंग्रेजों के विरुद्ध आमंत्रित किया था, लेकिन बेदरा में डचों की हार के साथ यह योजना विफल हो गई।"},{"id":16,"q":{"en":"In 1741 AD, Maharaja Marthanda Varma of Travancore defeated which European power in the 'Battle of Colachel'?","hi":"1741 ई. में त्रावणकोर के महाराजा मार्तंड वर्मा ने किस यूरोपीय शक्ति को 'कोलाचेल के युद्ध' में पराजित किया था?"},"st":null,"opts":{"en":["Portuguese","British","Dutch East India Company","French"],"hi":["पुर्तगाली","ब्रिटिश","डच ईस्ट इंडिया कंपनी","फ्रांसीसी"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: 10 अगस्त 1741 को लड़े गए कोलाचेल के युद्ध में त्रावणकोर (केरल) के राजा मार्तंड वर्मा की सेना ने डच ईस्ट इंडिया कंपनी की नौसेना को पूरी तरह ध्वस्त कर दिया। यह एशियाई इतिहास की पहली घटना थी जहाँ किसी स्थानीय एशियाई राजा ने सुसज्जित यूरोपीय नौसैनिक शक्ति को निर्णायक रूप से हराया था। इसके बाद डच कमांडर डी लैनॉय ने आत्मसमर्पण कर त्रावणकोर सेना का आधुनिकीकरण किया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) पुर्तगाली: पुर्तगालियों को 1739 में मराठा पेशवा बाजीराव प्रथम के भाई चिमाजी अप्पा ने बसीन के युद्ध में पराजित किया था।<br>- (b) ब्रिटिश: त्रावणकोर के मार्तंड वर्मा ने अंग्रेजों के साथ मैत्रीपूर्ण कूटनीतिक संबंध बनाए रखे थे।<br>- (d) फ्रांसीसी: फ्रांसीसियों का प्रभाव मुख्य रूप से दक्षिण-पूर्व कोरोमंडल तट (पांडिचेरी) और दक्कन की राजनीति पर था।"},{"id":17,"q":{"en":"The First Carnatic War (1744-1748) ended as a result of which European treaty?","hi":"प्रथम कर्नाटक युद्ध (1744-1748) किस यूरोपीय संधि के परिणामस्वरूप समाप्त हुआ था?"},"st":null,"opts":{"en":["Treaty of Pondicherry","Treaty of Aix-la-Chapelle","Treaty of Paris","Treaty of Mangalore"],"hi":["पांडिचेरी की संधि","ऐक्स-ला-शापेल की संधि","पेरिस की संधि","मंगलौर की संधि"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: प्रथम कर्नाटक युद्ध यूरोप में लड़े जा रहे &#x27;ऑस्ट्रियाई उत्तराधिकार युद्ध&#x27; (1740-1748) का भारतीय विस्तार था। 1748 ई. में यूरोप में हस्ताक्षरित &#x27;ऐक्स-ला-शापेल की संधि&#x27; (Treaty of Aix-la-Chapelle) के साथ यह युद्ध समाप्त हुआ। इस संधि के तहत मद्रास अंग्रेजों को पुनः वापस मिल गया और उत्तरी अमेरिका में लुईसबर्ग फ्रांसीसियों को लौटा दिया गया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) पांडिचेरी की संधि: 1754 में फ्रांसीसी गवर्नर गोदेहू और अंग्रेजों के बीच हुई संधि, जिसने द्वितीय कर्नाटक युद्ध को समाप्त किया।<br>- (c) पेरिस की संधि: 1763 में हुई संधि जिसने तृतीय कर्नाटक युद्ध और वैश्विक सात वर्षीय युद्ध को समाप्त किया।<br>- (d) मंगलौर की संधि: 1784 में टीपू सुल्तान और अंग्रेजों के बीच हस्ताक्षरित संधि, जिसने द्वितीय आंग्ल-मैसूर युद्ध को समाप्त किया।"},{"id":18,"q":{"en":"Who led the British army in the decisive 'Battle of Wandiwash' in 1760 AD?","hi":"1760 ई. के निर्णायक 'वांडीवाश के युद्ध' में अंग्रेज़ी सेना का नेतृत्व किसने किया था?"},"st":null,"opts":{"en":["Robert Clive","Hector Munro","Sir Eyre Coote","Lord Cornwallis"],"hi":["रॉबर्ट क्लाइव","हेक्टर मुनरो","सर आयर कूट","लॉर्ड कॉर्नवालिस"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: 22 जनवरी 1760 को तमिलनाडु में वांडीवाश का युद्ध लड़ा गया। इसमें ब्रिटिश सेना का नेतृत्व &#x27;सर आयर कूट&#x27; ने किया, जबकि फ्रांसीसी सेना का नेतृत्व &#x27;काउंट डी लाली&#x27; कर रहा था। अंग्रेजों ने फ्रांसीसी सेना को करारी शिकस्त दी और उनके प्रसिद्ध सेनापति बुस्सी को बंदी बना लिया। इसने भारत में फ्रांसीसियों के साम्राज्य निर्माण के स्वप्न को हमेशा के लिए समाप्त कर दिया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) रॉबर्ट क्लाइव: इसने 1751 में अर्कॉट का प्रसिद्ध घेरा डाला था और 1757 में प्लासी के युद्ध में ब्रिटिश सेना की कमान संभाली थी।<br>- (b) हेक्टर मुनरो: इसने 1764 के ऐतिहासिक बक्सर के युद्ध में तीन संयुक्त भारतीय शक्तियों के विरुद्ध अंग्रेज़ी सेना का सफल नेतृत्व किया था।<br>- (d) लॉर्ड कॉर्नवालिस: इसने तृतीय आंग्ल-मैसूर युद्ध (1790-1792) में अंग्रेज़ी सेना का नेतृत्व किया और 1793 में बंगाल में स्थायी बंदोबस्त लागू किया।"},{"id":19,"q":{"en":"In 1717 AD, which Mughal Emperor issued the royal farman to the English East India Company, known as the 'Magna Carta of Trade'?","hi":"1717 ई. में किस मुगल सम्राट ने अंग्रेज़ी ईस्ट इंडिया कंपनी को व्यापार का 'मैग्ना कार्टा' कहा जाने वाला शाही फरमान जारी किया था?"},"st":null,"opts":{"en":["Aurangzeb","Bahadur Shah I","Farrukhsiyar","Muhammad Shah 'Rangeela'"],"hi":["औरंगज़ेब","बहादुर शाह प्रथम","फ़र्रूख़सियर","मुहम्मद शाह 'रंगीला'"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: 1717 ई. में मुगल बादशाह फ़र्रूख़सियर ने जॉन सुरमन के नेतृत्व वाले ब्रिटिश मिशन के उपचार (डॉ. विलियम हैमिल्टन द्वारा) से प्रसन्न होकर एक शाही फरमान जारी किया। इसके तहत कंपनी को मात्र 3,000 रुपये वार्षिक भुगतान के बदले बंगाल में कर-मुक्त व्यापार की अनुमति मिली तथा वस्तुओं के आवागमन हेतु &#x27;दस्तक&#x27; (कस्टम पास) जारी करने का अधिकार मिला। इतिहासकार ऑर्म्स ने इसे कंपनी का &#x27;मैग्ना कार्टा&#x27; कहा है।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) औरंगज़ेब: 1686 ई. में इसने हुगली में उपद्रव करने पर अंग्रेजों को बंगाल से खदेड़ दिया था और बाद में जुर्माना लेकर पुनः व्यापार की अनुमति दी थी।<br>- (b) बहादुर शाह प्रथम: औरंगज़ेब की मृत्यु के बाद 1707 में गद्दी पर बैठा, जिसे &#x27;शाहे बेखबर&#x27; भी कहा जाता था।<br>- (d) मुहम्मद शाह &#x27;रंगीला&#x27;: इसके शासनकाल (1719-1748) में 1739 में नादिर शाह ने दिल्ली पर आक्रमण कर मयूर सिंहासन और कोहिनूर हीरा लूटा था।"},{"id":20,"q":{"en":"The 'Battle of Plassey', fought on 23 June 1757, is located in which present-day Indian state?","hi":"23 जून 1757 को लड़ा गया 'प्लासी का युद्ध' वर्तमान भारत के किस राज्य में स्थित है?"},"st":null,"opts":{"en":["Bihar","West Bengal","Odisha","Uttar Pradesh"],"hi":["बिहार","पश्चिम बंगाल","ओडिशा","उत्तर प्रदेश"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: प्लासी (पलाशी) का मैदान पश्चिम बंगाल के नदिया जिले में भागीरथी (हुगली) नदी के तट पर स्थित है। 23 जून 1757 को यहाँ रॉबर्ट क्लाइव की ब्रिटिश सेना और बंगाल के नवाब सिराज-उद-दौला के बीच युद्ध हुआ। मीर जाफ़र और राय दुर्लभ के विश्वासघात के कारण नवाब की सेना बिना लड़े ही हार गई।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) बिहार: यहाँ बक्सर का ऐतिहासिक मैदान स्थित है, जहाँ 1764 में बक्सर का युद्ध लड़ा गया था।<br>- (c) ओडिशा: 1765 की इलाहाबाद संधि के तहत अंग्रेजों को बंगाल और बिहार के साथ ओडिशा के भी दीवानी अधिकार मिले थे।<br>- (d) उत्तर प्रदेश: यहाँ अवध का क्षेत्र, इलाहाबाद और कड़ा स्थित थे, जो 1765 की इलाहाबाद संधि की मुख्य विषय-वस्तु बने।"},{"id":21,"q":{"en":"After becoming the Nawab of Bengal following Mir Jafar, where did Mir Qasim shift his capital from Murshidabad?","hi":"मीर जाफ़र के बाद बंगाल का नवाब बनने पर मीर क़ासिम ने अपनी राजधानी मुर्शिदाबाद से कहाँ स्थानांतरित की थी?"},"st":null,"opts":{"en":["Dhaka","Munger","Calcutta","Patna"],"hi":["ढाका","मुंगेर","कलकत्ता","पटना"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: 1760 ई. में नवाब बनने के बाद मीर क़ासिम ने कलकत्ता के अंग्रेज़ अधिकारियों के अत्यधिक हस्तक्षेप और षड्यंत्रों से दूर रहने के लिए अपनी राजधानी को मुर्शिदाबाद से बिहार के &#x27;मुंगेर&#x27; स्थानांतरित कर दिया। मुंगेर में उसने तोपों और बंदूकों के निर्माण के लिए एक आधुनिक शस्त्रागार भी स्थापित किया तथा आंतरिक व्यापार पर लगने वाले सभी कर समाप्त कर दिए।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) ढाका: मुर्शिद कुली ख़ान ने 1704 ई. में बंगाल की राजधानी ढाका से हटाकर मकसूदाबाद की थी, जिसका नाम बाद में मुर्शिदाबाद पड़ा।<br>- (c) कलकत्ता: यह ब्रिटिश ईस्ट इंडिया कंपनी की प्रेसीडेंसी का मुख्यालय था, जहाँ फोर्ट विलियम स्थित था।<br>- (d) पटना: यहाँ अंग्रेजों की एक बड़ी व्यापारिक कोठी थी, जहाँ 1763 में एलिस नामक अंग्रेज़ अधिकारी ने हमला कर मीर क़ासिम के साथ युद्ध की शुरुआत की थी।"},{"id":22,"q":{"en":"Who was the Commander-in-Chief of the British Army in the historic 'Battle of Buxar' fought on 22 October 1764?","hi":"22 अक्टूबर 1764 को लड़े गए ऐतिहासिक 'बक्सर के युद्ध' में अंग्रेज़ी सेना का मुख्य सेनापति कौन था?"},"st":null,"opts":{"en":["Robert Clive","Major Hector Munro","Lord Wellesley","Vansittart"],"hi":["रॉबर्ट क्लाइव","मेजर हेक्टर मुनरो","लॉर्ड वेलेजली","वैनसिटार्ट"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: बक्सर के युद्ध (22 अक्टूबर 1764) में ब्रिटिश ईस्ट इंडिया कंपनी की सेना की कमान मेजर हेक्टर मुनरो के हाथ में थी। मुनरो ने अपनी अनुशासित सेना के बल पर तीन संयुक्त भारतीय शासकों—मीर क़ासिम (बंगाल का अपदस्थ नवाब), शुजा-उद-दौला (अवध का नवाब) और शाह आलम द्वितीय (मुगल सम्राट)—की संयुक्त सेना को बुरी तरह परास्त किया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) रॉबर्ट क्लाइव: बक्सर के युद्ध के समय क्लाइव इंग्लैंड में था। युद्ध जीतने के बाद उसे पुनः गवर्नर बनाकर भारत भेजा गया ताकि वह 1765 में इलाहाबाद की संधि कर सके।<br>- (c) लॉर्ड वेलेजली: यह 1798 से 1805 तक भारत का गवर्नर-जनरल रहा, जिसने ब्रिटिश साम्राज्य विस्तार के लिए सहायक संधि (Subsidiary Alliance) का व्यापक प्रयोग किया।<br>- (d) वैनसिटार्ट: बक्सर के युद्ध (1764) के समय यह बंगाल का असैन्य अंग्रेज़ गवर्नर था।"},{"id":23,"q":{"en":"Who abolished the 'Dual Government system' established in Bengal by Robert Clive in 1765 AD, in the year 1772 AD?","hi":"1765 ई. में रॉबर्ट क्लाइव द्वारा बंगाल में स्थापित 'द्वैध शासन प्रणाली' (Dual Government) को 1772 ई. में किसने समाप्त किया था?"},"st":null,"opts":{"en":["Lord Cornwallis","Warren Hastings","Lord Wellesley","Lord William Bentinck"],"hi":["लॉर्ड कॉर्नवालिस","वॉरेन हेस्टिंग्स","लॉर्ड वेलेजली","लॉर्ड विलियम बेंटिक"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: 1772 ई. में वॉरेन हेस्टिंग्स बंगाल का गवर्नर बनकर आया और उसने कोर्ट ऑफ डायरेक्टर्स के आदेशानुसार 1765 से चली आ रही रॉबर्ट क्लाइव की द्वैध शासन प्रणाली को समाप्त कर दिया। कंपनी ने बंगाल के नवाब से समस्त प्रशासनिक और वित्तीय अधिकार छीन लिए और स्वयं प्रत्यक्ष रूप से दीवान बनकर राजस्व वसूली का कार्य अपने हाथ में ले लिया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) लॉर्ड कॉर्नवालिस: 1793 में कॉर्नवालिस कोड लाया, ज़मींदारी/स्थायी बंदोबस्त व्यवस्था शुरू की और भारत में सिविल सेवा का जनक कहलाया।<br>- (c) लॉर्ड वेलेजली: इसने स्वयं को &#x27;बंगाल का शेर&#x27; घोषित किया और हैदराबाद, मैसूर व अवध पर सहायक संधि थोपी।<br>- (d) लॉर्ड विलियम बेंटिक: 1828-1835 तक भारत का पहला गवर्नर-जनरल रहा, जिसने 1829 में सती प्रथा का उन्मूलन किया और ठगी प्रथा को समाप्त किया।"},{"id":24,"q":{"en":"The First Anglo-Mysore War (1767-1769) ended through which of the following treaties?","hi":"प्रथम आंग्ल-मैसूर युद्ध (1767-1769) का अंत निम्नलिखित में से किस संधि के माध्यम से हुआ था?"},"st":null,"opts":{"en":["Treaty of Mangalore","Treaty of Srirangapatna","Treaty of Madras","Treaty of Purandar"],"hi":["मंगलौर की संधि","श्रीरंगपट्टनम की संधि","मद्रास की संधि","पुरंदर की संधि"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: प्रथम आंग्ल-मैसूर युद्ध (1767-1769) में हैदर अली ने अंग्रेज़ों, मराठों और निज़ाम के त्रिगुट को अपनी कूटनीति से तोड़ दिया और अंग्रेज़ों को करारी शिकस्त देकर मद्रास की दीवारों तक खदेड़ दिया। 4 अप्रैल 1769 को &#x27;मद्रास की संधि&#x27; हुई। यह एक रक्षात्मक संधि थी जिसमें दोनों पक्षों ने एक-दूसरे के जीते हुए इलाके वापस किए और अंग्रेजों ने किसी बाहरी हमले की स्थिति में हैदर अली की सहायता का वचन दिया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) मंगलौर की संधि: 1784 ई. में टीपू सुल्तान और अंग्रेज़ गवर्नर लॉर्ड मैकार्टनी के बीच हस्ताक्षरित हुई, जिससे द्वितीय आंग्ल-मैसूर युद्ध समाप्त हुआ।<br>- (b) श्रीरंगपट्टनम की संधि: 1792 ई. में तृतीय आंग्ल-मैसूर युद्ध के अंत में लॉर्ड कॉर्नवालिस और टीपू सुल्तान के बीच हुई, जिसमें टीपू को अपना आधा राज्य गँवाना पड़ा।<br>- (d) पुरंदर की संधि: 1776 में ईस्ट इंडिया कंपनी की कलकत्ता काउंसिल और मराठा पेशवा माधवराव नारायण की ओर से नाना फडणवीस के बीच हुई थी (एक अन्य पुरंदर संधि 1665 में जयसिंह व शिवाजी के बीच हुई थी)।"},{"id":25,"q":{"en":"Which was the first Indian state to accept the 'Subsidiary Alliance' introduced by Lord Wellesley in 1798 AD?","hi":"लॉर्ड वेलेजली द्वारा 1798 ई. में शुरू की गई 'सहायक संधि' (Subsidiary Alliance) को स्वीकार करने वाला पहला भारतीय राज्य कौन सा था?"},"st":null,"opts":{"en":["Mysore","Hyderabad","Awadh","Peshwa (Maratha)"],"hi":["मैसूर","हैदराबाद","अवध","पेशवा (मराठा)"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: 1798 ई. में लॉर्ड वेलेजली की सहायक संधि को स्वीकार करने वाली पहली भारतीय रियासत &#x27;हैदराबाद के निज़ाम&#x27; (मीर अकबर अली ख़ान) थी। निज़ाम ने अपनी रियासत में ब्रिटिश सेना तैनात करने और उसके खर्च हेतु क्षेत्र सौंपने की शर्त स्वीकार की। इसके बाद 1799 में मैसूर, 1799 में तंजौर, 1801 में अवध और 1802 में बेसिन की संधि द्वारा पेशवा बाजीराव द्वितीय ने इसे स्वीकार किया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) मैसूर: चतुर्थ आंग्ल-मैसूर युद्ध (1799) में टीपू सुल्तान की मृत्यु के बाद अंग्रेजों ने वाडियार वंश के बालक कृष्णराज तृतीय को गद्दी पर बिठाकर मैसूर से सहायक संधि की।<br>- (c) अवध: नवाब सआदत अली ख़ान ने नवंबर 1801 में आधे राज्य के समर्पण के साथ वेलेजली की सहायक संधि पर हस्ताक्षर किए।<br>- (d) पेशवा (मराठा): पेशवा बाजीराव द्वितीय ने जसवंतराव होल्कर से पराजित होकर अंग्रेजों की शरण ली और 31 दिसंबर 1802 को &#x27;बेसिन की संधि&#x27; के तहत सहायक संधि स्वीकार की।"}];
+
+let state = [], current = 0, remaining = 900, lang = 'en', neg = 0.5, timerId = null, qTimerId = null;
+let studentName = "", view = 'intro', auditTags = {};
+
+function initApp(){
+  const params = new URLSearchParams(window.location.search);
+  const urlName = params.get('name') || localStorage.getItem('student_real_name') || "";
+  const nameInput = document.getElementById('student-name');
+  if(urlName.trim()){
+    nameInput.value = urlName.trim();
+    nameInput.readOnly = true;
+    checkName();
+  }
+}
+
+function checkName(){
+  const val = document.getElementById('student-name').value.trim();
+  const btn = document.getElementById('start-btn');
+  if(val.length >= 2){
+    btn.disabled = false;
+    btn.textContent = "START TEST";
+  } else {
+    btn.disabled = true;
+    btn.textContent = "ENTER NAME TO START";
+  }
+}
+
+function startTest(){
+  studentName = document.getElementById('student-name').value.trim();
+  if(!studentName) return;
+  neg = parseFloat(document.getElementById('negative').value);
+  state = QUESTIONS.map(()=>({selected:null, review:false, time:0}));
+  current = 0; remaining = 900; view = 'test';
+  
+  document.getElementById('stu-tag').textContent = studentName;
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('sol-footer').classList.add('hidden');
+  document.getElementById('exam-footer').classList.remove('hidden');
+  document.body.classList.remove('solution-mode');
+  
+  renderQ(); renderPalette(); startTimers();
+}
+
+function startTimers(){
+  clearInterval(timerId); clearInterval(qTimerId);
+  timerId = setInterval(()=>{
+    if(view === 'test' && remaining > 0){
+      remaining--;
+      const m = String(Math.floor(remaining/60)).padStart(2,'0');
+      const s = String(remaining%60).padStart(2,'0');
+      const t = document.getElementById('timer');
+      t.textContent = `${m}:${s}`;
+      t.classList.toggle('warning', remaining <= 60);
+      if(remaining === 0) submitExam();
+    }
+  },1000);
+  qTimerId = setInterval(()=>{
+    if(view === 'test' && state[current]){
+      state[current].time++;
+      document.getElementById('q-timer').textContent = state[current].time + 's';
+    }
+  },1000);
+}
+
+function renderQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-no').textContent = `Q${current+1}`;
+  document.getElementById('question-text').textContent = q.q[lang];
+  document.getElementById('q-timer').textContent = (state[current]?.time || 0) + 's';
+  
+  const stBox = document.getElementById('statements-box');
+  stBox.innerHTML = '';
+  if(q.st && q.st[lang]){
+    q.st[lang].forEach(txt => {
+      const d = document.createElement('div');
+      d.className = 'statement-item';
+      d.textContent = txt;
+      stBox.appendChild(d);
+    });
+  }
+  
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  q.opts[lang].forEach((opt, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'option ' + (state[current].selected === idx ? 'selected' : '');
+    el.innerHTML = `<input type="radio" name="opt_choice" ${state[current].selected === idx ? 'checked':''}> <span>${String.fromCharCode(65 + idx)}. ${opt}</span>`;
+    el.onclick = ()=>{
+      if(view === 'test'){
+        state[current].selected = idx;
+        renderQ(); renderPalette();
+      }
+    };
+    box.appendChild(el);
+  });
+  document.getElementById('solution-box').innerHTML = '';
+}
+
+function renderPalette(){
+  const p = document.getElementById('palette');
+  p.innerHTML = '';
+  QUESTIONS.forEach((q, i)=>{
+    const b = document.createElement('button');
+    b.className = 'q-node';
+    if(view === 'solution'){
+      const sel = state[i].selected;
+      if(sel === null) b.classList.add('sol-unatt');
+      else if(sel === q.ans) b.classList.add('sol-correct');
+      else b.classList.add('sol-wrong');
+    } else {
+      if(state[i].selected !== null) b.classList.add('answered');
+      else if(state[i].review) b.classList.add('marked');
+    }
+    if(i === current) b.classList.add('active');
+    b.textContent = i+1;
+    b.onclick = ()=>{ current = i; if(view === 'solution') renderSolQ(); else renderQ(); renderPalette(); document.getElementById('sidebar').classList.remove('open'); };
+    p.appendChild(b);
+  });
+}
+
+function saveNext(){ if(current < QUESTIONS.length - 1){ current++; renderQ(); renderPalette(); } else openSubmitModal(); }
+function prevQ(){ if(current > 0){ current--; renderQ(); renderPalette(); } }
+function markReview(){ state[current].review = true; saveNext(); }
+function toggleLang(){ lang = lang === 'en' ? 'hi' : 'en'; document.getElementById('lang-btn').textContent = lang === 'en' ? 'A/अ EN' : 'A/अ HI'; if(view==='solution') renderSolQ(); else renderQ(); }
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
+function openSubmitModal(){ document.getElementById('modal-submit').classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+async function submitExam(){
+  closeModal('modal-submit'); clearInterval(timerId); clearInterval(qTimerId);
+  view = 'result';
+  
+  let cor = 0, wro = 0, att = 0;
+  state.forEach((s, idx)=>{
+    if(s.selected !== null){
+      att++;
+      if(s.selected === QUESTIONS[idx].ans) cor++;
+      else wro++;
+    }
+  });
+  
+  const score = (cor * 2) - (wro * neg);
+  const acc = att ? Math.round((cor/att)*100) : 0;
+  const timeTaken = `${Math.floor((900-remaining)/60)}m ${(900-remaining)%60}s`;
+  
+  document.getElementById('r-score').textContent = score.toFixed(2);
+  document.getElementById('r-att').textContent = att;
+  document.getElementById('r-cor').textContent = cor;
+  document.getElementById('r-wro').textContent = wro;
+  document.getElementById('r-acc').textContent = acc + '%';
+  document.getElementById('r-time').textContent = timeTaken;
+  
+  document.getElementById('exam').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  
+  try {
+    await sb.from('quiz_attempts').insert([{
+      student_name: studentName,
+      quiz_title: "Advent of Europeans in India - Part 1",
+      score: score,
+      accuracy: acc + '%',
+      total_questions: QUESTIONS.length,
+      correct_answers: cor,
+      wrong_answers: wro,
+      time_taken: timeTaken
+    }]);
+  } catch(e){}
+}
+
+function startAudit(){
+  view = 'solution'; current = 0;
+  document.body.classList.add('solution-mode');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('exam-footer').classList.add('hidden');
+  document.getElementById('sol-footer').classList.remove('hidden');
+  renderSolQ(); renderPalette();
+}
+
+function renderSolQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-no').textContent = `Q${current+1}`;
+  document.getElementById('question-text').textContent = q.q[lang];
+  document.getElementById('q-timer').textContent = (state[current]?.time || 0) + 's';
+  
+  const stBox = document.getElementById('statements-box');
+  stBox.innerHTML = '';
+  if(q.st && q.st[lang]){
+    q.st[lang].forEach(txt => {
+      const d = document.createElement('div');
+      d.className = 'statement-item';
+      d.textContent = txt;
+      stBox.appendChild(d);
+    });
+  }
+  
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  q.opts[lang].forEach((opt, idx)=>{
+    const el = document.createElement('div');
+    let cls = 'option ';
+    if(idx === q.ans) cls += 'correct ';
+    if(state[current].selected === idx && idx !== q.ans) cls += 'wrong ';
+    el.className = cls;
+    el.innerHTML = `<span>${String.fromCharCode(65 + idx)}. ${opt}</span> ${idx === q.ans ? '<b style="color:var(--green)">✓ [Correct]</b>' : (state[current].selected === idx ? '<b style="color:var(--red)">✗ [Your Choice]</b>':'')}`;
+    box.appendChild(el);
+  });
+  
+  const tags = ['100% Aata Tha','Elimination','Tukka / Guess','Silly Mistake','Concept Gap','Time Trap'];
+  const userTag = auditTags[current] || "";
+  let tagHtml = tags.map(t=>`<button class="tag ${userTag===t?'selected':''}" onclick="setAuditTag('${t}')">${t}</button>`).join('');
+  
+  document.getElementById('solution-box').innerHTML = `
+    <div class="explanation">
+      <div class="exp-title">💡 Explanation & Context</div>
+      <div style="font-size:13px;line-height:1.5">${q.exp}</div>
+      <div class="analysis-box">
+        <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:6px">QUESTION DIAGNOSTIC TAG:</div>
+        <div>${tagHtml}</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('sol-next-btn').textContent = current === QUESTIONS.length - 1 ? 'FINISH AUDIT ➔' : 'NEXT ›';
+}
+
+function setAuditTag(t){ auditTags[current] = t; renderSolQ(); }
+function solPrev(){ if(current > 0){ current--; renderSolQ(); renderPalette(); } }
+function solNext(){
+  if(current < QUESTIONS.length - 1){ current++; renderSolQ(); renderPalette(); }
+  else {
+    document.body.classList.remove('solution-mode');
+    document.getElementById('exam').classList.add('hidden');
+    document.getElementById('result').classList.remove('hidden');
+    renderReport();
+  }
+}
+
+function renderReport(){
+  const rep = document.getElementById('final-report-card');
+  rep.classList.remove('hidden');
+  const counts = {};
+  Object.values(auditTags).forEach(t=>{ counts[t] = (counts[t]||0)+1; });
+  let details = "<b>Mistake Breakdown:</b><br>";
+  for(let k in counts){ details += `• ${k}: ${counts[k]} questions<br>`; }
+  if(!Object.keys(counts).length) details += "Koi specific tag select nahi kiya gaya.";
+  document.getElementById('report-details').innerHTML = details;
+}
+
+function copyMistakes(){
+  let str = "MISTAKES - MAKING OF CONSTITUTION:\n\n";
+  state.forEach((s, idx)=>{
+    if(s.selected !== QUESTIONS[idx].ans){
+      str += `Q${idx+1}: ${QUESTIONS[idx].q.en}\nCorrect: ${QUESTIONS[idx].opts.en[QUESTIONS[idx].ans]}\nTag: ${auditTags[idx]||'Untagged'}\n\n`;
+    }
+  });
+  navigator.clipboard.writeText(str).then(()=>alert("Mistakes copied to clipboard!"));
+}
+
+function reattempt(){ startTest(); }
+
+window.onload = initApp;
+</script>
+</body>
+</html>
