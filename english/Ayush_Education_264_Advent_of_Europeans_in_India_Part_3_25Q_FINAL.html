@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Advent of Europeans in India - Part 3 | Ayush Education 264</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{--navy:#0a2240;--navy2:#173b61;--blue:#2563eb;--green:#219653;--red:#e55353;--yellow:#f2c94c;--purple:#7c3aed;--bg:#f4f5f8;--border:#dfe4ea;--text:#263241;--muted:#6b7280;--card:#fff}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,"Noto Sans Devanagari","Nirmala UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+button,input,select{font:inherit}button{cursor:pointer}img,video,iframe{max-width:100%}
+.hidden{display:none!important}#app{height:100dvh;display:flex;flex-direction:column}
+#exam{height:calc(100dvh - 58px);min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.intro-wrap{height:100%;overflow:auto;padding:24px 16px;display:flex;justify-content:center;align-items:flex-start}
+.intro-card{width:min(760px,100%);background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(10,34,64,.08);overflow:hidden}
+.intro-head{background:var(--navy);color:#fff;padding:24px}
+.intro-head h1{font-size:22px;margin:0 0 6px;font-weight:800}
+.intro-head p{margin:0;color:#cbdcf0;font-size:13px}
+.intro-body{padding:20px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat{border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;background:#fafbfc}
+.stat strong{display:block;font-size:22px;color:var(--navy)}
+.stat span{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+.field input,.field select{width:100%;height:44px;border:1px solid #cbd5e1;border-radius:6px;padding:0 12px;outline:none}
+.field input:read-only{background:#f1f5f9;color:#475569;font-weight:700}
+.note{background:#eef5ff;border-left:4px solid var(--blue);padding:10px 12px;font-size:12px;margin:16px 0}
+.start-btn{width:100%;height:48px;border:0;border-radius:6px;background:var(--navy);color:#fff;font-weight:800;font-size:15px}
+.start-btn:disabled{background:#94a3b8;cursor:not-allowed}
+.navbar{height:58px;min-height:58px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;z-index:20}
+.nav-title{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40vw}
+.nav-btn{height:36px;border:1px solid rgba(255,255,255,.25);background:var(--navy2);color:#fff;border-radius:6px;padding:0 10px;font-weight:800;font-size:12px}
+.timer{height:38px;min-width:96px;padding:0 8px;border:1px solid #467aa7;background:#173b61;border-radius:6px;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:800;font-family:monospace;font-size:18px}
+.timer.warning{background:#7f1d1d}
+.exam-main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 280px;background:#fff}
+.question-pane{min-width:0;min-height:0;display:flex;flex-direction:column;border-right:1px solid var(--border)}
+.q-head{height:58px;min-height:58px;padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.q-meta{display:flex;align-items:center;gap:10px}.q-badge{background:#eef1f5;border:1px solid #cfd6df;border-radius:6px;padding:6px 10px;font-size:16px;font-weight:800;color:var(--navy)}
+.credit{font-size:11px;color:#718096}
+.time-spent{font:700 13px monospace;color:#667085;border:1px solid var(--border);border-radius:6px;padding:6px 8px;background:#fafbfc}
+.q-scroll{flex:1;min-height:0;overflow:auto;padding:20px;scrollbar-gutter:stable}
+#question-text{font-size:16px;line-height:1.6;margin-bottom:14px;font-weight:600;overflow-wrap:anywhere} .statement-item,.option,.option span,.explanation{overflow-wrap:anywhere} .option>span{flex:1;min-width:0}
+.statement-item{background:#f8fafc;border-left:3px solid var(--blue);padding:8px 12px;margin:6px 0;line-height:1.5;font-size:14px;border-radius:0 4px 4px 0}
+.options{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer}
+.option:hover{border-color:#8eb3dc;background:#f8fbff}
+.option.selected{border-color:#4a86bd;background:#eef6ff}
+.option input{margin-top:2px;accent-color:#2563eb}
+.exam-footer{height:58px;min-height:58px;border-top:1px solid var(--border);display:grid;grid-template-columns:100px 1fr 140px;gap:8px;padding:8px 12px;background:#fff}
+.foot-btn{border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#334155;font-weight:800}
+.foot-btn.review{background:var(--yellow);color:#111827}
+.foot-btn.next{background:var(--navy);color:#fff}
+.sidebar{background:#fff;display:flex;flex-direction:column;min-height:0}
+.palette{flex:1;overflow:auto;padding:12px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-content:start}
+.q-node{height:36px;border:1px solid #cbd5e1;border-radius:4px;background:#fff;font-weight:800;font-size:12px}
+.q-node.answered{background:var(--green);color:#fff;border-color:var(--green)}
+.q-node.unanswered{background:var(--red);color:#fff;border-color:var(--red)}
+.q-node.marked{background:var(--purple);color:#fff;border-color:var(--purple)}
+.q-node.active{outline:3px solid rgba(10,34,64,.35)}
+.solution-mode .q-node.sol-correct{background:var(--green)!important;color:#fff!important;border-color:var(--green)!important}
+.solution-mode .q-node.sol-wrong{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important}
+.solution-mode .q-node.sol-unatt{background:#fff!important;color:#64748b!important;border:1px solid #cbd5e1!important}
+.submit-side{padding:10px;border-top:1px solid var(--border)}
+.submit-btn{height:42px;width:100%;border:0;border-radius:6px;background:#198754;color:#fff;font-weight:800}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal-card{width:min(400px,94vw);background:#fff;border-radius:10px;padding:20px}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.modal-actions button{height:40px;border-radius:6px;border:1px solid #cbd5e1;font-weight:800}
+#result{position:absolute;inset:0;background:var(--bg);overflow:auto;z-index:500;padding:20px 14px}
+.result-wrap{width:min(860px,100%);margin:auto}
+.hero{background:linear-gradient(120deg,#0a2240,#214d76);color:#fff;border-radius:10px 10px 0 0;padding:20px;text-align:center}
+.score{font-size:48px;font-weight:900;margin:8px 0}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border:1px solid var(--border);border-top:0}
+.rstat{text-align:center;padding:12px 4px;border-right:1px solid var(--border)}
+.rstat:last-child{border-right:0}
+.rstat b{display:block;font-size:20px}
+.rstat span{font-size:10px;text-transform:uppercase;color:#6b7280;font-weight:800}
+.result-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.result-buttons button{height:44px;border:0;border-radius:6px;color:#fff;font-weight:800;font-size:12px}
+.b-solution{background:#4338ca}.b-copy{background:#475569}.b-reattempt{background:#059669}
+body.solution-mode .option.correct{border-color:var(--green)!important;background:#f0fdf4!important;font-weight:bold}
+body.solution-mode .option.wrong{border-color:var(--red)!important;background:#fef2f2!important;font-weight:bold}
+.explanation{margin-top:16px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;padding:14px}
+.exp-title{font-size:15px;font-weight:800;color:#166534;margin-bottom:6px}
+.analysis-box{margin-top:12px;padding-top:10px;border-top:1px solid #e5e7eb}
+.tag{border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer;margin:3px}
+.tag.selected{border-color:#4338ca;background:#e0e7ff;color:#312e81}
+/* Responsive typography/layout: same design, adapts cleanly from phone to laptop */
+@media (max-width:900px){
+ .exam-main{grid-template-columns:minmax(0,1fr) 250px}
+ .q-scroll{padding:16px}
+ #question-text{font-size:clamp(15px,2.2vw,17px);line-height:1.58}
+ .statement-item{font-size:clamp(13px,1.8vw,14px);line-height:1.52}
+ .option{font-size:clamp(14px,1.8vw,15px);line-height:1.48;padding:11px 12px}
+ .nav-title{max-width:34vw}
+}
+@media(max-width:768px){
+ body{overflow:hidden}
+ #exam{height:100dvh;min-height:100dvh;overflow:hidden}
+ .exam-main{height:calc(100dvh - 58px);min-height:0;overflow:hidden}
+ .question-pane{height:100%;min-height:0}
+ .q-scroll{min-height:0;overflow-y:auto}
+ .intro-wrap{padding:14px 10px}.intro-head{padding:18px 16px}
+ .intro-head h1{font-size:clamp(17px,5vw,22px);line-height:1.25}.intro-head p{font-size:12px}
+ .intro-body{padding:16px}.stats{gap:7px}.stat{padding:10px 5px}
+ .stat strong{font-size:clamp(18px,6vw,22px)}.stat span{font-size:9px}
+ .field label{font-size:12px}.field input,.field select{height:44px;font-size:14px}.start-btn{height:46px;font-size:14px}
+
+ .exam-main{display:block}
+ .question-pane{height:calc(100dvh - 58px)}
+ .navbar{height:58px;min-height:58px;padding:0 8px;gap:5px}
+ .nav-title{font-size:13px;max-width:30vw;flex:1;min-width:0}
+ .nav-btn{height:34px;padding:0 7px;font-size:11px;white-space:nowrap}
+ .timer{height:36px;min-width:78px;font-size:16px;flex-shrink:0}
+
+ .q-head{height:auto;min-height:52px;padding:7px 10px;gap:8px}
+ .q-meta{min-width:0}.q-meta>div:nth-child(2){min-width:0;overflow:hidden}
+ .q-meta strong{font-size:clamp(11px,3.2vw,13px)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .q-badge{font-size:14px;padding:5px 8px;flex-shrink:0}
+ .credit{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .time-spent{font-size:11px;padding:5px 7px;flex-shrink:0}
+
+ .q-scroll{padding:14px 12px 76px}
+ #question-text{font-size:clamp(15px,4.2vw,18px);line-height:1.58;margin-bottom:12px}
+ .statement-item{font-size:clamp(13px,3.5vw,15px);line-height:1.52;padding:8px 10px}
+ .options{gap:8px;margin-top:13px}
+ .option{font-size:clamp(13.5px,3.7vw,15.5px);line-height:1.48;padding:11px 10px;gap:8px}
+ .option input{margin-top:3px;flex-shrink:0}
+
+ .exam-footer{height:58px;min-height:58px;grid-template-columns:1fr 1.35fr 1.35fr 1fr;gap:5px;padding:6px}
+ .foot-btn{font-size:9px;white-space:nowrap;min-width:0;padding:0 3px}
+
+ .sidebar{position:fixed;top:58px;right:0;bottom:0;width:min(85vw,300px);transform:translateX(105%);transition:transform .2s;z-index:90}
+ .sidebar.open{transform:translateX(0)}
+ .palette{grid-template-columns:repeat(5,1fr);gap:7px;padding:10px}.q-node{height:34px;font-size:11px}
+
+ #result{padding:12px 10px}.hero{padding:18px 12px}.score{font-size:clamp(38px,12vw,48px)}
+ .stats-row{grid-template-columns:repeat(2,1fr)}.rstat{border-bottom:1px solid var(--border)}
+ .rstat:nth-child(2n){border-right:0}.rstat b{font-size:18px}
+ .result-buttons{grid-template-columns:1fr;gap:7px}.result-buttons button{height:42px}
+ .modal{padding:12px}.modal-card{width:min(400px,96vw);padding:16px}
+}
+@media(max-width:420px){
+ .intro-wrap{padding:9px 7px}.intro-body{padding:13px}
+ .stats{gap:5px}.stat{padding:9px 3px}.stat strong{font-size:17px}.stat span{font-size:8px}
+ .navbar{gap:3px}.nav-title{max-width:27vw;font-size:12px}
+ .nav-btn{padding:0 5px;font-size:10px}.timer{min-width:68px;font-size:14px}
+ .q-scroll{padding-left:9px;padding-right:9px}
+ #question-text{font-size:clamp(14px,4.5vw,16px);line-height:1.56}
+ .statement-item{font-size:13px;line-height:1.5}
+ .option{font-size:13px;line-height:1.46;padding:10px 8px}
+ .exam-footer{height:58px;min-height:58px;grid-template-columns:1fr 1.35fr 1.35fr 1fr;gap:4px;padding:5px}
+ .foot-btn{font-size:8px;padding:0 2px}
+}
+@media(max-width:340px){
+ .nav-title{display:none}
+ .navbar>div:last-child{width:100%;justify-content:flex-end}
+ .nav-btn{font-size:9px;padding:0 4px}
+ .timer{min-width:64px;font-size:13px}
+ #question-text{font-size:14px}
+ .option{font-size:12.5px}
+}
+@media(pointer:coarse){
+ .option{min-height:46px}
+ .foot-btn,.nav-btn,.q-node,.tag{min-height:34px}
+}
+
+/* Final navigation visibility fix */
+.exam-footer{position:relative;z-index:5;flex-shrink:0}
+@media(max-width:768px){
+  .exam-footer{padding-bottom:max(6px,env(safe-area-inset-bottom))}
+  .q-scroll{padding-bottom:14px}
+  .exam-footer .foot-btn{display:block;visibility:visible;opacity:1}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<section id="intro" class="intro-wrap">
+  <div class="intro-card">
+    <div class="intro-head">
+      <h1>ADVENT OF EUROPEANS IN INDIA - PART 3</h1>
+      <p>Modern History • Part 3 • 25 Questions • Cloud Sync</p>
+    </div>
+    <div class="intro-body">
+      <div class="stats">
+        <div class="stat"><strong>25</strong><span>Questions</span></div>
+        <div class="stat"><strong>15:00</strong><span>Time</span></div>
+        <div class="stat"><strong>Bilingual</strong><span>Format</span></div>
+      </div>
+      <div class="field">
+        <label>Student Name (Real Name Required)</label>
+        <input id="student-name" type="text" placeholder="Apna pura naam likhein..." oninput="checkName()">
+      </div>
+      <div class="field">
+        <label>Negative Marking</label>
+        <select id="negative">
+          <option value="0.5" selected>-0.50 (Standard SSC)</option>
+          <option value="0.25">-0.25</option>
+          <option value="0">No Negative Marking</option>
+        </select>
+      </div>
+      <div class="note"><b>Rule:</b> Bina verified naam ke test start nahi hoga. Submit karte hi scorecard Supabase me save hoga.</div>
+      <button class="start-btn" id="start-btn" onclick="startTest()" disabled>ENTER NAME TO START</button>
+    </div>
+  </div>
+</section>
+
+<section id="exam" class="hidden">
+  <header class="navbar">
+    <div class="nav-title">ADVENT OF EUROPEANS IN INDIA - PART 3</div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button class="nav-btn" onclick="toggleLang()" id="lang-btn">A/अ EN</button>
+      <button class="nav-btn" onclick="toggleSidebar()">☷ Palette</button>
+      <div class="timer" id="timer">15:00</div>
+    </div>
+  </header>
+  <main class="exam-main">
+    <section class="question-pane">
+      <div class="q-head">
+        <div class="q-meta">
+          <div class="q-badge" id="q-no">Q1</div>
+          <div><strong style="font-size:13px">KNOWLEDGE LECTURE-1 MAKING OF CONSTITUTION</strong><div class="credit" id="stu-tag">Student</div></div>
+        </div>
+        <div class="time-spent" id="q-timer">0s</div>
+      </div>
+      <div class="q-scroll">
+        <div id="question-text"></div>
+        <div id="statements-box"></div>
+        <div class="options" id="options"></div>
+        <div id="solution-box"></div>
+      </div>
+      <div class="exam-footer" id="exam-footer">
+        <button class="foot-btn" onclick="prevQ()">‹ PREV</button>
+        <button class="foot-btn review" onclick="markReview()">MARK & NEXT</button>
+        <button class="foot-btn next" onclick="saveNext()">SAVE & NEXT ›</button>
+        <button class="foot-btn" style="background:#198754;color:#fff;border-color:#198754" onclick="openSubmitModal()">SUBMIT</button>
+      </div>
+      <div class="exam-footer hidden" id="sol-footer">
+        <button class="foot-btn" onclick="solPrev()">‹ PREV</button>
+        <button class="foot-btn next" onclick="solNext()" id="sol-next-btn">NEXT ›</button>
+      </div>
+    </section>
+    <aside class="sidebar" id="sidebar">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-weight:800;font-size:13px">Question Palette</div>
+      <div class="palette" id="palette"></div>
+      <div class="submit-side"><button class="submit-btn" onclick="openSubmitModal()">SUBMIT TEST</button></div>
+    </aside>
+  </main>
+</section>
+
+<section id="result" class="hidden">
+  <div class="result-wrap">
+    <div class="hero">
+      <small>OVERALL SCORE</small>
+      <div class="score" id="r-score">0.00</div>
+      <div id="r-status" style="font-size:13px">Completed ✓</div>
+    </div>
+    <div class="stats-row">
+      <div class="rstat"><b id="r-att">0</b><span>Attempted</span></div>
+      <div class="rstat"><b id="r-cor">0</b><span>Correct</span></div>
+      <div class="rstat"><b id="r-wro">0</b><span>Incorrect</span></div>
+      <div class="rstat"><b id="r-acc">0%</b><span>Accuracy</span></div>
+      <div class="rstat"><b id="r-time">0:00</b><span>Time</span></div>
+    </div>
+    <div class="result-buttons">
+      <button class="b-solution" onclick="startAudit()">▣ AUDIT & SOLUTIONS</button>
+      <button class="b-copy" onclick="copyMistakes()">📋 COPY MISTAKES</button>
+      <button class="b-reattempt" onclick="reattempt()">↻ RE-ATTEMPT</button>
+    </div>
+    <div id="final-report-card" class="hidden" style="margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px">
+      <h3 style="margin:0 0 10px;color:var(--navy);font-size:15px">DIAGNOSTIC AUDIT REPORT</h3>
+      <div id="report-details" style="font-size:13px;line-height:1.6"></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="modal" id="modal-submit">
+  <div class="modal-card">
+    <h3 style="margin:0 0 8px;font-size:16px">Confirm Submit</h3>
+    <div style="font-size:13px;color:#475569" id="modal-submit-msg">Kya aap test submit karna chahte hain?</div>
+    <div class="modal-actions">
+      <button onclick="closeModal('modal-submit')">Cancel</button>
+      <button style="background:var(--navy);color:#fff" onclick="submitExam()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://nzahaumcnbqtcxqiumlm.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56YWhhdW1jbmJxdGN4cWl1bWxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxNzE3MjgsImV4cCI6MjEwMTc0NzcyOH0.h1ixAdxtDfDQTDIBM6x_XSOJKKs-lECED6CwqmcFoEo";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const QUESTIONS = [{"id":51,"q":{"en":"Consider the following statements regarding Portuguese power and their administrative policies in India:","hi":"भारत में पुर्तगाली शक्ति और उनकी प्रशासनिक नीतियों के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. Francisco de Almeida introduced the Blue Water Policy and the Cartaz System to control trade routes in the Indian Ocean.","2. Afonso de Albuquerque encouraged Portuguese men to marry Indian women and banned the practice of Sati within his territories.","3. Nuno da Cunha officially transferred the Portuguese administrative headquarters from Cochin to Goa in 1530.","Which of the statements given above are correct?"],"hi":["1. फ्रांसिस्को डी अल्मेडा ने हिंद महासागर के व्यापारिक मार्गों पर नियंत्रण स्थापित करने के लिए शांत जल की नीति और कार्टाज़ प्रणाली लागू की थी।","2. अफोंसो डी अल्बुकर्क ने पुर्तगालियों को भारतीय स्त्रियों से विवाह करने के लिए प्रोत्साहित किया तथा अपने अधिकार क्षेत्र में सती प्रथा पर प्रतिबंध लगाया।","3. नूनो दा कुन्हा ने 1530 में पुर्तगाली सरकार का औपचारिक मुख्यालय कोचीन से गोवा स्थानांतरित किया था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन ऐतिहासिक रूप से पूर्णतः सत्य हैं। फ्रांसिस्को डी अल्मेडा (1505-1509) ने हिंद महासागर में नौसैनिक सर्वोच्चता स्थापित करने के लिए शांत जल की नीति और जहाजों पर सुरक्षा परमिट की कार्टाज़ प्रणाली लागू की। अफोंसो डी अल्बुकर्क (1509-1515) ने स्थायी पुर्तगाली बस्तियों के निर्माण हेतु भारतीय महिलाओं से विवाह को बढ़ावा दिया और अपने नियंत्रण वाले क्षेत्रों में सती प्रथा को प्रतिबंधित किया। नूनो दा कुन्हा (1529-1538) ने 1530 में औपचारिक रूप से राजधानी कोचीन से गोवा स्थानांतरित की।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह विकल्प अपूर्ण है क्योंकि राजधानी कोचीन से गोवा स्थानांतरित करने से संबंधित कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह विकल्प अपूर्ण है क्योंकि अल्मेडा की शांत जल नीति और कार्टाज़ प्रणाली से संबंधित कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह विकल्प अपूर्ण है क्योंकि अल्बुकर्क द्वारा सती प्रथा पर प्रतिबंध और वैवाहिक नीति से जुड़ा कथन 2 भी सही है।"},{"id":52,"q":{"en":"Consider the following statements regarding Dutch trade and activities in India:","hi":"भारत में डचों के व्यापार और गतिविधियों के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. The Dutch prioritized the export of Indian cotton textiles over spices, making Indian textiles a primary item of international trade.","2. The Dutch East India Company established its mint at Pulicat and struck gold coins known as Pagodas.","3. In the Battle of Bedara (1759), the British army under Clive decisively defeated the Dutch, ending their political influence in India.","Which of the statements given above are correct?"],"hi":["1. डचों ने मसालों की अपेक्षा भारत से सूती वस्त्रों के निर्यात को अंतर्राष्ट्रीय व्यापार की प्राथमिक वस्तु बनाया।","2. डच ईस्ट इंडिया कंपनी ने पुलीकट में अपनी टकसाल स्थापित कर पगोडा नामक स्वर्ण सिक्के ढाले थे।","3. 1759 के बेदरा के युद्ध में क्लाइव के नेतृत्व वाली अंग्रेज़ी सेना ने डचों को निर्णायक रूप से पराजित कर भारत से उनका राजनीतिक प्रभाव समाप्त कर दिया।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। डचों का मुख्य व्यापारिक योगदान भारतीय सूती वस्त्रों को विश्व बाज़ार में प्रमुख निर्यात वस्तु बनाना था। पुलीकट डचों का प्रारंभिक मुख्यालय था, जहाँ उनका फोर्ट गेल्ड्रिया था और यहीं उन्होंने पगोडा नामक स्वर्ण सिक्के ढाले। नवंबर 1759 में हुगली नदी के तट पर बेदरा (चिनसुरा) के युद्ध में अंग्रेज़ों ने डचों को पराजित किया, जिसके बाद डच भारत में राजनीतिक महत्वाकांक्षा छोड़कर इंडोनेशिया के मसाला द्वीपों तक सीमित रह गए।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अधूरा है क्योंकि 1759 के बेदरा युद्ध से संबंधित कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अधूरा है क्योंकि सूती वस्त्र निर्यात को प्राथमिकता देने से संबंधित कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अधूरा है क्योंकि पुलीकट की टकसाल में पगोडा सिक्के ढालने से संबंधित कथन 2 भी सही है।"},{"id":53,"q":{"en":"Consider the following statements regarding the privileges granted to the English East India Company and its early expansion:","hi":"अंग्रेज़ी ईस्ट इंडिया कंपनी को प्राप्त विशेषाधिकारों और उनके प्रारंभिक विस्तार के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. On 31 December 1600, Queen Elizabeth I granted the Company a 15-year monopoly for Eastern trade.","2. Captain William Hawkins arrived at Jahangir's court in 1608 and was granted a mansab of 400 and the title of English Khan.","3. The royal farman issued by Mughal Emperor Farrukhsiyar in 1717 was termed the Magna Carta of the Company's trade by historian Orme.","Which of the statements given above are correct?"],"hi":["1. 31 दिसंबर 1600 को महारानी एलिज़ाबेथ प्रथम ने कंपनी को 15 वर्षों के लिए पूर्वी व्यापार का एकाधिकार प्रदान किया था।","2. कैप्टन विलियम हॉकिन्स 1608 में जहाँगीर के दरबार में उपस्थित हुआ और उसे 400 का मनसब तथा इंग्लिश ख़ान की उपाधि प्राप्त हुई।","3. 1717 में मुगल सम्राट फ़र्रूख़सियर द्वारा जारी शाही फरमान को इतिहासकार ऑर्म्स ने कंपनी के व्यापार का मैग्ना कार्टा कहा था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। महारानी एलिज़ाबेथ प्रथम ने 31 दिसंबर 1600 को शाही चार्टर देकर कंपनी को 15 वर्षों के लिए व्यापारिक एकाधिकार दिया था। कैप्टन विलियम हॉकिन्स 1608 में जहाँगीर के दरबार में उपस्थित हुआ; जहाँगीर ने उसे 400 का मनसब और इंग्लिश ख़ान की उपाधि दी। 1717 में फ़र्रूख़सियर ने 3,000 रुपये वार्षिक के बदले बंगाल में कर-मुक्त व्यापार और दस्तक जारी करने का अधिकार दिया, जिसे ऑर्म्स ने कंपनी का मैग्ना कार्टा कहा।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि 1717 के फरमान का कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि 1600 के राजशाही चार्टर से संबंधित कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि विलियम हॉकिन्स के मनसब से संबंधित कथन 2 भी सही है।"},{"id":54,"q":{"en":"Consider the following statements regarding the Carnatic Wars:","hi":"कर्नाटक युद्धों के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. The First Carnatic War was an extension of the Austrian War of Succession in Europe and ended with the Treaty of Aix-la-Chapelle.","2. In the Second Carnatic War, the Battle of Ambur was fought, and it concluded with the Treaty of Pondicherry.","3. The Third Carnatic War was an extension of the Seven Years' War in Europe and concluded with the Treaty of Paris in 1763.","Which of the statements given above are correct?"],"hi":["1. प्रथम कर्नाटक युद्ध यूरोप के ऑस्ट्रियाई उत्तराधिकार युद्ध का विस्तार था और ऐक्स-ला-शापेल की संधि से समाप्त हुआ।","2. द्वितीय कर्नाटक युद्ध में अंबूर का युद्ध लड़ा गया और यह पांडिचेरी की संधि द्वारा समाप्त हुआ।","3. तृतीय कर्नाटक युद्ध यूरोप के सात वर्षीय युद्ध का विस्तार था और 1763 की पेरिस की संधि द्वारा समाप्त हुआ।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन कर्नाटक युद्धों के कारणों और संधियों का सही विवरण देते हैं। प्रथम कर्नाटक युद्ध (1744-1748) ऑस्ट्रियाई उत्तराधिकार युद्ध का विस्तार था और ऐक्स-ला-शापेल की संधि से समाप्त हुआ। द्वितीय कर्नाटक युद्ध (1749-1754) अंबूर के युद्ध से शुरू हुआ और पांडिचेरी की संधि से समाप्त हुआ। तृतीय कर्नाटक युद्ध (1756-1763) सात वर्षीय युद्ध का विस्तार था और पेरिस की संधि से समाप्त हुआ।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि तृतीय कर्नाटक युद्ध और पेरिस संधि से जुड़ा कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि प्रथम कर्नाटक युद्ध और ऐक्स-ला-शापेल संधि से जुड़ा कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि द्वितीय कर्नाटक युद्ध और अंबूर युद्ध से जुड़ा कथन 2 भी सही है।"},{"id":55,"q":{"en":"Match List-I with List-II:","hi":"सूची-I को सूची-II से सुमेलित कीजिए:"},"st":{"en":["List-I:","A. Fort St. George","B. Fort William","C. Fort Louis","D. Fort Geldria","List-II:","1. Dutch East India Company","2. Francis Day","3. Job Charnock","4. Francois Martin"],"hi":["सूची-I:","A. फोर्ट सेंट जॉर्ज","B. फोर्ट विलियम","C. फोर्ट लुई","D. फोर्ट गेल्ड्रिया","सूची-II:","1. डच ईस्ट इंडिया कंपनी","2. फ्रांसिस डे","3. जॉब चार्नॉक","4. फ्रैंकोइस मार्टिन"]},"opts":{"en":["A-2, B-3, C-4, D-1","A-3, B-2, C-1, D-4","A-2, B-4, C-3, D-1","A-4, B-3, C-2, D-1"],"hi":["A-2, B-3, C-4, D-1","A-3, B-2, C-1, D-4","A-2, B-4, C-3, D-1","A-4, B-3, C-2, D-1"]},"ans":0,"exp":"• सही उत्तर की व्याख्या:<br>- फोर्ट सेंट जॉर्ज (मद्रास): 1639 में फ्रांसिस डे ने चंद्रगिरि के राजा से भूमि पट्टे पर लेकर इसकी स्थापना की थी।<br>- फोर्ट विलियम (कलकत्ता): जॉब चार्नॉक ने 1690 में कलकत्ता की नींव रखी, जहाँ बाद में फोर्ट विलियम का निर्माण हुआ।<br>- फोर्ट लुई (पांडिचेरी): फ्रैंकोइस मार्टिन ने पांडिचेरी की स्थापना की और फोर्ट लुई बनवाया।<br>- फोर्ट गेल्ड्रिया (पुलीकट): डचों ने 1610 में पुलीकट में अपने मुख्य दुर्ग के रूप में इसका निर्माण किया।<br>• अन्य विकल्पों की व्याख्या:<br>- (b), (c) और (d): इनमें किलों और संस्थापकों का मिलान गलत क्रम में दिया गया है।"},{"id":56,"q":{"en":"Consider the following statements regarding the Nawabs of Bengal in the first half of the 18th century:","hi":"18वीं शताब्दी के पूर्वार्ध में बंगाल के नवाबों के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. Murshid Quli Khan shifted the capital from Dhaka to Murshidabad and introduced the Ijaradari system for revenue collection.","2. Alivardi Khan compared the European trading companies to a beehive.","3. Siraj-ud-Daulah protested against the unauthorized fortification of Fort William in Calcutta by the British and captured it in 1756.","Which of the statements given above are correct?"],"hi":["1. मुर्शिद कुली ख़ान ने राजधानी ढाका से मुर्शिदाबाद स्थानांतरित की और भू-राजस्व के लिए इज़ारादारी प्रणाली प्रारंभ की।","2. अलीवर्दी ख़ान ने यूरोपीय कंपनियों की तुलना मधुमक्खियों के छत्ते से की थी।","3. सिराज-उद-दौला ने अंग्रेजों द्वारा कलकत्ता के फोर्ट विलियम की अनाधिकृत किलेबंदी का विरोध करते हुए 1756 में उस पर अधिकार कर लिया था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सही हैं। मुर्शिद कुली ख़ान ने राजधानी ढाका से मुर्शिदाबाद स्थानांतरित की और इज़ारादारी व्यवस्था शुरू की। अलीवर्दी ख़ान ने यूरोपीय शक्तियों की तुलना मधुमक्खियों के छत्ते से की थी। सिराज-उद-दौला ने अंग्रेजों द्वारा फोर्ट विलियम की किलेबंदी बंद न करने पर 1756 में कलकत्ता पर चढ़ाई कर फोर्ट विलियम पर अधिकार कर लिया था।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि फोर्ट विलियम पर अधिकार का कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि मुर्शिद कुली ख़ान से जुड़ा कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि अलीवर्दी ख़ान के कथन से जुड़ा कथन 2 भी सही है।"},{"id":57,"q":{"en":"Consider the following statements regarding the Battle of Plassey fought on 23 June 1757:","hi":"23 जून 1757 को लड़े गए प्लासी के युद्ध के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. Siraj-ud-Daulah's commander-in-chief Mir Jafar and Rai Durlabh conspired secretly with Robert Clive and betrayed the Nawab.","2. Nawab's loyal commanders Mir Madan and Mohan Lal fought bravely and were killed during the battle.","3. At the time of the Battle of Plassey, Emperor Shah Alam II was seated on the Mughal throne.","Which of the statements given above are correct?"],"hi":["1. सिराज-उद-दौला के प्रधान सेनापति मीर जाफ़र और राय दुर्लभ ने गुप्त रूप से रॉबर्ट क्लाइव के साथ षड्यंत्र रचकर युद्ध में विश्वासघात किया।","2. युद्ध के दौरान नवाब के वफादार सेनापति मीर मदन और मोहन लाल लड़ते हुए वीरगति को प्राप्त हुए।","3. प्लासी के युद्ध के समय मुगल सिंहासन पर सम्राट शाह आलम द्वितीय आसीन था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":0,"exp":"• सही उत्तर की व्याख्या: कथन 1 और 2 सही हैं, परंतु कथन 3 गलत है। मीर जाफ़र और राय दुर्लभ ने क्लाइव के साथ षड्यंत्र रचा था। युद्ध में मीर मदन और मोहन लाल ने नवाब की ओर से संघर्ष किया। प्लासी के युद्ध (1757) के समय दिल्ली का मुगल सम्राट आलमगीर द्वितीय था, न कि शाह आलम द्वितीय। शाह आलम द्वितीय 1759 में सम्राट बना और बक्सर के युद्ध (1764) के समय गद्दी पर था।<br>• अन्य विकल्पों की व्याख्या:<br>- (b) केवल 2 और 3: गलत है क्योंकि कथन 3 असत्य है।<br>- (c) केवल 1 और 3: गलत है क्योंकि कथन 3 असत्य है।<br>- (d) 1, 2 और 3: गलत है क्योंकि कथन 3 में मुगल सम्राट का नाम गलत है।"},{"id":58,"q":{"en":"Consider the following statements regarding the Dual Government system established in Bengal by Robert Clive in 1765:","hi":"1765 में बंगाल में रॉबर्ट क्लाइव द्वारा स्थापित द्वैध शासन प्रणाली के संबंध में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. Under this system, Diwani was held by the Company, while Nizamat remained the duty of the Nawab.","2. The Company exercised control over both Diwani and Nizamat functions, but held no direct responsibility for public administration.","3. This system was abolished in 1772 by the Governor of Bengal, Warren Hastings.","Which of the statements given above are correct?"],"hi":["1. इस व्यवस्था के तहत दीवानी का अधिकार कंपनी के पास था, जबकि निज़ामत का दायित्व नवाब के पास था।","2. कंपनी को दीवानी और निज़ामत दोनों का नियंत्रण प्राप्त था, किंतु उसका प्रत्यक्ष उत्तरदायित्व किसी भी कार्य के लिए नहीं था।","3. इस व्यवस्था को 1772 में बंगाल के गवर्नर वॉरेन हेस्टिंग्स द्वारा समाप्त कर दिया गया।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। 1765 में क्लाइव द्वारा स्थापित द्वैध शासन में दीवानी कंपनी के पास थी और निज़ामत नवाब के पास थी। कंपनी के पास अधिकार थे पर उत्तरदायित्व नहीं था, जबकि नवाब के पास उत्तरदायित्व था पर वित्तीय संसाधन नहीं थे। 1772 में वॉरेन हेस्टिंग्स ने इस व्यवस्था को समाप्त कर कंपनी को बंगाल का सीधा प्रशासक बनाया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि वॉरेन हेस्टिंग्स द्वारा समाप्ति का कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि दीवानी व निज़ामत विभाजन का कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि अधिकार व उत्तरदायित्व से जुड़ा कथन 2 भी सही है।"},{"id":59,"q":{"en":"Match List-I with List-II:","hi":"सूची-I को सूची-II से सुमेलित कीजिए:"},"st":{"en":["List-I:","A. First Anglo-Mysore War","B. Second Anglo-Mysore War","C. Third Anglo-Mysore War","D. First Anglo-Burmese War","List-II:","1. Treaty of Mangalore","2. Treaty of Madras","3. Treaty of Yandabo","4. Treaty of Srirangapatna"],"hi":["सूची-I:","A. प्रथम आंग्ल-मैसूर युद्ध","B. द्वितीय आंग्ल-मैसूर युद्ध","C. तृतीय आंग्ल-मैसूर युद्ध","D. प्रथम आंग्ल-बर्मा युद्ध","सूची-II:","1. मैंगलोर की संधि","2. मद्रास की संधि","3. यान्डाबू की संधि","4. श्रीरंगपट्टनम की संधि"]},"opts":{"en":["A-2, B-1, C-4, D-3","A-1, B-2, C-4, D-3","A-2, B-4, C-1, D-3","A-4, B-1, C-2, D-3"],"hi":["A-2, B-1, C-4, D-3","A-1, B-2, C-4, D-3","A-2, B-4, C-1, D-3","A-4, B-1, C-2, D-3"]},"ans":0,"exp":"• सही उत्तर की व्याख्या:<br>- प्रथम आंग्ल-मैसूर युद्ध: 1769 में मद्रास की संधि के साथ समाप्त हुआ।<br>- द्वितीय आंग्ल-मैसूर युद्ध: 1784 में मैंगलोर की संधि के साथ समाप्त हुआ।<br>- तृतीय आंग्ल-मैसूर युद्ध: 1792 में श्रीरंगपट्टनम की संधि के साथ समाप्त हुआ।<br>- प्रथम आंग्ल-बर्मा युद्ध: 1826 में यान्डाबू की संधि के साथ समाप्त हुआ।<br>• अन्य विकल्पों की व्याख्या:<br>- (b), (c) और (d): इनमें संधियों का सही ऐतिहासिक क्रम नहीं दर्शाया गया है।"},{"id":60,"q":{"en":"Consider the following statements regarding Tipu Sultan's policies and the Fourth Anglo-Mysore War:","hi":"टीपू सुल्तान की नीतियों और चौथे आंग्ल-मैसूर युद्ध के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. Tipu Sultan established the Jacobin Club at his capital Srirangapatna and planted the Tree of Liberty.","2. Tipu Sultan established contact with Napoleon Bonaparte of France and the Sultan of Turkey to form a united front against the British.","3. On 4 May 1799, Tipu Sultan died defending the fort of Srirangapatna, and the British restored Mysore to the Wodeyar dynasty.","Which of the statements given above are correct?"],"hi":["1. टीपू सुल्तान ने अपनी राजधानी श्रीरंगपट्टनम में जैकोबिन क्लब की स्थापना की और स्वतंत्रता का वृक्ष लगाया।","2. टीपू सुल्तान ने अंग्रेजों के विरुद्ध संयुक्त मोर्चा बनाने के लिए फ्रांस के नेपोलियन बोनापार्ट और तुर्की के सुल्तान से संपर्क किया था।","3. 4 मई 1799 को श्रीरंगपट्टनम के दुर्ग की रक्षा करते हुए टीपू सुल्तान वीरगति को प्राप्त हुए और अंग्रेजों ने मैसूर को पुनः वाडियार वंश को सौंप दिया।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। टीपू सुल्तान फ्रांसीसी क्रांति के विचारों से प्रभावित थे; उन्होंने श्रीरंगपट्टनम में जैकोबिन क्लब की स्थापना की और स्वतंत्रता का वृक्ष लगाया। उन्होंने नेपोलियन बोनापार्ट को पत्र लिखकर भारत आने का निमंत्रण दिया और अंग्रेजों के खिलाफ सहायता मांगी। 1799 में चौथे आंग्ल-मैसूर युद्ध में श्रीरंगपट्टनम में लड़ते हुए टीपू वीरगति को प्राप्त हुए और अंग्रेजों ने मैसूर की गद्दी वाडियार वंश को सौंप दी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि टीपू की शहादत और वाडियार वंश की पुनर्स्थापना का कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि जैकोबिन क्लब से जुड़ा कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि नेपोलियन से संपर्क का कथन 2 भी सही है।"},{"id":61,"q":{"en":"Consider the following statements regarding the Subsidiary Alliance System introduced by Lord Wellesley in 1798:","hi":"लॉर्ड वेलेजली द्वारा 1798 में लागू की गई सहायक संधि प्रणाली के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. The Indian ruler accepting this treaty was required to maintain a British force within his territory and bear the expenses of its maintenance.","2. The allied Indian state could not employ any other European in its service nor negotiate with other states without the prior consent of the Company.","3. The correct chronological sequence of states accepting the Subsidiary Alliance is: Hyderabad, Mysore, Tanjore, Awadh, and Peshwa.","Which of the statements given above are correct?"],"hi":["1. इस संधि को स्वीकार करने वाले भारतीय शासक को अपने राज्य में ब्रिटिश सेना रखनी पड़ती थी और उसके रखरखाव का खर्च उठाना पड़ता था।","2. संबंधित भारतीय राज्य कंपनी की पूर्व अनुमति के बिना किसी अन्य यूरोपीय को अपनी सेवा में नहीं रख सकता था और न ही अन्य राज्यों से बातचीत कर सकता था।","3. सहायक संधि को स्वीकार करने वाले राज्यों का सही कालानुक्रम: हैदराबाद, मैसूर, तंजौर, अवध और पेशवा है।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सही हैं। सहायक संधि के तहत भारतीय शासकों को ब्रिटिश सेना की छावनी रखनी पड़ती थी और उसकी सब्सिडी देनी पड़ती थी। विदेश नीति और अन्य यूरोपीय लोगों को सेवा में रखने के लिए कंपनी की अनुमति अनिवार्य थी। राज्यों द्वारा स्वीकार करने का कालानुक्रम पूरी तरह सही है: हैदराबाद (1798), मैसूर (1799), तंजौर (1799), अवध (1801) और पेशवा (1802)।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि राज्यों के सही क्रम वाला कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि सेना तैनाती से जुड़ा कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि विदेश नीति प्रतिबंध वाला कथन 2 भी सही है।"},{"id":62,"q":{"en":"Consider the following statements regarding the First Anglo-Sikh War (1845-1846) and subsequent treaties:","hi":"प्रथम आंग्ल-सिख युद्ध (1845-1846) और उसके बाद की संधियों के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. The Governor-General of India during the First Anglo-Sikh War was Lord Hardinge.","2. The Battle of Aliwal, fought in 1846, was a major battle of the First Anglo-Sikh War.","3. Under the Treaty of Amritsar signed on 16 March 1846, the British transferred Kashmir to Raja Gulab Singh for 75 lakh rupees.","Which of the statements given above are correct?"],"hi":["1. प्रथम आंग्ल-सिख युद्ध के समय भारत का गवर्नर-जनरल लॉर्ड हार्डिंग था।","2. 1846 में लड़ा गया अलीवाल का युद्ध प्रथम आंग्ल-सिख युद्ध का एक प्रमुख युद्ध था।","3. 16 मार्च 1846 को हस्ताक्षरित अमृतसर की संधि के तहत अंग्रेजों ने कश्मीर का क्षेत्र राजा गुलाब सिंह को 75 लाख रुपये में सौंप दिया था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। प्रथम आंग्ल-सिख युद्ध के समय लॉर्ड हार्डिंग गवर्नर-जनरल था। 1846 में अलीवाल का युद्ध इसी युद्ध का महत्वपूर्ण हिस्सा था। युद्ध के उपरांत लाहौर की संधि हुई और उसके बाद 1846 में अमृतसर की संधि के तहत कश्मीर का क्षेत्र राजा गुलाब सिंह को 75 लाख रुपये के बदले सौंप दिया गया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि कश्मीर हस्तांतरण का कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि लॉर्ड हार्डिंग से संबंधित कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि अलीवाल युद्ध का कथन 2 भी सही है।"},{"id":63,"q":{"en":"Consider the following statements regarding the Second Anglo-Sikh War (1848-1849) and the annexation of Punjab:","hi":"द्वितीय आंग्ल-सिख युद्ध (1848-1849) और पंजाब के विलय के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. The murder of two British officers by Diwan Mulraj, the Governor of Multan, was the immediate cause of this war.","2. Following victory in this war, Lord Dalhousie completely annexed Punjab into the British Empire.","3. Maharaja Duleep Singh was apprehended and sent to Britain, and the Koh-i-Noor diamond was acquired by the British.","Which of the statements given above are correct?"],"hi":["1. मुल्तान के गवर्नर दीवान मूलराज द्वारा दो ब्रिटिश अधिकारियों की हत्या इस युद्ध का तात्कालिक कारण बनी थी।","2. लॉर्ड डलहौजी ने इस युद्ध में विजय के पश्चात पंजाब का ब्रिटिश साम्राज्य में पूर्ण विलय कर लिया।","3. महाराजा दलीप सिंह को पकड़कर ब्रिटेन भेज दिया गया तथा कोहिनूर हीरा ब्रिटिश अधिकार में ले लिया गया।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सही हैं। 1848 में मुल्तान के गवर्नर मूलराज द्वारा दो अंग्रेज़ अधिकारियों की हत्या से सिख विद्रोह भड़का, जिसने द्वितीय आंग्ल-सिख युद्ध का रूप लिया। इस समय लॉर्ड डलहौजी गवर्नर-जनरल था और युद्ध में अंग्रेजों की जीत हुई। इसके बाद महाराजा दलीप सिंह को ब्रिटेन भेज दिया गया और कोहिनूर हीरा ब्रिटिश शासन द्वारा ले लिया गया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि दलीप सिंह और कोहिनूर से जुड़ा कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि मूलराज से संबंधित कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि डलहौजी के पंजाब विलय का कथन 2 भी सही है।"},{"id":64,"q":{"en":"Consider the following statements regarding the historic Tripartite Treaty signed in 1838:","hi":"1838 में हस्ताक्षरित ऐतिहासिक त्रिपक्षीय संधि के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. This treaty was concluded between the British Government, Maharaja Ranjit Singh, and Shah Shuja Durrani.","2. The primary objective of this treaty was to depose the Afghan ruler Dost Mohammad Khan and seat Shah Shuja on the throne of Kabul.","3. This treaty was an integral part of the Forward Policy adopted by the British towards Afghanistan.","Which of the statements given above are correct?"],"hi":["1. यह संधि ब्रिटिश भारत सरकार, महाराजा रणजीत सिंह और शुजा शाह दुर्रानी के मध्य हुई थी।","2. इस संधि का मुख्य उद्देश्य अफगान शासक दोस्त मोहम्मद ख़ान को गद्दी से हटाकर शुजा शाह को काबुल के सिंहासन पर बैठाना था।","3. यह संधि अंग्रेजों की अफगानिस्तान के प्रति अपनाई गई अग्रगामी नीति का हिस्सा थी।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। 1838 में त्रिपक्षीय संधि तीन पक्षों—ब्रिटिश सरकार, शुजा शाह दुर्रानी और रणजीत सिंह के बीच हस्ताक्षरित हुई। इसका मुख्य उद्देश्य दोस्त मोहम्मद ख़ान को हटाकर शुजा शाह को गद्दी पर बैठाना और अफगानिस्तान को ब्रिटिश प्रभाव में लाना था। यह लॉर्ड ऑकलैंड की अग्रगामी नीति का हिस्सा थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि अग्रगामी नीति का कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि तीनों पक्षों के उल्लेख वाला कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि संधि के उद्देश्य से संबंधित कथन 2 भी सही है।"},{"id":65,"q":{"en":"With reference to the different phases of British India's Afghan policy, which of the following pairs is NOT correctly matched?","hi":"ब्रिटिश भारत की अफगान नीतियों के विभिन्न चरणों के संदर्भ में निम्नलिखित में से कौन-सा युग्म सही सुमेलित नहीं है?"},"st":{"en":null,"hi":null},"opts":{"en":["Policy of Ring Fence – Warren Hastings","Forward Policy – Lord Auckland","Policy of Masterly Inactivity – John Lawrence","Policy of Proud Reserve – Lord Chelmsford"],"hi":["घेराबंदी की नीति – वॉरेन हेस्टिंग्स","अग्रगामी नीति – लॉर्ड ऑकलैंड","कुशल अकर्मण्यता की नीति – जॉन लॉरेंस","गर्वित आरक्षित नीति – लॉर्ड चेम्सफ़ोर्ड"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: विकल्प (d) गलत सुमेलित है। ब्रिटेन की गर्वित आरक्षित नीति को द्वितीय आंग्ल-अफगान युद्ध के समय वायसराय लॉर्ड लिटन ने लागू किया था, न कि लॉर्ड चेम्सफ़ोर्ड ने। लॉर्ड चेम्सफ़ोर्ड के समय 1919 में तृतीय आंग्ल-अफगान युद्ध लड़ा गया था।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) घेराबंदी की नीति – वॉरेन हेस्टिंग्स: यह सुमेलित है; 1765 में हेस्टिंग्स ने सीमाओं की सुरक्षा हेतु बफर राज्यों की घेराबंदी नीति अपनाई थी।<br>- (b) अग्रगामी नीति – लॉर्ड ऑकलैंड: यह सुमेलित है; ऑकलैंड ने अफगानिस्तान में हस्तक्षेप की अग्रगामी नीति अपनाई थी।<br>- (c) कुशल अकर्मण्यता की नीति – जॉन लॉरेंस: यह सुमेलित है; लॉरेंस ने अफगान मामलों में अहस्तक्षेप की नीति अपनाई थी।"},{"id":66,"q":{"en":"Consider the following statements regarding the Treaty of Gandamak of 1879:","hi":"1879 की गंडमक की संधि के संबंध में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. This treaty was concluded between the British Government and Afghan ruler Yaqub Khan during the Second Anglo-Afghan War.","2. Under this treaty, the foreign policy of Afghanistan came under British control.","3. The Viceroy of India at the time of this treaty was Lord Lytton.","Which of the statements given above are correct?"],"hi":["1. यह संधि द्वितीय आंग्ल-अफगान युद्ध के दौरान ब्रिटिश सरकार और अफगान शासक याकूब ख़ान के मध्य हुई थी।","2. इस संधि के तहत अफगानिस्तान की विदेश नीति ब्रिटिश नियंत्रण में चली गई।","3. इस संधि के समय भारत का वायसराय लॉर्ड लिटन था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सही हैं। 1879 में ब्रिटिश सरकार और अफगान शासक याकूब ख़ान के बीच गंडमक की संधि हुई। इसके अंतर्गत अफगानिस्तान की विदेश नीति ब्रिटिश नियंत्रण में आ गई और कुछ सीमावर्ती क्षेत्र ब्रिटिश भारत को मिले। इस समय भारत के वायसराय लॉर्ड लिटन थे।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि वायसराय लिटन से संबंधित कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि याकूब ख़ान और युद्ध के उल्लेख वाला कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि विदेश नीति नियंत्रण वाला कथन 2 भी सही है।"},{"id":67,"q":{"en":"Match List-I with List-II:","hi":"सूची-I को सूची-II से सुमेलित कीजिए:"},"st":{"en":["List-I:","A. Durand Line","B. Treaty of Sagauli","C. Treaty of Yandabo","D. Battle of Saragarhi","List-II:","1. Nepal","2. Burma","3. Sir Mortimer Durand","4. Tirah Campaign"],"hi":["सूची-I:","A. डुरंड रेखा","B. सगौली की संधि","C. यान्डाबू की संधि","D. सारागढ़ी की लड़ाई","सूची-II:","1. नेपाल","2. बर्मा","3. सर मॉर्टिमर डुरंड","4. तिराह अभियान"]},"opts":{"en":["A-3, B-1, C-2, D-4","A-1, B-3, C-2, D-4","A-3, B-2, C-1, D-4","A-4, B-1, C-2, D-3"],"hi":["A-3, B-1, C-2, D-4","A-1, B-3, C-2, D-4","A-3, B-2, C-1, D-4","A-4, B-1, C-2, D-3"]},"ans":0,"exp":"• सही उत्तर की व्याख्या:<br>- डुरंड रेखा (1893): सर मॉर्टिमर डुरंड द्वारा ब्रिटिश भारत और अफगान अमीर अब्दुर रहमान ख़ान के मध्य सीमा निर्धारण।<br>- सगौली की संधि (1816): आंग्ल-नेपाल युद्ध के उपरांत भारत और नेपाल के मध्य सीमा निर्धारण संधि।<br>- यान्डाबू की संधि (1826): प्रथम आंग्ल-बर्मा युद्ध की समाप्ति की संधि।<br>- सारागढ़ी की लड़ाई (1897): खैबर पख्तूनख्वा में तिराह अभियान के दौरान लड़ा गया ऐतिहासिक युद्ध।<br>• अन्य विकल्पों की व्याख्या:<br>- (b), (c) और (d): इनमें संधियों और सीमा रेखाओं का मिलान सही क्रम में नहीं है।"},{"id":68,"q":{"en":"Consider the following statements regarding the Anglo-Nepalese War and the Treaty of Sagauli:","hi":"आंग्ल-नेपाल युद्ध और सगौली की संधि के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. The Governor-General of India during the Anglo-Nepalese War was Lord Hastings.","2. Through the Treaty of Sagauli, the boundary between British India and Nepal was demarcated.","3. Under this treaty, Nepal had to cede certain border territories to the British.","Which of the statements given above are correct?"],"hi":["1. आंग्ल-नेपाल युद्ध के समय भारत का गवर्नर-जनरल लॉर्ड हेस्टिंग्स था।","2. सगौली की संधि के माध्यम से ब्रिटिश भारत और नेपाल के बीच की सीमा निर्धारित की गई।","3. इस संधि के तहत नेपाल को अपने कुछ सीमावर्ती क्षेत्र अंग्रेजों को सौंपने पड़े थे।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। आंग्ल-नेपाल युद्ध (1814-1816) लॉर्ड हेस्टिंग्स के कार्यकाल में लड़ा गया था। 1816 में सगौली की संधि द्वारा युद्ध समाप्त हुआ, जिससे ब्रिटिश भारत और नेपाल के बीच सीमा तय हुई और नेपाल को अपने कुछ क्षेत्र छोड़ने पड़े।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि क्षेत्र सौंपने से जुड़ा कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि गवर्नर-जनरल हेस्टिंग्स से जुड़ा कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि सीमा निर्धारण से जुड़ा कथन 2 भी सही है।"},{"id":69,"q":{"en":"Consider the following statements regarding the famous Battle of Saragarhi of 1897:","hi":"1897 की प्रसिद्ध सारागढ़ी की लड़ाई के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. This battle was fought in the Khyber Pakhtunkhwa region during a tribal uprising.","2. This event was linked to the Tirah Campaign of the British Indian Army.","3. In this battle, a small contingent of Sikh soldiers bravely defended the post against thousands of Pashtun tribesmen.","Which of the statements given above are correct?"],"hi":["1. यह लड़ाई आदिवासी विद्रोह के दौरान खैबर पख्तूनख्वा इलाके में लड़ी गई थी।","2. यह घटना ब्रिटिश भारतीय सेना के तिराह अभियान से जुड़ी हुई थी।","3. इस युद्ध में सिख सैनिकों की एक छोटी सैन्य टुकड़ी ने हजारों पश्तून आदिवासियों का वीरतापूर्वक सामना किया था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सही हैं। 1897 की सारागढ़ी की लड़ाई आदिवासी विद्रोह के समय लड़ी गई थी। यह क्षेत्र वर्तमान खैबर पख्तूनख्वा में स्थित है और यह तिराह अभियान (1897-1898) से जुड़ी घटना थी। हवलदार ईशर सिंह के नेतृत्व में 36वीं सिख रेजिमेंट के 21 जवानों ने लगभग 10,000 पश्तून आदिवासियों का सामना करते हुए अपनी चौकी की रक्षा की थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि सैनिकों की वीरता से जुड़ा कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि क्षेत्र और विद्रोह से जुड़ा कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि तिराह अभियान से जुड़ा कथन 2 भी सही है।"},{"id":70,"q":{"en":"Match List-I with List-II:","hi":"सूची-I को सूची-II से सुमेलित कीजिए:"},"st":{"en":["List-I:","A. Battle of Swally","B. Battle of Colachel","C. Battle of Bedara","D. Battle of Wandiwash","List-II:","1. Dutch East India Company","2. Portuguese","3. French","4. Dutch","Codes:"],"hi":["सूची-I:","A. स्वाली का युद्ध","B. कोलाचेल का युद्ध","C. बेदरा का युद्ध","D. वांडीवाश का युद्ध","सूची-II:","1. डच ईस्ट इंडिया कंपनी","2. पुर्तगाली","3. फ्रांसीसी","4. डच","कूट:"]},"opts":{"en":["A-2, B-1, C-4, D-3","A-1, B-2, C-3, D-4","A-2, B-4, C-1, D-3","A-3, B-1, C-4, D-2"],"hi":["A-2, B-1, C-4, D-3","A-1, B-2, C-3, D-4","A-2, B-4, C-1, D-3","A-3, B-1, C-4, D-2"]},"ans":0,"exp":"• सही उत्तर की व्याख्या:<br>- स्वाली का युद्ध (1612): अंग्रेजों ने पुर्तगालियों को पराजित किया।<br>- कोलाचेल का युद्ध (1741): त्रावणकोर के राजा मार्तंड वर्मा ने डच ईस्ट इंडिया कंपनी को हराया।<br>- बेदरा का युद्ध (1759): अंग्रेजों ने हुगली तट पर डचों को पराजित किया।<br>- वांडीवाश का युद्ध (1760): ब्रिटिश सेनापति सर आयर कूट ने फ्रांसीसी सेनापति लाली को पराजित किया।<br>• अन्य विकल्पों की व्याख्या:<br>- (b), (c) और (d): इनमें युद्ध और पराजित शक्तियों का मिलान गलत दिया गया है।"},{"id":71,"q":{"en":"Consider the following statements regarding the main provisions of the Treaty of Allahabad signed in 1765:","hi":"1765 में हस्ताक्षरित इलाहाबाद की संधि के मुख्य प्रावधानों के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. The Nawab of Awadh, Shuja-ud-Daulah, paid 50 lakh rupees to the British as war indemnity.","2. The districts of Kora and Allahabad were taken from Awadh and handed over to Mughal Emperor Shah Alam II.","3. Shah Alam II granted the Diwani of Bengal, Bihar, and Orissa to the East India Company in exchange for an annual payment of 26 lakh rupees.","Which of the statements given above are correct?"],"hi":["1. अवध के नवाब शुजा-उद-दौला ने अंग्रेजों को युद्ध क्षतिपूर्ति के रूप में 50 लाख रुपये दिए।","2. कड़ा और इलाहाबाद के जिले अवध से लेकर मुगल सम्राट शाह आलम द्वितीय को सौंप दिए गए।","3. शाह आलम द्वितीय ने बंगाल, बिहार और उड़ीसा की दीवानी ईस्ट इंडिया कंपनी को 26 लाख रुपये के वार्षिक भुगतान के बदले दी।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। इलाहाबाद की पहली संधि के तहत शुजा-उद-दौला ने 50 लाख रुपये हर्जाना दिया और कड़ा व इलाहाबाद सम्राट को सौंपे गए। इलाहाबाद की दूसरी संधि के तहत सम्राट को इलाहाबाद में संरक्षण में रखा गया और 26 लाख रुपये वार्षिक पेंशन के बदले बंगाल, बिहार और उड़ीसा के दीवानी अधिकार कंपनी को सौंपे गए।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि दीवानी अधिकारों से जुड़ा कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि 50 लाख हर्जाने वाला कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि कड़ा व इलाहाबाद जिलों से जुड़ा कथन 2 भी सही है।"},{"id":72,"q":{"en":"Consider the following statements regarding the Treaty of Srirangapatna concluded in 1792 between Tipu Sultan and the British at the end of the Third Anglo-Mysore War:","hi":"1792 में तृतीय आंग्ल-मैसूर युद्ध की समाप्ति पर टीपू सुल्तान और अंग्रेजों के बीच संपन्न श्रीरंगपट्टनम की संधि के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. Tipu Sultan had to cede nearly half of his territory to the British, Marathas, and the Nizam.","2. A heavy war indemnity of 3 crore rupees was imposed on Tipu Sultan.","3. Until half of the indemnity amount was paid, two of Tipu's sons were kept as hostages by the British.","Which of the statements given above are correct?"],"hi":["1. टीपू सुल्तान को अपने राज्य का लगभग आधा भूभाग अंग्रेजों, मराठों और निज़ाम को सौंपना पड़ा था।","2. टीपू सुल्तान पर 3 करोड़ रुपये का भारी युद्ध क्षतिपूर्ति जुर्माना लगाया गया था।","3. हर्जाने की आधी राशि का भुगतान होने तक टीपू के दो पुत्रों को अंग्रेजों ने बंधक बनाकर रखा था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। तृतीय आंग्ल-मैसूर युद्ध में पराजय के बाद टीपू सुल्तान को श्रीरंगपट्टनम की संधि (1792) करनी पड़ी। टीपू को अपना आधा राज्य अंग्रेजों, मराठों और निज़ाम को देना पड़ा। उन पर 3 करोड़ रुपये का जुर्माना लगाया गया और इस राशि की अदायगी सुनिश्चित करने के लिए उनके दो पुत्रों को बंधक बनाया गया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि बेटों को बंधक बनाने वाला कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि आधा राज्य सौंपने वाला कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि 3 करोड़ हर्जाने वाला कथन 2 भी सही है।"},{"id":73,"q":{"en":"Consider the following statements regarding the expansion of European powers in India:","hi":"भारत में यूरोपीय शक्तियों के विस्तार के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. By the Treaty of Tordesillas (1494), the lands to the east were allotted to Portugal and lands to the west to Spain.","2. After the decline of the French in the Carnatic Wars, the British focus shifted from South India towards Bengal and Northern India.","3. Mir Qasim shifted the capital from Murshidabad to Munger to maintain administrative autonomy and avoid British interference.","Which of the statements given above are correct?"],"hi":["1. 1494 की टॉर्डेंसिलस की संधि द्वारा पूर्व की भूमि पुर्तगाल को और पश्चिम की भूमि स्पेन को आवंटित की गई थी।","2. कर्नाटक युद्धों में फ्रांसीसियों के पतन के बाद अंग्रेजों का ध्यान दक्षिण भारत से हटकर बंगाल और उत्तर भारत की ओर केंद्रित हुआ।","3. मीर क़ासिम ने प्रशासनिक स्वायत्तता और अंग्रेजों के हस्तक्षेप से बचने के लिए राजधानी को मुर्शिदाबाद से मुंगेर स्थानांतरित किया था।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सही हैं। टॉर्डेंसिलस की संधि (1494) ने स्पेन और पुर्तगाल के बीच विश्व को दो प्रभाव-क्षेत्रों में विभाजित किया था। कर्नाटक युद्धों के बाद अंग्रेजों की सर्वोच्चता स्थापित हुई और उनका ध्यान उत्तर भारत व बंगाल की ओर गया। मीर क़ासिम ने कलकत्ता के प्रभाव से दूर रहने के लिए राजधानी को मुर्शिदाबाद से मुंगेर स्थानांतरित किया तथा दस्तक व्यवस्था को समाप्त किया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि मुंगेर राजधानी स्थानांतरण से जुड़ा कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि टॉर्डेंसिलस संधि वाला कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि कर्नाटक युद्धों के बाद उत्तर भारत विस्तार वाला कथन 2 भी सही है।"},{"id":74,"q":{"en":"Select the correct chronological order of the wars fought by the British East India Company in India and neighboring regions:","hi":"ब्रिटिश ईस्ट इंडिया कंपनी द्वारा भारत और उसके पड़ोसी क्षेत्रों में लड़े गए युद्धों के सही कालानुक्रमिक क्रम का चयन कीजिए:"},"st":{"en":null,"hi":null},"opts":{"en":["Battle of Plassey, Battle of Buxar, Third Anglo-Mysore War, First Anglo-Sikh War, Second Anglo-Afghan War","Battle of Buxar, Battle of Plassey, First Anglo-Sikh War, Third Anglo-Mysore War, Second Anglo-Afghan War","Battle of Plassey, Third Anglo-Mysore War, Battle of Buxar, Second Anglo-Afghan War, First Anglo-Sikh War","Battle of Buxar, Battle of Plassey, Third Anglo-Mysore War, Second Anglo-Afghan War, First Anglo-Sikh War"],"hi":["प्लासी का युद्ध, बक्सर का युद्ध, तृतीय आंग्ल-मैसूर युद्ध, प्रथम आंग्ल-सिख युद्ध, द्वितीय आंग्ल-अफगान युद्ध","बक्सर का युद्ध, प्लासी का युद्ध, प्रथम आंग्ल-सिख युद्ध, तृतीय आंग्ल-मैसूर युद्ध, द्वितीय आंग्ल-अफगान युद्ध","प्लासी का युद्ध, तृतीय आंग्ल-मैसूर युद्ध, बक्सर का युद्ध, द्वितीय आंग्ल-अफगान युद्ध, प्रथम आंग्ल-सिख युद्ध","बक्सर का युद्ध, प्लासी का युद्ध, तृतीय आंग्ल-मैसूर युद्ध, द्वितीय आंग्ल-अफगान युद्ध, प्रथम आंग्ल-सिख युद्ध"]},"ans":0,"exp":"• सही उत्तर की व्याख्या: इन युद्धों का ऐतिहासिक कालानुक्रम इस प्रकार है:<br>1. प्लासी का युद्ध: 1757<br>2. बक्सर का युद्ध: 1764<br>3. तृतीय आंग्ल-मैसूर युद्ध: 1790-1792<br>4. प्रथम आंग्ल-सikh युद्ध: 1845-1846<br>5. द्वितीय आंग्ल-अफगान युद्ध: 1878-1880<br>अतः विकल्प (a) सही क्रम प्रस्तुत करता है।<br>• अन्य विकल्पों की व्याख्या:<br>- (b), (c) और (d): इनमें घटनाओं की तिथियों का क्रम ऐतिहासिक रूप से गलत है।"},{"id":75,"q":{"en":"Consider the following statements regarding the arrival of European trading companies in India and the establishment of their first commercial factories:","hi":"भारत में यूरोपीय व्यापारिक कंपनियों के आगमन और उनकी प्रथम व्यापारिक फैक्ट्रियों की स्थापना के संदर्भ में निम्नलिखित कथनों पर विचार कीजिए:"},"st":{"en":["1. The correct sequence of arrival of European companies in India is: Portuguese (1498), Dutch (1602), English (1600), Danish (1616), and French (1664).","2. The Dutch established their first factory at Masulipatnam (1605) and the Danes at Tranquebar (1620).","3. Both the British and the French established their first regular commercial factories in Western India at Surat (1613 and 1668 respectively).","Which of the statements given above are correct?"],"hi":["1. भारत में यूरोपीय कंपनियों के आगमन का सही क्रम: पुर्तगाली (1498), डच (1602), अंग्रेज़ (1600), डेनिश (1616) और फ्रांसीसी (1664) है।","2. डचों ने अपनी पहली फैक्ट्री मसूलीपट्टनम (1605) में तथा डेनिशों ने ट्रैंकेबार (1620) में स्थापित की थी।","3. अंग्रेजों और फ्रांसीसियों दोनों ने पश्चिमी भारत में अपनी पहली नियमित फैक्ट्री सूरत (क्रमशः 1613 और 1668) में स्थापित की थी।","उपर्युक्त में से कौन-से कथन सही हैं?"]},"opts":{"en":["1 and 2 only","2 and 3 only","1 and 3 only","1, 2 and 3"],"hi":["केवल 1 और 2","केवल 2 और 3","केवल 1 और 3","1, 2 और 3"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: तीनों कथन सत्य हैं। भारत में यूरोपीय शक्तियों के आगमन का क्रम पुर्तगाली, डच, अंग्रेज़, डेनिश और फ्रांसीसी है। डचों ने अपनी पहली फैक्ट्री 1605 में मसूलीपट्टनम में और डेनिशों ने 1620 में ट्रैंकेबार में स्थापित की। अंग्रेजों ने 1613 में तथा फ्रांसीसियों ने 1668 में सूरत में अपनी पहली स्थायी फैक्ट्रियों की स्थापना की थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) केवल 1 और 2: यह अपूर्ण है क्योंकि सूरत फैक्ट्रियों से जुड़ा कथन 3 भी सही है।<br>- (b) केवल 2 और 3: यह अपूर्ण है क्योंकि आगमन क्रम वाला कथन 1 भी सही है।<br>- (c) केवल 1 और 3: यह अपूर्ण है क्योंकि मसूलीपट्टनम और ट्रैंकेबार का कथन 2 भी सही है।"}];
+
+let state = [], current = 0, remaining = 900, lang = 'en', neg = 0.5, timerId = null, qTimerId = null;
+let studentName = "", view = 'intro', auditTags = {};
+
+function initApp(){
+  const params = new URLSearchParams(window.location.search);
+  const urlName = params.get('name') || localStorage.getItem('student_real_name') || "";
+  const nameInput = document.getElementById('student-name');
+  if(urlName.trim()){
+    nameInput.value = urlName.trim();
+    nameInput.readOnly = true;
+    checkName();
+  }
+}
+
+function checkName(){
+  const val = document.getElementById('student-name').value.trim();
+  const btn = document.getElementById('start-btn');
+  if(val.length >= 2){
+    btn.disabled = false;
+    btn.textContent = "START TEST";
+  } else {
+    btn.disabled = true;
+    btn.textContent = "ENTER NAME TO START";
+  }
+}
+
+function startTest(){
+  studentName = document.getElementById('student-name').value.trim();
+  if(!studentName) return;
+  neg = parseFloat(document.getElementById('negative').value);
+  state = QUESTIONS.map(()=>({selected:null, review:false, time:0}));
+  current = 0; remaining = 900; view = 'test';
+  
+  document.getElementById('stu-tag').textContent = studentName;
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('sol-footer').classList.add('hidden');
+  document.getElementById('exam-footer').classList.remove('hidden');
+  document.body.classList.remove('solution-mode');
+  
+  renderQ(); renderPalette(); startTimers();
+}
+
+function startTimers(){
+  clearInterval(timerId); clearInterval(qTimerId);
+  timerId = setInterval(()=>{
+    if(view === 'test' && remaining > 0){
+      remaining--;
+      const m = String(Math.floor(remaining/60)).padStart(2,'0');
+      const s = String(remaining%60).padStart(2,'0');
+      const t = document.getElementById('timer');
+      t.textContent = `${m}:${s}`;
+      t.classList.toggle('warning', remaining <= 60);
+      if(remaining === 0) submitExam();
+    }
+  },1000);
+  qTimerId = setInterval(()=>{
+    if(view === 'test' && state[current]){
+      state[current].time++;
+      document.getElementById('q-timer').textContent = state[current].time + 's';
+    }
+  },1000);
+}
+
+function renderQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-no').textContent = `Q${current+1}`;
+  document.getElementById('question-text').textContent = q.q[lang];
+  document.getElementById('q-timer').textContent = (state[current]?.time || 0) + 's';
+  
+  const stBox = document.getElementById('statements-box');
+  stBox.innerHTML = '';
+  if(q.st && q.st[lang]){
+    q.st[lang].forEach(txt => {
+      const d = document.createElement('div');
+      d.className = 'statement-item';
+      d.textContent = txt;
+      stBox.appendChild(d);
+    });
+  }
+  
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  q.opts[lang].forEach((opt, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'option ' + (state[current].selected === idx ? 'selected' : '');
+    el.innerHTML = `<input type="radio" name="opt_choice" ${state[current].selected === idx ? 'checked':''}> <span>${String.fromCharCode(65 + idx)}. ${opt}</span>`;
+    el.onclick = ()=>{
+      if(view === 'test'){
+        state[current].selected = idx;
+        renderQ(); renderPalette();
+      }
+    };
+    box.appendChild(el);
+  });
+  document.getElementById('solution-box').innerHTML = '';
+}
+
+function renderPalette(){
+  const p = document.getElementById('palette');
+  p.innerHTML = '';
+  QUESTIONS.forEach((q, i)=>{
+    const b = document.createElement('button');
+    b.className = 'q-node';
+    if(view === 'solution'){
+      const sel = state[i].selected;
+      if(sel === null) b.classList.add('sol-unatt');
+      else if(sel === q.ans) b.classList.add('sol-correct');
+      else b.classList.add('sol-wrong');
+    } else {
+      if(state[i].selected !== null) b.classList.add('answered');
+      else if(state[i].review) b.classList.add('marked');
+    }
+    if(i === current) b.classList.add('active');
+    b.textContent = i+1;
+    b.onclick = ()=>{ current = i; if(view === 'solution') renderSolQ(); else renderQ(); renderPalette(); document.getElementById('sidebar').classList.remove('open'); };
+    p.appendChild(b);
+  });
+}
+
+function saveNext(){ if(current < QUESTIONS.length - 1){ current++; renderQ(); renderPalette(); } else openSubmitModal(); }
+function prevQ(){ if(current > 0){ current--; renderQ(); renderPalette(); } }
+function markReview(){ state[current].review = true; saveNext(); }
+function toggleLang(){ lang = lang === 'en' ? 'hi' : 'en'; document.getElementById('lang-btn').textContent = lang === 'en' ? 'A/अ EN' : 'A/अ HI'; if(view==='solution') renderSolQ(); else renderQ(); }
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
+function openSubmitModal(){ document.getElementById('modal-submit').classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+async function submitExam(){
+  closeModal('modal-submit'); clearInterval(timerId); clearInterval(qTimerId);
+  view = 'result';
+  
+  let cor = 0, wro = 0, att = 0;
+  state.forEach((s, idx)=>{
+    if(s.selected !== null){
+      att++;
+      if(s.selected === QUESTIONS[idx].ans) cor++;
+      else wro++;
+    }
+  });
+  
+  const score = (cor * 2) - (wro * neg);
+  const acc = att ? Math.round((cor/att)*100) : 0;
+  const timeTaken = `${Math.floor((900-remaining)/60)}m ${(900-remaining)%60}s`;
+  
+  document.getElementById('r-score').textContent = score.toFixed(2);
+  document.getElementById('r-att').textContent = att;
+  document.getElementById('r-cor').textContent = cor;
+  document.getElementById('r-wro').textContent = wro;
+  document.getElementById('r-acc').textContent = acc + '%';
+  document.getElementById('r-time').textContent = timeTaken;
+  
+  document.getElementById('exam').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  
+  try {
+    await sb.from('quiz_attempts').insert([{
+      student_name: studentName,
+      quiz_title: "Advent of Europeans in India - Part 3",
+      score: score,
+      accuracy: acc + '%',
+      total_questions: QUESTIONS.length,
+      correct_answers: cor,
+      wrong_answers: wro,
+      time_taken: timeTaken
+    }]);
+  } catch(e){}
+}
+
+function startAudit(){
+  view = 'solution'; current = 0;
+  document.body.classList.add('solution-mode');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('exam-footer').classList.add('hidden');
+  document.getElementById('sol-footer').classList.remove('hidden');
+  renderSolQ(); renderPalette();
+}
+
+function renderSolQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-no').textContent = `Q${current+1}`;
+  document.getElementById('question-text').textContent = q.q[lang];
+  document.getElementById('q-timer').textContent = (state[current]?.time || 0) + 's';
+  
+  const stBox = document.getElementById('statements-box');
+  stBox.innerHTML = '';
+  if(q.st && q.st[lang]){
+    q.st[lang].forEach(txt => {
+      const d = document.createElement('div');
+      d.className = 'statement-item';
+      d.textContent = txt;
+      stBox.appendChild(d);
+    });
+  }
+  
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  q.opts[lang].forEach((opt, idx)=>{
+    const el = document.createElement('div');
+    let cls = 'option ';
+    if(idx === q.ans) cls += 'correct ';
+    if(state[current].selected === idx && idx !== q.ans) cls += 'wrong ';
+    el.className = cls;
+    el.innerHTML = `<span>${String.fromCharCode(65 + idx)}. ${opt}</span> ${idx === q.ans ? '<b style="color:var(--green)">✓ [Correct]</b>' : (state[current].selected === idx ? '<b style="color:var(--red)">✗ [Your Choice]</b>':'')}`;
+    box.appendChild(el);
+  });
+  
+  const tags = ['100% Aata Tha','Elimination','Tukka / Guess','Silly Mistake','Concept Gap','Time Trap'];
+  const userTag = auditTags[current] || "";
+  let tagHtml = tags.map(t=>`<button class="tag ${userTag===t?'selected':''}" onclick="setAuditTag('${t}')">${t}</button>`).join('');
+  
+  document.getElementById('solution-box').innerHTML = `
+    <div class="explanation">
+      <div class="exp-title">💡 Explanation & Context</div>
+      <div style="font-size:13px;line-height:1.5">${q.exp}</div>
+      <div class="analysis-box">
+        <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:6px">QUESTION DIAGNOSTIC TAG:</div>
+        <div>${tagHtml}</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('sol-next-btn').textContent = current === QUESTIONS.length - 1 ? 'FINISH AUDIT ➔' : 'NEXT ›';
+}
+
+function setAuditTag(t){ auditTags[current] = t; renderSolQ(); }
+function solPrev(){ if(current > 0){ current--; renderSolQ(); renderPalette(); } }
+function solNext(){
+  if(current < QUESTIONS.length - 1){ current++; renderSolQ(); renderPalette(); }
+  else {
+    document.body.classList.remove('solution-mode');
+    document.getElementById('exam').classList.add('hidden');
+    document.getElementById('result').classList.remove('hidden');
+    renderReport();
+  }
+}
+
+function renderReport(){
+  const rep = document.getElementById('final-report-card');
+  rep.classList.remove('hidden');
+  const counts = {};
+  Object.values(auditTags).forEach(t=>{ counts[t] = (counts[t]||0)+1; });
+  let details = "<b>Mistake Breakdown:</b><br>";
+  for(let k in counts){ details += `• ${k}: ${counts[k]} questions<br>`; }
+  if(!Object.keys(counts).length) details += "Koi specific tag select nahi kiya gaya.";
+  document.getElementById('report-details').innerHTML = details;
+}
+
+function copyMistakes(){
+  let str = "MISTAKES - MAKING OF CONSTITUTION:\n\n";
+  state.forEach((s, idx)=>{
+    if(s.selected !== QUESTIONS[idx].ans){
+      str += `Q${idx+1}: ${QUESTIONS[idx].q.en}\nCorrect: ${QUESTIONS[idx].opts.en[QUESTIONS[idx].ans]}\nTag: ${auditTags[idx]||'Untagged'}\n\n`;
+    }
+  });
+  navigator.clipboard.writeText(str).then(()=>alert("Mistakes copied to clipboard!"));
+}
+
+function reattempt(){ startTest(); }
+
+window.onload = initApp;
+</script>
+</body>
+</html>
