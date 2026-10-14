@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Advent of Europeans in India - Part 2 | Ayush Education 264</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{--navy:#0a2240;--navy2:#173b61;--blue:#2563eb;--green:#219653;--red:#e55353;--yellow:#f2c94c;--purple:#7c3aed;--bg:#f4f5f8;--border:#dfe4ea;--text:#263241;--muted:#6b7280;--card:#fff}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,"Noto Sans Devanagari","Nirmala UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+button,input,select{font:inherit}button{cursor:pointer}img,video,iframe{max-width:100%}
+.hidden{display:none!important}#app{height:100dvh;display:flex;flex-direction:column}
+#exam{height:calc(100dvh - 58px);min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.intro-wrap{height:100%;overflow:auto;padding:24px 16px;display:flex;justify-content:center;align-items:flex-start}
+.intro-card{width:min(760px,100%);background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(10,34,64,.08);overflow:hidden}
+.intro-head{background:var(--navy);color:#fff;padding:24px}
+.intro-head h1{font-size:22px;margin:0 0 6px;font-weight:800}
+.intro-head p{margin:0;color:#cbdcf0;font-size:13px}
+.intro-body{padding:20px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat{border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;background:#fafbfc}
+.stat strong{display:block;font-size:22px;color:var(--navy)}
+.stat span{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+.field input,.field select{width:100%;height:44px;border:1px solid #cbd5e1;border-radius:6px;padding:0 12px;outline:none}
+.field input:read-only{background:#f1f5f9;color:#475569;font-weight:700}
+.note{background:#eef5ff;border-left:4px solid var(--blue);padding:10px 12px;font-size:12px;margin:16px 0}
+.start-btn{width:100%;height:48px;border:0;border-radius:6px;background:var(--navy);color:#fff;font-weight:800;font-size:15px}
+.start-btn:disabled{background:#94a3b8;cursor:not-allowed}
+.navbar{height:58px;min-height:58px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:8px;z-index:20}
+.nav-title{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40vw}
+.nav-btn{height:36px;border:1px solid rgba(255,255,255,.25);background:var(--navy2);color:#fff;border-radius:6px;padding:0 10px;font-weight:800;font-size:12px}
+.timer{height:38px;min-width:96px;padding:0 8px;border:1px solid #467aa7;background:#173b61;border-radius:6px;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:800;font-family:monospace;font-size:18px}
+.timer.warning{background:#7f1d1d}
+.exam-main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 280px;background:#fff}
+.question-pane{min-width:0;min-height:0;display:flex;flex-direction:column;border-right:1px solid var(--border)}
+.q-head{height:58px;min-height:58px;padding:8px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.q-meta{display:flex;align-items:center;gap:10px}.q-badge{background:#eef1f5;border:1px solid #cfd6df;border-radius:6px;padding:6px 10px;font-size:16px;font-weight:800;color:var(--navy)}
+.credit{font-size:11px;color:#718096}
+.time-spent{font:700 13px monospace;color:#667085;border:1px solid var(--border);border-radius:6px;padding:6px 8px;background:#fafbfc}
+.q-scroll{flex:1;min-height:0;overflow:auto;padding:20px;scrollbar-gutter:stable}
+#question-text{font-size:16px;line-height:1.6;margin-bottom:14px;font-weight:600;overflow-wrap:anywhere} .statement-item,.option,.option span,.explanation{overflow-wrap:anywhere} .option>span{flex:1;min-width:0}
+.statement-item{background:#f8fafc;border-left:3px solid var(--blue);padding:8px 12px;margin:6px 0;line-height:1.5;font-size:14px;border-radius:0 4px 4px 0}
+.options{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer}
+.option:hover{border-color:#8eb3dc;background:#f8fbff}
+.option.selected{border-color:#4a86bd;background:#eef6ff}
+.option input{margin-top:2px;accent-color:#2563eb}
+.exam-footer{height:58px;min-height:58px;border-top:1px solid var(--border);display:grid;grid-template-columns:100px 1fr 140px;gap:8px;padding:8px 12px;background:#fff}
+.foot-btn{border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#334155;font-weight:800}
+.foot-btn.review{background:var(--yellow);color:#111827}
+.foot-btn.next{background:var(--navy);color:#fff}
+.sidebar{background:#fff;display:flex;flex-direction:column;min-height:0}
+.palette{flex:1;overflow:auto;padding:12px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-content:start}
+.q-node{height:36px;border:1px solid #cbd5e1;border-radius:4px;background:#fff;font-weight:800;font-size:12px}
+.q-node.answered{background:var(--green);color:#fff;border-color:var(--green)}
+.q-node.unanswered{background:var(--red);color:#fff;border-color:var(--red)}
+.q-node.marked{background:var(--purple);color:#fff;border-color:var(--purple)}
+.q-node.active{outline:3px solid rgba(10,34,64,.35)}
+.solution-mode .q-node.sol-correct{background:var(--green)!important;color:#fff!important;border-color:var(--green)!important}
+.solution-mode .q-node.sol-wrong{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important}
+.solution-mode .q-node.sol-unatt{background:#fff!important;color:#64748b!important;border:1px solid #cbd5e1!important}
+.submit-side{padding:10px;border-top:1px solid var(--border)}
+.submit-btn{height:42px;width:100%;border:0;border-radius:6px;background:#198754;color:#fff;font-weight:800}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.modal-card{width:min(400px,94vw);background:#fff;border-radius:10px;padding:20px}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.modal-actions button{height:40px;border-radius:6px;border:1px solid #cbd5e1;font-weight:800}
+#result{position:absolute;inset:0;background:var(--bg);overflow:auto;z-index:500;padding:20px 14px}
+.result-wrap{width:min(860px,100%);margin:auto}
+.hero{background:linear-gradient(120deg,#0a2240,#214d76);color:#fff;border-radius:10px 10px 0 0;padding:20px;text-align:center}
+.score{font-size:48px;font-weight:900;margin:8px 0}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border:1px solid var(--border);border-top:0}
+.rstat{text-align:center;padding:12px 4px;border-right:1px solid var(--border)}
+.rstat:last-child{border-right:0}
+.rstat b{display:block;font-size:20px}
+.rstat span{font-size:10px;text-transform:uppercase;color:#6b7280;font-weight:800}
+.result-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.result-buttons button{height:44px;border:0;border-radius:6px;color:#fff;font-weight:800;font-size:12px}
+.b-solution{background:#4338ca}.b-copy{background:#475569}.b-reattempt{background:#059669}
+body.solution-mode .option.correct{border-color:var(--green)!important;background:#f0fdf4!important;font-weight:bold}
+body.solution-mode .option.wrong{border-color:var(--red)!important;background:#fef2f2!important;font-weight:bold}
+.explanation{margin-top:16px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;padding:14px}
+.exp-title{font-size:15px;font-weight:800;color:#166534;margin-bottom:6px}
+.analysis-box{margin-top:12px;padding-top:10px;border-top:1px solid #e5e7eb}
+.tag{border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer;margin:3px}
+.tag.selected{border-color:#4338ca;background:#e0e7ff;color:#312e81}
+/* Responsive typography/layout: same design, adapts cleanly from phone to laptop */
+@media (max-width:900px){
+ .exam-main{grid-template-columns:minmax(0,1fr) 250px}
+ .q-scroll{padding:16px}
+ #question-text{font-size:clamp(15px,2.2vw,17px);line-height:1.58}
+ .statement-item{font-size:clamp(13px,1.8vw,14px);line-height:1.52}
+ .option{font-size:clamp(14px,1.8vw,15px);line-height:1.48;padding:11px 12px}
+ .nav-title{max-width:34vw}
+}
+@media(max-width:768px){
+ body{overflow:hidden}
+ #exam{height:100dvh;min-height:100dvh;overflow:hidden}
+ .exam-main{height:calc(100dvh - 58px);min-height:0;overflow:hidden}
+ .question-pane{height:100%;min-height:0}
+ .q-scroll{min-height:0;overflow-y:auto}
+ .intro-wrap{padding:14px 10px}.intro-head{padding:18px 16px}
+ .intro-head h1{font-size:clamp(17px,5vw,22px);line-height:1.25}.intro-head p{font-size:12px}
+ .intro-body{padding:16px}.stats{gap:7px}.stat{padding:10px 5px}
+ .stat strong{font-size:clamp(18px,6vw,22px)}.stat span{font-size:9px}
+ .field label{font-size:12px}.field input,.field select{height:44px;font-size:14px}.start-btn{height:46px;font-size:14px}
+
+ .exam-main{display:block}
+ .question-pane{height:calc(100dvh - 58px)}
+ .navbar{height:58px;min-height:58px;padding:0 8px;gap:5px}
+ .nav-title{font-size:13px;max-width:30vw;flex:1;min-width:0}
+ .nav-btn{height:34px;padding:0 7px;font-size:11px;white-space:nowrap}
+ .timer{height:36px;min-width:78px;font-size:16px;flex-shrink:0}
+
+ .q-head{height:auto;min-height:52px;padding:7px 10px;gap:8px}
+ .q-meta{min-width:0}.q-meta>div:nth-child(2){min-width:0;overflow:hidden}
+ .q-meta strong{font-size:clamp(11px,3.2vw,13px)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .q-badge{font-size:14px;padding:5px 8px;flex-shrink:0}
+ .credit{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .time-spent{font-size:11px;padding:5px 7px;flex-shrink:0}
+
+ .q-scroll{padding:14px 12px 76px}
+ #question-text{font-size:clamp(15px,4.2vw,18px);line-height:1.58;margin-bottom:12px}
+ .statement-item{font-size:clamp(13px,3.5vw,15px);line-height:1.52;padding:8px 10px}
+ .options{gap:8px;margin-top:13px}
+ .option{font-size:clamp(13.5px,3.7vw,15.5px);line-height:1.48;padding:11px 10px;gap:8px}
+ .option input{margin-top:3px;flex-shrink:0}
+
+ .exam-footer{height:58px;min-height:58px;grid-template-columns:1fr 1.35fr 1.35fr 1fr;gap:5px;padding:6px}
+ .foot-btn{font-size:9px;white-space:nowrap;min-width:0;padding:0 3px}
+
+ .sidebar{position:fixed;top:58px;right:0;bottom:0;width:min(85vw,300px);transform:translateX(105%);transition:transform .2s;z-index:90}
+ .sidebar.open{transform:translateX(0)}
+ .palette{grid-template-columns:repeat(5,1fr);gap:7px;padding:10px}.q-node{height:34px;font-size:11px}
+
+ #result{padding:12px 10px}.hero{padding:18px 12px}.score{font-size:clamp(38px,12vw,48px)}
+ .stats-row{grid-template-columns:repeat(2,1fr)}.rstat{border-bottom:1px solid var(--border)}
+ .rstat:nth-child(2n){border-right:0}.rstat b{font-size:18px}
+ .result-buttons{grid-template-columns:1fr;gap:7px}.result-buttons button{height:42px}
+ .modal{padding:12px}.modal-card{width:min(400px,96vw);padding:16px}
+}
+@media(max-width:420px){
+ .intro-wrap{padding:9px 7px}.intro-body{padding:13px}
+ .stats{gap:5px}.stat{padding:9px 3px}.stat strong{font-size:17px}.stat span{font-size:8px}
+ .navbar{gap:3px}.nav-title{max-width:27vw;font-size:12px}
+ .nav-btn{padding:0 5px;font-size:10px}.timer{min-width:68px;font-size:14px}
+ .q-scroll{padding-left:9px;padding-right:9px}
+ #question-text{font-size:clamp(14px,4.5vw,16px);line-height:1.56}
+ .statement-item{font-size:13px;line-height:1.5}
+ .option{font-size:13px;line-height:1.46;padding:10px 8px}
+ .exam-footer{height:58px;min-height:58px;grid-template-columns:1fr 1.35fr 1.35fr 1fr;gap:4px;padding:5px}
+ .foot-btn{font-size:8px;padding:0 2px}
+}
+@media(max-width:340px){
+ .nav-title{display:none}
+ .navbar>div:last-child{width:100%;justify-content:flex-end}
+ .nav-btn{font-size:9px;padding:0 4px}
+ .timer{min-width:64px;font-size:13px}
+ #question-text{font-size:14px}
+ .option{font-size:12.5px}
+}
+@media(pointer:coarse){
+ .option{min-height:46px}
+ .foot-btn,.nav-btn,.q-node,.tag{min-height:34px}
+}
+
+/* Final navigation visibility fix */
+.exam-footer{position:relative;z-index:5;flex-shrink:0}
+@media(max-width:768px){
+  .exam-footer{padding-bottom:max(6px,env(safe-area-inset-bottom))}
+  .q-scroll{padding-bottom:14px}
+  .exam-footer .foot-btn{display:block;visibility:visible;opacity:1}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<section id="intro" class="intro-wrap">
+  <div class="intro-card">
+    <div class="intro-head">
+      <h1>ADVENT OF EUROPEANS IN INDIA - PART 2</h1>
+      <p>Modern History • Part 2 • 25 Questions • Cloud Sync</p>
+    </div>
+    <div class="intro-body">
+      <div class="stats">
+        <div class="stat"><strong>25</strong><span>Questions</span></div>
+        <div class="stat"><strong>15:00</strong><span>Time</span></div>
+        <div class="stat"><strong>Bilingual</strong><span>Format</span></div>
+      </div>
+      <div class="field">
+        <label>Student Name (Real Name Required)</label>
+        <input id="student-name" type="text" placeholder="Apna pura naam likhein..." oninput="checkName()">
+      </div>
+      <div class="field">
+        <label>Negative Marking</label>
+        <select id="negative">
+          <option value="0.5" selected>-0.50 (Standard SSC)</option>
+          <option value="0.25">-0.25</option>
+          <option value="0">No Negative Marking</option>
+        </select>
+      </div>
+      <div class="note"><b>Rule:</b> Bina verified naam ke test start nahi hoga. Submit karte hi scorecard Supabase me save hoga.</div>
+      <button class="start-btn" id="start-btn" onclick="startTest()" disabled>ENTER NAME TO START</button>
+    </div>
+  </div>
+</section>
+
+<section id="exam" class="hidden">
+  <header class="navbar">
+    <div class="nav-title">ADVENT OF EUROPEANS IN INDIA - PART 2</div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button class="nav-btn" onclick="toggleLang()" id="lang-btn">A/अ EN</button>
+      <button class="nav-btn" onclick="toggleSidebar()">☷ Palette</button>
+      <div class="timer" id="timer">15:00</div>
+    </div>
+  </header>
+  <main class="exam-main">
+    <section class="question-pane">
+      <div class="q-head">
+        <div class="q-meta">
+          <div class="q-badge" id="q-no">Q1</div>
+          <div><strong style="font-size:13px">KNOWLEDGE LECTURE-1 MAKING OF CONSTITUTION</strong><div class="credit" id="stu-tag">Student</div></div>
+        </div>
+        <div class="time-spent" id="q-timer">0s</div>
+      </div>
+      <div class="q-scroll">
+        <div id="question-text"></div>
+        <div id="statements-box"></div>
+        <div class="options" id="options"></div>
+        <div id="solution-box"></div>
+      </div>
+      <div class="exam-footer" id="exam-footer">
+        <button class="foot-btn" onclick="prevQ()">‹ PREV</button>
+        <button class="foot-btn review" onclick="markReview()">MARK & NEXT</button>
+        <button class="foot-btn next" onclick="saveNext()">SAVE & NEXT ›</button>
+        <button class="foot-btn" style="background:#198754;color:#fff;border-color:#198754" onclick="openSubmitModal()">SUBMIT</button>
+      </div>
+      <div class="exam-footer hidden" id="sol-footer">
+        <button class="foot-btn" onclick="solPrev()">‹ PREV</button>
+        <button class="foot-btn next" onclick="solNext()" id="sol-next-btn">NEXT ›</button>
+      </div>
+    </section>
+    <aside class="sidebar" id="sidebar">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-weight:800;font-size:13px">Question Palette</div>
+      <div class="palette" id="palette"></div>
+      <div class="submit-side"><button class="submit-btn" onclick="openSubmitModal()">SUBMIT TEST</button></div>
+    </aside>
+  </main>
+</section>
+
+<section id="result" class="hidden">
+  <div class="result-wrap">
+    <div class="hero">
+      <small>OVERALL SCORE</small>
+      <div class="score" id="r-score">0.00</div>
+      <div id="r-status" style="font-size:13px">Completed ✓</div>
+    </div>
+    <div class="stats-row">
+      <div class="rstat"><b id="r-att">0</b><span>Attempted</span></div>
+      <div class="rstat"><b id="r-cor">0</b><span>Correct</span></div>
+      <div class="rstat"><b id="r-wro">0</b><span>Incorrect</span></div>
+      <div class="rstat"><b id="r-acc">0%</b><span>Accuracy</span></div>
+      <div class="rstat"><b id="r-time">0:00</b><span>Time</span></div>
+    </div>
+    <div class="result-buttons">
+      <button class="b-solution" onclick="startAudit()">▣ AUDIT & SOLUTIONS</button>
+      <button class="b-copy" onclick="copyMistakes()">📋 COPY MISTAKES</button>
+      <button class="b-reattempt" onclick="reattempt()">↻ RE-ATTEMPT</button>
+    </div>
+    <div id="final-report-card" class="hidden" style="margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px">
+      <h3 style="margin:0 0 10px;color:var(--navy);font-size:15px">DIAGNOSTIC AUDIT REPORT</h3>
+      <div id="report-details" style="font-size:13px;line-height:1.6"></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="modal" id="modal-submit">
+  <div class="modal-card">
+    <h3 style="margin:0 0 8px;font-size:16px">Confirm Submit</h3>
+    <div style="font-size:13px;color:#475569" id="modal-submit-msg">Kya aap test submit karna chahte hain?</div>
+    <div class="modal-actions">
+      <button onclick="closeModal('modal-submit')">Cancel</button>
+      <button style="background:var(--navy);color:#fff" onclick="submitExam()">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://nzahaumcnbqtcxqiumlm.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56YWhhdW1jbmJxdGN4cWl1bWxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYxNzE3MjgsImV4cCI6MjEwMTc0NzcyOH0.h1ixAdxtDfDQTDIBM6x_XSOJKKs-lECED6CwqmcFoEo";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const QUESTIONS = [{"id":26,"q":{"en":"Among the Europeans who came to India, the Portuguese were the first to arrive and the last to leave. In which year was Goa liberated from Portuguese control by the Indian armed forces?","hi":"भारत आने वाले यूरोपीय में पुर्तगाली सबसे पहले आए और सबसे अंत में गए। भारतीय सेना द्वारा किस वर्ष गोवा को पुर्तगाली नियंत्रण से मुक्त कराया गया था?"},"st":null,"opts":{"en":["1947","1950","1954","1961"],"hi":["1947","1950","1954","1961"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: पुर्तगाली 1498 ई. में भारत आने वाले पहले यूरोपीय थे और 1961 ई. में भारत छोड़ने वाले अंतिम यूरोपीय बने[cite: 177, 178]। भारतीय सेना ने दिसंबर 1961 में &#x27;ऑपरेशन विजय&#x27; चलाकर गोवा, दमन और दीव को 451 वर्षों के पुर्तगाली औपनिवेशिक शासन से मुक्त कराया। 12वें संविधान संशोधन अधिनियम 1962 द्वारा इन्हें भारत का केंद्र शासित प्रदेश बनाया गया तथा 1987 में गोवा को पूर्ण राज्य का दर्जा मिला।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) 1947: 15 अगस्त 1947 को भारत ब्रिटिश शासन से स्वतंत्र हुआ था, किंतु गोवा, दमन और दीव पुर्तगाल के अधीन तथा पांडिचेरी व चंद्रनगर फ्रांस के अधीन बने रहे।<br>- (b) 1950: 26 जनवरी 1950 को भारत का संविधान लागू हुआ और भारत एक संप्रभु लोकतांत्रिक गणराज्य बना।<br>- (c) 1954: फ्रांसीसी सरकार ने एक समझौते के तहत पांडिचेरी, कराईकल, माहे और यानम का वास्तविक प्रशासन भारत सरकार को सौंपा था।"},{"id":27,"q":{"en":"Which prominent ruler of the Vijayanagara Empire granted permission to Portuguese Governor Afonso de Albuquerque to construct a fort at Bhatkal?","hi":"विजयनगर साम्राज्य के किस प्रतापी शासक ने पुर्तगाली गवर्नर अफोंसो डी अल्बुकर्क को भटकल में एक दुर्ग (किले) के निर्माण की अनुमति दी थी?"},"st":null,"opts":{"en":["Deva Raya II","Krishnadevaraya","Achyuta Deva Raya","Rama Raya"],"hi":["देवराय द्वितीय","कृष्णदेवराय","अच्युत देवराय","रामराय"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: विजयनगर साम्राज्य के तुलुव वंश के महान शासक सम्राट कृष्णदेवराय (1509-1529) ने पुर्तगाली गवर्नर अफोंसो डी अल्बुकर्क के साथ मैत्रीपूर्ण कूटनीतिक संबंध स्थापित किए थे[cite: 178]। कृष्णदेवराय ने पुर्तगालियों को भटकल (कर्नाटक तट) में एक व्यापारिक किला बनाने की अनुमति दी थी, क्योंकि विजयनगर को अपनी सेना के लिए अरब और मध्य एशिया से उच्च नस्ल के घोड़ों की निरंतर आपूर्ति के लिए पुर्तगाली नौसेना के सहयोग की आवश्यकता थी[cite: 178]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) देवराय द्वितीय: संगम वंश के सबसे प्रतापी राजा थे (1422-1446), जिनके शासनकाल में फारसी यात्री अब्दुर रज्जाक ने विजयनगर की यात्रा की थी।<br>- (c) अच्युत देवराय: कृष्णदेवराय के अनुज और उत्तराधिकारी थे (1529-1542), जिनके काल में पुर्तगाली यात्री फर्नाओ नूनीज विजयनगर आया था।<br>- (d) रामराय: विजयनगर के अराविदु वंश के वास्तविक संचालक थे, जिनके नेतृत्व में 1565 में तालीकोटा (राक्षस-तांगड़ी) का विनाशकारी युद्ध लड़ा गया था।"},{"id":28,"q":{"en":"Which ruler of Gujarat surrendered Diu to the Portuguese in 1535 AD by permitting them to build a factory and fort?","hi":"गुजरात के किस शासक ने 1535 ई. में पुर्तगालियों को दीव में कारखाना और किला बनाने की अनुमति देकर दीव समर्पित कर दिया था?"},"st":null,"opts":{"en":["Mahmud Begada","Muzaffar Shah II","Bahadur Shah","Ahmad Shah I"],"hi":["महमूद बेगड़ा","मुज़फ़्फ़र शाह द्वितीय","बहादुर शाह","अहमद शाह प्रथम"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: गुजरात के सुल्तान बहादुर शाह ने मुगल बादशाह हुमायूँ के आक्रमण से घबराकर 1535 ई. में पुर्तगाली गवर्नर नूनो दा कुन्हा के साथ एक रक्षात्मक संधि की और दीव में पुर्तगालियों को सैन्य दुर्ग बनाने की अनुमति दे दी[cite: 178]। बाद में जब हुमायूँ वापस लौट गया और बहादुर शाह ने दीव वापस लेने का प्रयास किया, तो 1537 ई. में पुर्तगालियों ने बातचीत के बहाने जहाज़ी बेड़े पर बुलाकर धोखे से उसकी हत्या कर दी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) महमूद बेगड़ा: गुजरात का सबसे शक्तिशाली सुल्तान था, जिसने गिरनार और चंपानेर के दो मजबूत किले जीते थे और 1508 के चौल के नौसैनिक युद्ध में मिस्र के साथ मिलकर पुर्तगालियों को हराया था।<br>- (b) मुज़फ़्फ़र शाह द्वितीय: बहादुर शाह के पिता थे, जो अपनी धार्मिक सहिष्णुता और मालवा के सुल्तान महमूद खिलजी द्वितीय की सहायता के लिए जाने जाते थे।<br>- (d) अहमद शाह प्रथम: इसने 1411 ई. में साबरमती नदी के तट पर अहमदाबाद शहर की स्थापना की थी और पाटन से राजधानी स्थानांतरित की थी।"},{"id":29,"q":{"en":"Who was the Englishman who arrived at Jahangir's court in 1615 AD as the official ambassador of King James I and secured commercial farmans?","hi":"1615 ई. में इंग्लैंड के राजा जेम्स प्रथम के आधिकारिक राजदूत के रूप में जहाँगीर के दरबार में पहुँचकर व्यापारिक फरमान प्राप्त करने वाला अंग्रेज़ कौन था?"},"st":null,"opts":{"en":["Captain William Hawkins","Sir Thomas Roe","John Surman","Ralph Fitch"],"hi":["कैप्टन विलियम हॉकिन्स","सर थॉमस रो","जॉन सरमन","राल्फ फिच"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: सर थॉमस रो सितंबर 1615 में &#x27;हेक्टर&#x27; नामक अंग्रेज़ी जहाज़ से सूरत पहुँचा और जनवरी 1616 में अजमेर में मुगल सम्राट जहाँगीर के दरबार में उपस्थित हुआ[cite: 179]। वह 1619 तक भारत में रहा और अपनी कुशल कूटनीति से संपूर्ण मुगल साम्राज्य में कारखाने स्थापित करने तथा व्यापारिक सुरक्षा प्राप्त करने के शाही फरमान हासिल करने में सफल रहा[cite: 179]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) कैप्टन विलियम हॉकिन्स: 1608 में जेम्स प्रथम का पत्र लेकर आया था, किंतु पुर्तगालियों के षड्यंत्रों के कारण स्थायी व्यापारिक अधिकार प्राप्त करने में असफल रहा था[cite: 179]।<br>- (c) जॉन सरमन: इसने 1715-1717 में मुगल सम्राट फ़र्रूख़सियर के दरबार में प्रतिनिधिमंडल का नेतृत्व किया था, जिससे 1717 का सुनहरा फरमान मिला था[cite: 181]।<br>- (d) राल्फ फिच: यह अकबर के शासनकाल (1583-1591) में भारत आने वाला पहला अंग्रेज़ यात्री था, जिसने फतेहपुर सीकरी और आगरा का वर्णन किया था।"},{"id":30,"q":{"en":"In which year was the famous 'Battle of St. Thome' (Battle of Adyar) fought during the First Carnatic War (1744-1748)?","hi":"प्रथम कर्नाटक युद्ध (1744-1748) के दौरान लड़ा गया प्रसिद्ध 'सेंट थोमे का युद्ध' (अड्यार का युद्ध) किस वर्ष हुआ था?"},"st":null,"opts":{"en":["1744","1746","1748","1749"],"hi":["1744","1746","1748","1749"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: सेंट थोमे (अड्यार) का युद्ध 1746 ई. में तमिलनाडु की अड्यार नदी के तट पर लड़ा गया था[cite: 180]। यह युद्ध फ्रांसीसी सेना (जिसका नेतृत्व कैप्टन पैराडाइज कर रहे थे) और कर्नाटक के नवाब अनवरुद्दीन की विशाल सेना (जिसका नेतृत्व महफूज़ ख़ान कर रहा था) के बीच हुआ[cite: 180]। मात्र 1,000 की अनुशासित फ्रांसीसी सेना ने नवाब की 10,000 की सेना को पराजित कर दिया। इसने भारतीय शासकों पर यूरोपीय सैन्य श्रेष्ठता को पहली बार उजागर किया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) 1744: इस वर्ष यूरोप में ऑस्ट्रियाई उत्तराधिकार युद्ध की घोषणा के साथ भारत में प्रथम कर्नाटक युद्ध की शुरुआत हुई थी[cite: 180]।<br>- (c) 1748: इस वर्ष ऐक्स-ला-शापेल की संधि के साथ प्रथम कर्नाटक युद्ध समाप्त हुआ था[cite: 180]।<br>- (d) 1749: इस वर्ष प्रसिद्ध &#x27;अंबूर का युद्ध&#x27; लड़ा गया, जिसने द्वितीय कर्नाटक युद्ध की शुरुआत की[cite: 180]।"},{"id":31,"q":{"en":"The Second Carnatic War (1749-1754) began with which of the following major battles?","hi":"द्वितीय कर्नाटक युद्ध (1749-1754) का प्रारंभ निम्नलिखित में से किस मुख्य युद्ध के साथ हुआ था?"},"st":null,"opts":{"en":["Battle of Adyar","Battle of Ambur","Battle of Wandiwash","Battle of Porto Novo"],"hi":["अड्यार का युद्ध","अंबूर का युद्ध","वांडीवाश का युद्ध","पोर्टो नोवो का युद्ध"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: द्वितीय कर्नाटक युद्ध की शुरुआत 3 अगस्त 1749 को लड़े गए &#x27;अंबूर के युद्ध&#x27; से हुई[cite: 180]। यह युद्ध हैदराबाद के निज़ाम-उल-मुल्क की मृत्यु के बाद उत्पन्न उत्तराधिकार संघर्ष और कर्नाटक के नवाब पद के विवाद के कारण हुआ[cite: 180]। इस युद्ध में फ्रांसीसियों, मुज़फ़्फ़र जंग और चंदा साहिब की संयुक्त सेना ने कर्नाटक के नवाब अनवरुद्दीन को पराजित कर मार डाला[cite: 180]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) अड्यार का युद्ध: यह 1746 में प्रथम कर्नाटक युद्ध का मुख्य युद्ध था[cite: 180]।<br>- (c) वांडीवाश का युद्ध: यह 1760 में तृतीय कर्नाटक युद्ध का निर्णायक युद्ध था[cite: 180]।<br>- (d) पोर्टो नोवो का युद्ध: यह 1781 में द्वितीय आंग्ल-मैसूर युद्ध के दौरान हैदर अली और सर आयर कूट के बीच लड़ा गया था[cite: 183]।"},{"id":32,"q":{"en":"In the Battle of Ambur in 1749 AD, whom did French Governor Dupleix support for the throne of Hyderabad?","hi":"1749 ई. के अंबूर के युद्ध में हैदराबाद की गद्दी के लिए फ्रांसीसी गवर्नर डुप्ले ने किसका समर्थन किया था?"},"st":null,"opts":{"en":["Nasir Jung","Muzaffar Jung","Salabat Jung","Anwaruddin"],"hi":["नासिर जंग","मुज़फ़्फ़र जंग","सलाबत जंग","अनवरुद्दीन"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: हैदराबाद के निज़ाम आसफ़ जाह की मृत्यु के बाद उसके बेटे नासिर जंग और पोते मुज़फ़्फ़र जंग के बीच उत्तराधिकार संघर्ष हुआ[cite: 180]। फ्रांसीसी गवर्नर डुप्ले ने मुज़फ़्फ़र जंग (हैदराबाद) और चंदा साहिब (कर्नाटक) का समर्थन किया, जबकि अंग्रेजों ने नासिर जंग और अनवरुद्दीन का साथ दिया[cite: 180]। अंबूर के युद्ध में फ्रांसीसी समर्थित गुट विजयी रहा[cite: 180]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) नासिर जंग: यह निज़ाम का पुत्र था, जिसे ईस्ट इंडिया कंपनी (ब्रिटिश) का समर्थन प्राप्त था[cite: 180]।<br>- (c) सलाबत जंग: नासिर जंग और मुज़फ़्फ़र जंग की हत्या के बाद फ्रांसीसी सेनापति बुस्सी ने 1751 में सलाबत जंग को हैदराबाद का नया निज़ाम बनाया था।<br>- (d) अनवरुद्दीन: यह कर्नाटक का तत्कालीन नवाब था, जो अंग्रेजों का मित्र था और अंबूर के युद्ध में मारा गया था।"},{"id":33,"q":{"en":"Who ruled as the first independent Nawab of Bengal from 1717 to 1727 AD?","hi":"1717 से 1727 ई. तक बंगाल के पहले स्वतंत्र नवाब के रूप में किसने शासन किया था?"},"st":null,"opts":{"en":["Shuja-ud-Din","Murshid Quli Khan","Alivardi Khan","Sarfaraz Khan"],"hi":["शुजा-उद-दीन","मुर्शिद कुली ख़ान","अलीवर्दी ख़ान","सरफ़राज़ ख़ान"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: मुर्शिद कुली ख़ान 1717 ई. में मुगल सम्राट फ़र्रूख़सियर द्वारा बंगाल का सूबेदार नियुक्त किया गया और उसने बंगाल में वस्तुतः स्वतंत्र नवाबियत की नींव रखी[cite: 181]। उसने 1704 में राजधानी को ढाका से मकसूदाबाद स्थानांतरित किया, जिसका नाम बदलकर मुर्शिदाबाद रखा गया। उसने भू-राजस्व में &#x27;इजारादारी प्रणाली&#x27; (ठेकेदारी व्यवस्था) और &#x27;तकावी ऋण&#x27; की शुरुआत की थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) शुजा-उद-दीन: मुर्शिद कुली ख़ान का दामाद था, जिसने 1727 से 1739 तक बंगाल पर शासन किया[cite: 181]।<br>- (c) अलीवर्दी ख़ान: इसने 1740 के गिरिया के युद्ध में सरफ़राज़ ख़ान को मारकर गद्दी हथियाई और 1756 तक शासन किया[cite: 181]। इसने अंग्रेजों और फ्रांसीसियों की तुलना &#x27;मधुमक्खियों के छत्ते&#x27; से की थी।<br>- (d) सरफ़राज़ ख़ान: शुजा-उद-दीन का पुत्र था, जिसने 1739-1740 तक संक्षिप्त समय के लिए शासन किया।"},{"id":34,"q":{"en":"After the death of Nawab Alivardi Khan in 1756 AD, who ascended the throne of Bengal at the age of just 23?","hi":"1756 ई. में नवाब अलीवर्दी ख़ान की मृत्यु के बाद मात्र 23 वर्ष की आयु में बंगाल की गद्दी पर कौन बैठा था?"},"st":null,"opts":{"en":["Mir Jafar","Shaukat Jung","Siraj-ud-Daulah","Mir Qasim"],"hi":["मीर जाफ़र","शौकत जंग","सिराज-उद-दौला","मीर क़ासिम"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: अलीवर्दी ख़ान का कोई पुत्र नहीं था, इसलिए उसने अपनी सबसे छोटी बेटी के पुत्र &#x27;सिराज-उद-दौला&#x27; को अपना उत्तराधिकारी चुना था[cite: 181]। अलीवर्दी ख़ान की मृत्यु के बाद 1756 ई. में सिराज-उद-दौला 23 वर्ष की आयु में बंगाल का नवाब बना[cite: 181]। वह बंगाल का अंतिम स्वतंत्र नवाब साबित हुआ[cite: 181]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) मीर जाफ़र: अलीवर्दी ख़ान का बहनोई और नवाब की सेना का मीर बख्शी (प्रधान सेनापति) था, जिसने प्लासी के युद्ध में सिराज के साथ विश्वासघात किया[cite: 182]।<br>- (b) शौकत जंग: सिराज-उद-दौला की मौसी का बेटा और पूर्णिया का शासक था, जिसने नवाब बनने की दावेदारी की और 1756 में मनिहारी के युद्ध में सिराज द्वारा मारा गया।<br>- (d) मीर क़ासिम: मीर जाफ़र का दामाद था, जिसे अंग्रेजों ने 1760 में मीर जाफ़र को हटाकर बंगाल की गद्दी पर बैठाया था[cite: 182]।"},{"id":35,"q":{"en":"Which treaty signed between Siraj-ud-Daulah and Robert Clive in February 1757 paved the background for the Battle of Plassey?","hi":"फरवरी 1757 में सिराज-उद-दौला और रॉबर्ट क्लाइव के बीच हस्ताक्षरित किस संधि ने प्लासी के युद्ध की पृष्ठभूमि तैयार की थी?"},"st":null,"opts":{"en":["Treaty of Purandar","Treaty of Alinagar","Treaty of Allahabad","Treaty of Calcutta"],"hi":["पुरंदर की संधि","अलीनगर की संधि","इलाहाबाद की संधि","कलकत्ता की संधि"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: जब रॉबर्ट क्लाइव और एडमिरल वॉटसन ने कलकत्ता पर पुनः अधिकार कर लिया, तो विवश होकर सिराज-उद-दौला को 9 फरवरी 1757 को &#x27;अलीनगर की संधि&#x27; पर हस्ताक्षर करने पड़े (सिराज ने कलकत्ता का नाम अलीनगर रखा था)[cite: 181]। इस संधि द्वारा अंग्रेजों को अपने पूर्व विशेषाधिकार, कलकत्ता की किलेबंदी करने और अपने सिक्के ढालने की छूट मिल गई[cite: 181]। बाद में अंग्रेजों द्वारा फ्रांसीसी बस्ती चंद्रनगर पर हमला करने पर इस संधि की शर्तों का उल्लंघन हुआ, जो प्लासी के युद्ध का प्रत्यक्ष कारण बना[cite: 181]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) पुरंदर की संधि: 1665 में जयसिंह और शिवाजी तथा 1776 में अंग्रेजों और मराठों के बीच हस्ताक्षरित हुई थी।<br>- (c) इलाहाबाद की संधि: बक्सर के युद्ध के बाद अगस्त 1765 में क्लाइव, शाह आलम द्वितीय और शुजा-उद-दौला के मध्य हुई थी[cite: 182]।<br>- (d) कलकत्ता की संधि: इतिहास में इस नाम की कोई आधिकारिक मानक संधि नहीं है; इसे आधिकारिक रूप से &#x27;अलीनगर की संधि&#x27; कहा जाता है[cite: 181]।"},{"id":36,"q":{"en":"Who was the Mughal Emperor of Delhi when the Battle of Plassey was fought on 23 June 1757?","hi":"23 जून 1757 को जब प्लासी का युद्ध लड़ा गया, उस समय दिल्ली का मुगल सम्राट कौन था?"},"st":null,"opts":{"en":["Muhammad Shah","Ahmad Shah","Alamgir II","Shah Alam II"],"hi":["मुहम्मद शाह","अहमद शाह","आलमगीर द्वितीय","शाह आलम द्वितीय"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: प्लासी के युद्ध (1757) के समय मुगल साम्राज्य की गद्दी पर &#x27;आलमगीर द्वितीय&#x27; (अजीजुद्दीन, 1754-1759) आसीन था[cite: 182]। उसका वज़ीर इमाद-उल-मुल्क था, जिसने 1759 में आलमगीर द्वितीय की हत्या करवा दी थी।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) मुहम्मद शाह: इसका शासनकाल 1719-1748 तक था; इसके समय नादिर शाह का आक्रमण (1739) और प्रथम कर्नाटक युद्ध हुआ था।<br>- (b) अहमद शाह: मुहम्मद शाह का उत्तराधिकारी (1748-1754); इसके काल में अहमद शाह अब्दाली के प्रारंभिक हमले हुए थे।<br>- (d) शाह आलम द्वितीय: इसका शासनकाल 1759-1806 तक था; इसके समय पानीपत का तृतीय युद्ध (1761) और बक्सर का युद्ध (1764) हुआ था[cite: 182]।"},{"id":37,"q":{"en":"Under the Second Treaty of Allahabad in August 1765, how much annual tribute did the East India Company agree to pay to Mughal Emperor Shah Alam II?","hi":"अगस्त 1765 की इलाहाबाद की दूसरी संधि के तहत ईस्ट इंडिया कंपनी ने मुगल सम्राट शाह आलम द्वितीय को कितना वार्षिक भुगतान देना तय किया था?"},"st":null,"opts":{"en":["50 Lakh Rupees","53 Lakh Rupees","26 Lakh Rupees","12 Lakh Rupees"],"hi":["50 लाख रुपये","53 लाख रुपये","26 लाख रुपये","12 लाख रुपये"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: 16 अगस्त 1765 को रॉबर्ट क्लाइव और मुगल सम्राट शाह आलम द्वितीय के बीच इलाहाबाद की दूसरी संधि हुई[cite: 182]। इसके तहत सम्राट ने कंपनी को बंगाल, बिहार और उड़ीसा की &#x27;दीवानी&#x27; (राजस्व वसूली का अधिकार) प्रदान की, जिसके बदले कंपनी ने सम्राट को प्रतिवर्ष 26 लाख रुपये की पेंशन देना स्वीकार किया[cite: 182]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) 50 लाख रुपये: यह युद्ध क्षतिपूर्ति की वह राशि थी जो इलाहाबाद की पहली संधि के तहत अवध के नवाब शुजा-उद-दौला को अंग्रेजों को देनी पड़ी थी[cite: 182]।<br>- (b) 53 लाख रुपये: बंगाल में शांति व्यवस्था, पुलिस और न्याय (निज़ामत कार्यों) के संचालन के लिए कंपनी को सम्राट द्वारा स्वीकृत राशि 53 लाख रुपये थी[cite: 183]।<br>- (d) 12 लाख रुपये: इस राशि का कोई ऐतिहासिक संदर्भ इलाहाबाद संधि से नहीं है।"},{"id":38,"q":{"en":"Who was the Nawab of Awadh who shifted the capital from Faizabad to Lucknow and built the famous 'Bara Imambara' (1784) in Lucknow?","hi":"अवध की राजधानी फैजाबाद से लखनऊ स्थानांतरित करने तथा लखनऊ में प्रसिद्ध 'बड़ा इमामबाड़ा' (1784) का निर्माण कराने वाले नवाब कौन थे?"},"st":null,"opts":{"en":["Saadat Khan Burhan-ul-Mulk","Safdarjung","Shuja-ud-Daulah","Asaf-ud-Daulah"],"hi":["सआदत ख़ान बुरहान-उल-मुल्क","सफ़दरजंग","शुजा-उद-दौला","आसफ़-उद-दौला"]},"ans":3,"exp":"• सही उत्तर की व्याख्या: अवध के चौथे नवाब आसफ़-उद-दौला (1775-1797) ने 1775 ई. में अपनी राजधानी फैजाबाद से लखनऊ स्थानांतरित की थी[cite: 182]। उसने 1784 के भीषण अकाल के दौरान जनता को रोज़गार प्रदान करने के उद्देश्य से लखनऊ में ऐतिहासिक &#x27;बड़ा इमामबाड़ा&#x27; और &#x27;रूमी दरवाज़ा&#x27; का निर्माण करवाया था[cite: 182]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) सआदत ख़ान बुरहान-उल-मुल्क: इसने 1722 ई. में अवध के स्वायत्त राज्य की स्थापना की थी[cite: 182]।<br>- (b) सफ़दरजंग: सआदत ख़ान का भतीजा और दामाद था, जिसे 1748 में मुगल साम्राज्य का वज़ीर नियुक्त किया गया था।<br>- (c) शुजा-उद-दौला: सफ़दरजंग का पुत्र था, जिसने पानीपत के तीसरे युद्ध (1761) और बक्सर के युद्ध (1764) में भाग लिया था[cite: 182]।"},{"id":39,"q":{"en":"Which British General defeated Hyder Ali in the 'Battle of Porto Novo' in 1781 AD during the Second Anglo-Mysore War?","hi":"द्वितीय आंग्ल-मैसूर युद्ध के दौरान 1781 ई. में 'पोर्टो नोवो के युद्ध' में किस ब्रिटिश सेनापति ने हैदर अली को पराजित किया था?"},"st":null,"opts":{"en":["Lord Cornwallis","Sir Eyre Coote","Colonel Baillie","General Harris"],"hi":["लॉर्ड कॉर्नवालिस","सर आयर कूट","कर्नल बेली","जनरल हैरिस"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: द्वितीय आंग्ल-मैसूर युद्ध (1780-1784) में हैदर अली ने प्रारंभ में अंग्रेजों को भारी क्षति पहुँचाई और कर्नल बेली की सेना को पराजित किया[cite: 183]। किंतु 1 जुलाई 1781 को &#x27;पोर्टो नोवो&#x27; (परंगिपेट्टई) के युद्ध में ब्रिटिश कमांडर &#x27;सर आयर कूट&#x27; ने हैदर अली को परास्त कर मद्रास को सुरक्षित किया[cite: 183]। इसके बाद 1782 में कैंसर के कारण हैदर अली की मृत्यु हो गई[cite: 183]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) लॉर्ड कॉर्नवालिस: इसने तृतीय आंग्ल-मैसूर युद्ध (1790-1792) में व्यक्तिगत रूप से ब्रिटिश सेना की कमान संभाली थी[cite: 183]।<br>- (c) कर्नल बेली: यह 1780 में पोल्लिलूर के युद्ध में हैदर अली और टीपू सुल्तान द्वारा बंदी बना लिया गया था।<br>- (d) जनरल हैरिस: इसने चतुर्थ आंग्ल-मैसूर युद्ध (1799) में ब्रिटिश सेना का नेतृत्व किया था, जिसमें टीपू सुल्तान वीरगति को प्राप्त हुए थे[cite: 184]।"},{"id":40,"q":{"en":"Which treaty signed in 1784 AD between Tipu Sultan and Madras Governor Lord Macartney ended the Second Anglo-Mysore War?","hi":"1784 ई. में टीपू सुल्तान और मद्रास के अंग्रेज़ गवर्नर लॉर्ड मैकार्टनी के बीच हस्ताक्षरित किस संधि ने द्वितीय आंग्ल-मैसूर युद्ध को समाप्त किया?"},"st":null,"opts":{"en":["Treaty of Madras","Treaty of Mangalore","Treaty of Srirangapatna","Treaty of Salbai"],"hi":["मद्रास की संधि","मैंगलोर की संधि","श्रीरंगपट्टनम की संधि","सालबाई की संधि"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: हैदर अली की मृत्यु के बाद टीपू सुल्तान ने युद्ध जारी रखा और 1783 में ब्रिगेडियर मैथ्यूज को बंदी बनाकर बिदनूर और मैंगलोर पर अधिकार कर लिया। दोनों पक्षों के युद्ध से थक जाने के बाद मार्च 1784 में &#x27;मैंगलोर की संधि&#x27; पर हस्ताक्षर किए गए[cite: 183]। दोनों पक्षों ने एक-दूसरे के जीते हुए प्रदेश और युद्धबंदियों को वापस लौटा दिया[cite: 183]। वॉरेन हेस्टिंग्स इस संधि की शर्तों से असंतुष्ट था।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) मद्रास की संधि: 1769 ई. में प्रथम आंग्ल-मैसूर युद्ध को समाप्त करने के लिए हुई थी[cite: 183]।<br>- (c) श्रीरंगपट्टनम की संधि: 1792 ई. में तृतीय आंग्ल-मैसूर युद्ध के अंत में टीपू सुल्तान और कॉर्नवालिस के बीच हुई थी[cite: 184]।<br>- (d) सालबाई की संधि: 1782 ई. में प्रथम आंग्ल-मराठा युद्ध को समाप्त करने के लिए महादजी सिंधिया की मध्यस्थता से हुई थी।"},{"id":41,"q":{"en":"Which Indian ruler, inspired by the ideals of the French Revolution, planted the 'Tree of Liberty' in his capital Srirangapatna and joined the 'Jacobin Club'?","hi":"फ्रांसीसी क्रांति के आदर्शों से प्रेरित होकर अपनी राजधानी श्रीरंगपट्टनम में 'स्वतंत्रता का वृक्ष' लगाने और 'जैकोबिन क्लब' की सदस्यता लेने वाला भारतीय शासक कौन था?"},"st":null,"opts":{"en":["Hyder Ali","Tipu Sultan","Baji Rao II","Nawab Wajid Ali Shah"],"hi":["हैदर अली","टीपू सुल्तान","बाजीराव द्वितीय","नवाब वाजिद अली शाह"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: टीपू सुल्तान आधुनिक विचारों का समर्थक था[cite: 184]। वह 1789 की फ्रांसीसी क्रांति से अत्यधिक प्रभावित था[cite: 184]। उसने श्रीरंगपट्टनम में फ्रांसीसी सैनिकों के साथ मिलकर &#x27;जैकोबिन क्लब&#x27; की स्थापना की, स्वयं को &#x27;नागरिक टीपू&#x27; (Citizen Tipu) कहलवाया और अपनी राजधानी में &#x27;स्वतंत्रता का वृक्ष&#x27; (Tree of Liberty) लगाया[cite: 184]। उसने अंग्रेजों के विरुद्ध सहायता के लिए नेपोलियन बोनापार्ट और तुर्की के खलीफा से भी पत्राचार किया था[cite: 184]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) हैदर अली: टीपू सुल्तान के पिता थे, जिन्होंने डिंडीगुल में फ्रांसीसियों की मदद से एक आधुनिक तोपखाना स्थापित किया था।<br>- (c) बाजीराव द्वितीय: अंतिम मराठा पेशवा थे, जिन्होंने 1802 में अंग्रेजों के साथ बेसिन की सहायक संधि स्वीकार की थी[cite: 185]।<br>- (d) नवाब वाजिद अली शाह: अवध के अंतिम नवाब थे, जिन्हें 1856 में लॉर्ड डलहौजी ने कुशासन का आरोप लगाकर अपदस्थ कर दिया था।"},{"id":42,"q":{"en":"By the 'Treaty of Amritsar' signed in 1809 AD between Maharaja Ranjit Singh and the British (Charles Metcalfe), which river was recognized as the boundary between the two states?","hi":"1809 ई. में महाराजा रणजीत सिंह और ब्रिटिश ईस्ट इंडिया कंपनी (चार्ल्स मेटकाफ) के बीच हस्ताक्षरित 'अमृतसर की संधि' द्वारा किस नदी को दोनों राज्यों की सीमा माना गया था?"},"st":null,"opts":{"en":["Ravi River","Jhelum River","Sutlej River","Beas River"],"hi":["रावी नदी","झेलम नदी","सतलज नदी","व्यास नदी"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: 25 अप्रैल 1809 को अमृतसर की संधि पर महाराजा रणजीत सिंह और ब्रिटिश प्रतिनिधि चार्ल्स मेटकाफ (गवर्नर-जनरल लॉर्ड मिंटो प्रथम के समय) ने हस्ताक्षर किए[cite: 185]। इस संधि द्वारा &#x27;सतलज नदी&#x27; को सिख साम्राज्य और ब्रिटिश भारत के बीच की सीमा रेखा स्वीकार कर लिया गया[cite: 185]। इसके तहत रणजीत सिंह ने सतलज पार के सिख राज्यों (पटियाला, नाभा, जींद आदि) पर अपने विस्तारवादी दावों को छोड़ दिया।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) रावी नदी: इसके तट पर लाहौर स्थित था, जिसे रणजीत सिंह ने 1799 में जीतकर अपनी राजनीतिक राजधानी बनाया था।<br>- (b) झेलम नदी: इसके पास 1849 में द्वितीय आंग्ल-सिख युद्ध के दौरान प्रसिद्ध &#x27;चिलियानवाला का युद्ध&#x27; लड़ा गया था।<br>- (d) व्यास नदी: यह सतलज की प्रमुख सहायक नदी है और पंजाब के दोआब क्षेत्र का निर्माण करती है।"},{"id":43,"q":{"en":"Following the First Anglo-Sikh War, under which treaty in 1846 AD did the British transfer Kashmir to Raja Gulab Singh for 75 lakh rupees?","hi":"प्रथम आंग्ल-सिख युद्ध के उपरांत 1846 ई. में किस संधि के तहत अंग्रेजों ने कश्मीर का भूभाग राजा गुलाब सिंह को 75 लाख रुपये में बेच दिया था?"},"st":null,"opts":{"en":["Treaty of Lahore","Treaty of Amritsar","Treaty of Bhairowal","Treaty of Peshawar"],"hi":["लाहौर की संधि","अमृतसर की संधि","भैरोवाल की संधि","पेशावर की संधि"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: 16 मार्च 1846 को हस्ताक्षरित &#x27;अमृतसर की संधि&#x27; के तहत अंग्रेजों ने लाहौर दरबार पर लगाए गए 1 करोड़ के युद्ध हर्जाने में से 75 लाख रुपये न चुका पाने के बदले, कश्मीर और हजारा का पहाड़ी क्षेत्र जम्मू के डोगरा राजा &#x27;गुलाब सिंह&#x27; को 75 लाख रुपये में सौंप दिया[cite: 185]। इसी संधि के माध्यम से जम्मू और कश्मीर रियासत की आधिकारिक स्थापना हुई[cite: 185, 186]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) लाहौर की संधि: 9 मार्च 1846 को दलीप सिंह और अंग्रेजों के बीच हुई थी, जिसके तहत जालंधर दोआब अंग्रेजों को मिला और सेना सीमित कर दी गई[cite: 185]।<br>- (c) भैरोवाल की संधि: दिसंबर 1846 में हुई, जिसके तहत रानी जिंदन को संरक्षिका पद से हटाकर 48,000 रुपये वार्षिक पेंशन पर शेखूपुरा भेज दिया गया और ब्रिटिश रेजिडेंट हेनरी लॉरेंस को वास्तविक शक्ति दी गई[cite: 185]।<br>- (d) पेशावर की संधि: 1855 में अंग्रेजों और अफगान अमीर दोस्त मोहम्मद ख़ान के बीच मैत्री संधि थी।"},{"id":44,"q":{"en":"In 1848 AD, the rebellion of which Sikh Governor of Multan and the murder of two British officers triggered the 'Second Anglo-Sikh War'?","hi":"1848 ई. में मुल्तान के किस सिख गवर्नर के विद्रोह और दो अंग्रेज़ अधिकारियों की हत्या ने 'द्वितीय आंग्ल-सिख युद्ध' की आग भड़काई थी?"},"st":null,"opts":{"en":["Chhatar Singh Attariwalla","Sher Singh","Diwan Mulraj","Lal Singh"],"hi":["छत्तर सिंह अटारीवाला","शेर सिंह","दीवान मूलराज","लाल सिंह"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: मुल्तान के गवर्नर &#x27;दीवान मूलराज&#x27; पर अंग्रेजों द्वारा नए कर और हिसाब की मांग करने पर उसने त्यागपत्र दे दिया था[cite: 186]। जब अप्रैल 1848 में ब्रिटिश अधिकारी वेंस एग्न्यू और लेफ्टिनेंट एंडरसन नए गवर्नर को कार्यभार दिलाने मुल्तान पहुँचे, तो मूलराज के सैनिकों ने दोनों ब्रिटिश अधिकारियों की हत्या कर दी[cite: 186]। इस घटना से सिख असंतोष भड़क उठा, जिसका लाभ उठाकर लॉर्ड डलहौजी ने द्वितीय आंग्ल-सिख युद्ध छेड़ दिया[cite: 186]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) छत्तर सिंह अटारीवाला: हजारा का सिख गवर्नर था, जिसने मूलराज के समर्थन में अंग्रेजों के विरुद्ध विद्रोह का झंडा बुलंद किया था।<br>- (b) शेर सिंह: छत्तर सिंह का पुत्र था, जिसने रामनगर और चिलियानवाला के युद्धों में अंग्रेज़ी सेना को कड़ी टक्कर दी थी।<br>- (d) लाल सिंह: प्रथम आंग्ल-सिख युद्ध के समय लाहौर का वज़ीर था, जिसने सिखों के साथ विश्वासघात किया था।"},{"id":45,"q":{"en":"By whom was the 'Policy of Ring Fence' adopted in 1765 to create buffer states for the defense of British frontiers in India?","hi":"भारत में ब्रिटिश सीमाओं की सुरक्षा के लिए बफर राज्यों के निर्माण हेतु 'घेरे की नीति' (रिंग फेंस पॉलिसी) 1765 में किसके द्वारा अपनाई गई थी?"},"st":null,"opts":{"en":["Robert Clive","Warren Hastings","Lord Wellesley","Lord Dalhousie"],"hi":["रॉबर्ट क्लाइव","वॉरेन हेस्टिंग्स","लॉर्ड वेलेजली","लॉर्ड डलहौजी"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: &#x27;घेरे की नीति&#x27; (Ring Fence Policy) का मुख्य प्रतिपादक वॉरेन हेस्टिंग्स था[cite: 186]। इसका उद्देश्य कंपनी की अपनी सीमाओं की रक्षा के लिए उसके चारों ओर स्थित पड़ोसी राज्यों (जैसे अवध) की सीमाओं की रक्षा करना था, ताकि मराठों और अफगानों के सीधे आक्रमण से बंगाल को बचाया जा सके[cite: 186]। यह नीति पूर्णतः रक्षात्मक थी[cite: 186]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) रॉबर्ट क्लाइव: इसने 1765 में बंगाल में द्वैध शासन लागू किया और अवध को पहली बार बफर स्टेट के रूप में मान्यता दी[cite: 182, 183]।<br>- (c) लॉर्ड वेलेजली: इसने रिंग फेंस नीति को आगे बढ़ाकर आक्रामक &#x27;सहायक संधि प्रणाली&#x27; (Subsidiary Alliance) में बदल दिया[cite: 184]।<br>- (d) लॉर्ड डलहौजी: इसने 1848 में साम्राज्यवादी &#x27;व्यपगत का सिद्धांत&#x27; (Doctrine of Lapse / हड़प नीति) शुरू किया था।"},{"id":46,"q":{"en":"Due to the fear of Russian expansion in Central Asia, which Governor-General adopted the aggressive 'Forward Policy' towards Afghanistan?","hi":"मध्य एशिया में रूसी साम्राज्य के विस्तार के भय से किस गवर्नर-जनरल ने अफगानिस्तान के प्रति आक्रामक 'अग्रगामी नीति' (फॉरवर्ड पॉलिसी) अपनाई थी?"},"st":null,"opts":{"en":["Lord William Bentinck","Lord Auckland","Lord Ellenborough","Lord Mayo"],"hi":["लॉर्ड विलियम बेंटिक","लॉर्ड ऑकलैंड","लॉर्ड एलेनबरो","लॉर्ड मेयो"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: गवर्नर-जनरल लॉर्ड ऑकलैंड (1836-1842) ने अफगानिस्तान के संदर्भ में &#x27;अग्रगामी नीति&#x27; (Forward Policy) की शुरुआत की[cite: 186]। उसका मानना था कि रूस द्वारा भारत पर आक्रमण करने से पहले ही ब्रिटिश सेना को अफगानिस्तान में हस्तक्षेप करके वहाँ एक मित्रवत शासक बैठाना चाहिए, जिससे भारत की उत्तर-पश्चिमी सीमा सुरक्षित हो सके[cite: 186]। इसी नीति के परिणामस्वरूप 1839 में विनाशकारी &#x27;प्रथम आंग्ल-अफगान युद्ध&#x27; शुरू हुआ[cite: 186, 187]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) लॉर्ड विलियम बेंटिक: इसने 1831 में मैसूर और 1834 में कुर्ग का कुशासन के आधार पर विलय किया था।<br>- (c) लॉर्ड एलेनबरो: इसके काल में 1842 में प्रथम आंग्ल-अफगान युद्ध समाप्त हुआ और 1843 में चार्ल्स नेपियर ने सिंध का पूर्ण विलय किया।<br>- (d) लॉर्ड मेयो: इसने भारत में वित्तीय विकेंद्रीकरण (1870) और 1872 में पहली गैर-समकालिक जनगणना शुरू कराई थी।"},{"id":47,"q":{"en":"The policy of non-interference in Afghan affairs, known as the 'Policy of Masterly Inactivity', is associated with which Governor-General?","hi":"अफगानिस्तान के मामलों में गैर-हस्तक्षेप की नीति, जिसे 'कुशल अकर्मण्यता की नीति' (Masterly Inactivity) कहा जाता है, किस गवर्नर-जनरल से संबंधित है?"},"st":null,"opts":{"en":["Lord Dalhousie","Lord Canning","John Lawrence","Lord Northbrook"],"hi":["लॉर्ड डलहौजी","लॉर्ड कैनिंग","जॉन लॉरेंस","लॉर्ड नॉर्थब्रुक"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: प्रथम अफगान युद्ध की भयंकर तबाही के बाद सर जॉन लॉरेंस (1864-1869) ने अफगानिस्तान के आंतरिक मामलों में अहस्तक्षेप की कठोर नीति अपनाई, जिसे जे. डब्ल्यू. एस. वायली ने &#x27;कुशल अकर्मण्यता&#x27; (Masterly Inactivity) नाम दिया[cite: 187]। लॉरेंस का मानना था कि जब तक कोई विदेशी शक्ति सीमा का अतिक्रमण न करे, तब तक अफगान राजनीति में हस्तक्षेप नहीं करना चाहिए।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) लॉर्ड डलहौजी: इसने पंजाब (1849), सतारा (1848), झाँसी (1853), नागपुर (1854) और अवध (1856) का विलय किया था।<br>- (b) लॉर्ड कैनिंग: 1857 के विद्रोह के समय भारत का गवर्नर-जनरल और 1858 के अधिनियम के बाद भारत का पहला वायसराय था।<br>- (d) लॉर्ड नॉर्थब्रुक: इसके काल में 1875 में प्रिंस ऑफ वेल्स भारत आए थे और कूका आंदोलन (पंजाब) हुआ था।"},{"id":48,"q":{"en":"During the Second Anglo-Afghan War (1878-1880), the 'Treaty of Gandamak' (1879) was concluded with Afghan ruler Yaqub Khan during the tenure of which Viceroy?","hi":"द्वितीय आंग्ल-अफगान युद्ध (1878-1880) के दौरान किस वायसराय के कार्यकाल में अफगान शासक याकूब ख़ान के साथ 'गंडमक की संधि' (1879) हुई थी?"},"st":null,"opts":{"en":["Lord Lytton","Lord Ripon","Lord Dufferin","Lord Lansdowne"],"hi":["लॉर्ड लिटन","लॉर्ड रिपन","लॉर्ड डफ़रिन","लॉर्ड लैंसडाउन"]},"ans":0,"exp":"• सही उत्तर की व्याख्या: वायसराय लॉर्ड लिटन (1876-1880) ने डिज़रायली की ब्रिटिश सरकार के इशारे पर अफगानिस्तान के प्रति &#x27;गर्वित आरक्षित नीति&#x27; (Policy of Proud Reserve) अपनाई[cite: 187]। इसके तहत 1878 में द्वितीय आंग्ल-अफगान युद्ध शुरू हुआ और मई 1879 में अमीर याकूब ख़ान के साथ &#x27;गंडमक की संधि&#x27; हुई[cite: 187]। इस संधि के तहत अफगानिस्तान की विदेश नीति ब्रिटिश नियंत्रण में आ गई और काबुल में एक ब्रिटिश रेजिडेंट नियुक्त किया गया[cite: 187]।<br>• अन्य विकल्पों की व्याख्या:<br>- (b) लॉर्ड रिपन: इसने वर्नाक्युलर प्रेस एक्ट को निरस्त किया (1882), प्रथम नियमित जनगणना कराई (1881) और स्थानीय स्वशासन का जनक कहलाया।<br>- (c) लॉर्ड डफ़रिन: इसके कार्यकाल (1884-1888) में 1885 में भारतीय राष्ट्रीय कांग्रेस की स्थापना हुई और तृतीय आंग्ल-बर्मा युद्ध (1885) हुआ।<br>- (d) लॉर्ड लैंसडाउन: इसके काल में 1891 का एज ऑफ कंसेंट एक्ट और 1893 में डुरंड रेखा का निर्धारण हुआ था[cite: 187]।"},{"id":49,"q":{"en":"In 1893 AD, the 'Durand Line' was demarcated between British India and Afghanistan. Who was the British negotiator at that time?","hi":"1893 ई. में ब्रिटिश भारत और अफगानिस्तान के मध्य सीमा निर्धारण के लिए 'डुरंड रेखा' खींची गई थी। उस समय ब्रिटिश वार्ताकार कौन थे?"},"st":null,"opts":{"en":["Sir Henry McMahon","Sir Cyril Radcliffe","Sir Mortimer Durand","Sir John Strachey"],"hi":["सर हेनरी मैकमोहन","सर सिरिल रेडक्लिफ","सर मॉर्टिमर डुरंड","सर जॉन स्ट्रैची"]},"ans":2,"exp":"• सही उत्तर की व्याख्या: 1893 ई. में ब्रिटिश भारत सरकार के विदेश सचिव &#x27;सर मॉर्टिमर डुरंड&#x27; और अफगान अमीर अब्दुर रहमान ख़ान के मध्य हुए समझौते के तहत भारत और अफगानिस्तान के बीच एक सीमांकन रेखा खींची गई, जिसे &#x27;डुरंड रेखा&#x27; (Durand Line) कहा जाता है[cite: 187]। वर्तमान में यह रेखा अफगानिस्तान और पाकिस्तान के मध्य अंतर्राष्ट्रीय सीमा बनाती है[cite: 187]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) सर हेनरी मैकमोहन: इन्होंने 1914 के शिमला सम्मेलन में भारत (अरुणाचल प्रदेश) और तिब्बत/चीन के मध्य &#x27;मैकमोहन रेखा&#x27; तय की थी।<br>- (b) सर सिरिल रेडक्लिफ: इन्होंने 1947 में भारत-पाकिस्तान विभाजन के समय पंजाब और बंगाल की सीमाओं का निर्धारण (&#x27;रेडक्लिफ रेखा&#x27;) किया था।<br>- (c) सर जॉन स्ट्रैची: ब्रिटिश भारत में वित्तीय सुधारों और 1880 के अकाल आयोग से जुड़े प्रमुख अधिकारी थे।"},{"id":50,"q":{"en":"The Anglo-Nepalese War of 1814-1816 AD concluded with which historic treaty that demarcated the boundary between India and Nepal?","hi":"1814-1816 ई. के आंग्ल-नेपाल युद्ध की समाप्ति किस ऐतिहासिक संधि के साथ हुई थी, जिसने भारत और नेपाल के बीच की सीमा निर्धारित की?"},"st":null,"opts":{"en":["Treaty of Yandabo","Treaty of Sagauli","Treaty of Lhasa","Treaty of Kathmandu"],"hi":["यान्डाबू की संधि","सगौली की संधि","ल्हासा की संधि","काठमांडू की संधि"]},"ans":1,"exp":"• सही उत्तर की व्याख्या: लॉर्ड हेस्टिंग्स (1813-1823) के कार्यकाल में गोरखा साम्राज्य और ईस्ट इंडिया कंपनी के मध्य सीमा विवाद (बुटवल और शिवराज क्षेत्र) के कारण आंग्ल-नेपाल युद्ध (1814-1816) लड़ा गया[cite: 188]। डेविड ऑक्टरलोनी के नेतृत्व में गोरखों को हराने के बाद मार्च 1816 में &#x27;सगौली की संधि&#x27; (Treaty of Sagauli) की पुष्टि हुई[cite: 188]। इसके तहत नेपाल ने गढ़वाल, कुमाऊँ, शिमला, नैनीताल और तराई का अधिकांश भाग अंग्रेजों को सौंप दिया तथा काठमांडू में ब्रिटिश रेजिडेंट रखना स्वीकार किया[cite: 188]।<br>• अन्य विकल्पों की व्याख्या:<br>- (a) यान्डाबू की संधि: फरवरी 1826 में प्रथम आंग्ल-बर्मा युद्ध (1824-1826) को समाप्त करने के लिए ब्रिटिश और बर्मा के राजा के मध्य हुई थी[cite: 188]।<br>- (c) ल्हासा की संधि: 1904 में कर्नल यंगहसबैंड के तिब्बत अभियान के बाद ब्रिटिश सरकार और तिब्बती अधिकारियों के मध्य हुई थी।<br>- (d) काठमांडू की संधि: 1816 की संधि को सगौली की संधि कहा जाता है; 1923 में ब्रिटेन और नेपाल के मध्य शांति और मैत्री की नई संधि हुई थी।"}];
+
+let state = [], current = 0, remaining = 900, lang = 'en', neg = 0.5, timerId = null, qTimerId = null;
+let studentName = "", view = 'intro', auditTags = {};
+
+function initApp(){
+  const params = new URLSearchParams(window.location.search);
+  const urlName = params.get('name') || localStorage.getItem('student_real_name') || "";
+  const nameInput = document.getElementById('student-name');
+  if(urlName.trim()){
+    nameInput.value = urlName.trim();
+    nameInput.readOnly = true;
+    checkName();
+  }
+}
+
+function checkName(){
+  const val = document.getElementById('student-name').value.trim();
+  const btn = document.getElementById('start-btn');
+  if(val.length >= 2){
+    btn.disabled = false;
+    btn.textContent = "START TEST";
+  } else {
+    btn.disabled = true;
+    btn.textContent = "ENTER NAME TO START";
+  }
+}
+
+function startTest(){
+  studentName = document.getElementById('student-name').value.trim();
+  if(!studentName) return;
+  neg = parseFloat(document.getElementById('negative').value);
+  state = QUESTIONS.map(()=>({selected:null, review:false, time:0}));
+  current = 0; remaining = 900; view = 'test';
+  
+  document.getElementById('stu-tag').textContent = studentName;
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('sol-footer').classList.add('hidden');
+  document.getElementById('exam-footer').classList.remove('hidden');
+  document.body.classList.remove('solution-mode');
+  
+  renderQ(); renderPalette(); startTimers();
+}
+
+function startTimers(){
+  clearInterval(timerId); clearInterval(qTimerId);
+  timerId = setInterval(()=>{
+    if(view === 'test' && remaining > 0){
+      remaining--;
+      const m = String(Math.floor(remaining/60)).padStart(2,'0');
+      const s = String(remaining%60).padStart(2,'0');
+      const t = document.getElementById('timer');
+      t.textContent = `${m}:${s}`;
+      t.classList.toggle('warning', remaining <= 60);
+      if(remaining === 0) submitExam();
+    }
+  },1000);
+  qTimerId = setInterval(()=>{
+    if(view === 'test' && state[current]){
+      state[current].time++;
+      document.getElementById('q-timer').textContent = state[current].time + 's';
+    }
+  },1000);
+}
+
+function renderQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-no').textContent = `Q${current+1}`;
+  document.getElementById('question-text').textContent = q.q[lang];
+  document.getElementById('q-timer').textContent = (state[current]?.time || 0) + 's';
+  
+  const stBox = document.getElementById('statements-box');
+  stBox.innerHTML = '';
+  if(q.st && q.st[lang]){
+    q.st[lang].forEach(txt => {
+      const d = document.createElement('div');
+      d.className = 'statement-item';
+      d.textContent = txt;
+      stBox.appendChild(d);
+    });
+  }
+  
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  q.opts[lang].forEach((opt, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'option ' + (state[current].selected === idx ? 'selected' : '');
+    el.innerHTML = `<input type="radio" name="opt_choice" ${state[current].selected === idx ? 'checked':''}> <span>${String.fromCharCode(65 + idx)}. ${opt}</span>`;
+    el.onclick = ()=>{
+      if(view === 'test'){
+        state[current].selected = idx;
+        renderQ(); renderPalette();
+      }
+    };
+    box.appendChild(el);
+  });
+  document.getElementById('solution-box').innerHTML = '';
+}
+
+function renderPalette(){
+  const p = document.getElementById('palette');
+  p.innerHTML = '';
+  QUESTIONS.forEach((q, i)=>{
+    const b = document.createElement('button');
+    b.className = 'q-node';
+    if(view === 'solution'){
+      const sel = state[i].selected;
+      if(sel === null) b.classList.add('sol-unatt');
+      else if(sel === q.ans) b.classList.add('sol-correct');
+      else b.classList.add('sol-wrong');
+    } else {
+      if(state[i].selected !== null) b.classList.add('answered');
+      else if(state[i].review) b.classList.add('marked');
+    }
+    if(i === current) b.classList.add('active');
+    b.textContent = i+1;
+    b.onclick = ()=>{ current = i; if(view === 'solution') renderSolQ(); else renderQ(); renderPalette(); document.getElementById('sidebar').classList.remove('open'); };
+    p.appendChild(b);
+  });
+}
+
+function saveNext(){ if(current < QUESTIONS.length - 1){ current++; renderQ(); renderPalette(); } else openSubmitModal(); }
+function prevQ(){ if(current > 0){ current--; renderQ(); renderPalette(); } }
+function markReview(){ state[current].review = true; saveNext(); }
+function toggleLang(){ lang = lang === 'en' ? 'hi' : 'en'; document.getElementById('lang-btn').textContent = lang === 'en' ? 'A/अ EN' : 'A/अ HI'; if(view==='solution') renderSolQ(); else renderQ(); }
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
+function openSubmitModal(){ document.getElementById('modal-submit').classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+async function submitExam(){
+  closeModal('modal-submit'); clearInterval(timerId); clearInterval(qTimerId);
+  view = 'result';
+  
+  let cor = 0, wro = 0, att = 0;
+  state.forEach((s, idx)=>{
+    if(s.selected !== null){
+      att++;
+      if(s.selected === QUESTIONS[idx].ans) cor++;
+      else wro++;
+    }
+  });
+  
+  const score = (cor * 2) - (wro * neg);
+  const acc = att ? Math.round((cor/att)*100) : 0;
+  const timeTaken = `${Math.floor((900-remaining)/60)}m ${(900-remaining)%60}s`;
+  
+  document.getElementById('r-score').textContent = score.toFixed(2);
+  document.getElementById('r-att').textContent = att;
+  document.getElementById('r-cor').textContent = cor;
+  document.getElementById('r-wro').textContent = wro;
+  document.getElementById('r-acc').textContent = acc + '%';
+  document.getElementById('r-time').textContent = timeTaken;
+  
+  document.getElementById('exam').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  
+  try {
+    await sb.from('quiz_attempts').insert([{
+      student_name: studentName,
+      quiz_title: "Advent of Europeans in India - Part 2",
+      score: score,
+      accuracy: acc + '%',
+      total_questions: QUESTIONS.length,
+      correct_answers: cor,
+      wrong_answers: wro,
+      time_taken: timeTaken
+    }]);
+  } catch(e){}
+}
+
+function startAudit(){
+  view = 'solution'; current = 0;
+  document.body.classList.add('solution-mode');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('exam').classList.remove('hidden');
+  document.getElementById('exam-footer').classList.add('hidden');
+  document.getElementById('sol-footer').classList.remove('hidden');
+  renderSolQ(); renderPalette();
+}
+
+function renderSolQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-no').textContent = `Q${current+1}`;
+  document.getElementById('question-text').textContent = q.q[lang];
+  document.getElementById('q-timer').textContent = (state[current]?.time || 0) + 's';
+  
+  const stBox = document.getElementById('statements-box');
+  stBox.innerHTML = '';
+  if(q.st && q.st[lang]){
+    q.st[lang].forEach(txt => {
+      const d = document.createElement('div');
+      d.className = 'statement-item';
+      d.textContent = txt;
+      stBox.appendChild(d);
+    });
+  }
+  
+  const box = document.getElementById('options');
+  box.innerHTML = '';
+  q.opts[lang].forEach((opt, idx)=>{
+    const el = document.createElement('div');
+    let cls = 'option ';
+    if(idx === q.ans) cls += 'correct ';
+    if(state[current].selected === idx && idx !== q.ans) cls += 'wrong ';
+    el.className = cls;
+    el.innerHTML = `<span>${String.fromCharCode(65 + idx)}. ${opt}</span> ${idx === q.ans ? '<b style="color:var(--green)">✓ [Correct]</b>' : (state[current].selected === idx ? '<b style="color:var(--red)">✗ [Your Choice]</b>':'')}`;
+    box.appendChild(el);
+  });
+  
+  const tags = ['100% Aata Tha','Elimination','Tukka / Guess','Silly Mistake','Concept Gap','Time Trap'];
+  const userTag = auditTags[current] || "";
+  let tagHtml = tags.map(t=>`<button class="tag ${userTag===t?'selected':''}" onclick="setAuditTag('${t}')">${t}</button>`).join('');
+  
+  document.getElementById('solution-box').innerHTML = `
+    <div class="explanation">
+      <div class="exp-title">💡 Explanation & Context</div>
+      <div style="font-size:13px;line-height:1.5">${q.exp}</div>
+      <div class="analysis-box">
+        <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:6px">QUESTION DIAGNOSTIC TAG:</div>
+        <div>${tagHtml}</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('sol-next-btn').textContent = current === QUESTIONS.length - 1 ? 'FINISH AUDIT ➔' : 'NEXT ›';
+}
+
+function setAuditTag(t){ auditTags[current] = t; renderSolQ(); }
+function solPrev(){ if(current > 0){ current--; renderSolQ(); renderPalette(); } }
+function solNext(){
+  if(current < QUESTIONS.length - 1){ current++; renderSolQ(); renderPalette(); }
+  else {
+    document.body.classList.remove('solution-mode');
+    document.getElementById('exam').classList.add('hidden');
+    document.getElementById('result').classList.remove('hidden');
+    renderReport();
+  }
+}
+
+function renderReport(){
+  const rep = document.getElementById('final-report-card');
+  rep.classList.remove('hidden');
+  const counts = {};
+  Object.values(auditTags).forEach(t=>{ counts[t] = (counts[t]||0)+1; });
+  let details = "<b>Mistake Breakdown:</b><br>";
+  for(let k in counts){ details += `• ${k}: ${counts[k]} questions<br>`; }
+  if(!Object.keys(counts).length) details += "Koi specific tag select nahi kiya gaya.";
+  document.getElementById('report-details').innerHTML = details;
+}
+
+function copyMistakes(){
+  let str = "MISTAKES - MAKING OF CONSTITUTION:\n\n";
+  state.forEach((s, idx)=>{
+    if(s.selected !== QUESTIONS[idx].ans){
+      str += `Q${idx+1}: ${QUESTIONS[idx].q.en}\nCorrect: ${QUESTIONS[idx].opts.en[QUESTIONS[idx].ans]}\nTag: ${auditTags[idx]||'Untagged'}\n\n`;
+    }
+  });
+  navigator.clipboard.writeText(str).then(()=>alert("Mistakes copied to clipboard!"));
+}
+
+function reattempt(){ startTest(); }
+
+window.onload = initApp;
+</script>
+</body>
+</html>
